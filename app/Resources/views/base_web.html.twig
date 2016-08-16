@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html class="no-js" lang="{% block lang 'fr' %}">
+    <head>
+		<title>{% block title 'Blog Ptit Atelier' %}</title>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta name="description" content="{% block meta_description 'Blog Ptit Atelier' %}">
+		<meta name="keywords" content="{% block meta_keywords 'Blog Ptit Atelier' %}">
+		<meta name="author" content="{% block meta_author 'Geoffrey Chameroy' %}">
+
+        <link rel="icon" type="image/png" href="{{ asset('web/favicon.png') }}" />
+		{% include 'layout/blogging/main_css.html.twig' only %}
+		{% include 'layout/web/main_css.html.twig' %}
+    </head>
+
+    <body class="home-1">
+		{% include 'layout/web/header.html.twig' only %}
+		{% include 'layout/web/slider.html.twig' %}
+
+		<div id="main-content" class="main-content-area">
+			<div class="container">
+				{% block container %}
+					<div class="row">
+						<div class="col-md-4 col-md-offset-0 col-sm-8 col-sm-offset-2">
+							<div class="sidebar-area fix">
+								{% include 'layout/web/aside.html.twig' only %}
+							</div>
+						</div>
+						<div class="col-md-8 col-sm-12">
+							{% block article '' %}
+						</div>
+					</div>
+				{% endblock %}
+			</div>
+		</div>
+
+		{% include 'layout/web/footer.html.twig' only %}
+
+		{% include 'layout/blogging/main_js.html.twig' only %}
+    </body>
+</html>

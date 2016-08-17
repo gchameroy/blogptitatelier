@@ -1,4 +1,5 @@
 imports:
+    - { resource: twig.yml }
     - { resource: parameters.yml }
     - { resource: security.yml }
     - { resource: services.yml }
@@ -7,6 +8,14 @@ imports:
 # http://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
     locale: fr
+    avatar_directory: '%kernel.root_dir%/../web/asset/web/img/avatar'
+    web_avatar_directory: 'asset/web/img/avatar'
+    favicon_directory: '%kernel.root_dir%/../web/asset/web/img/favicon'
+    web_favicon_directory: 'asset/web/img/favicon'
+    logo_directory: '%kernel.root_dir%/../web/asset/web/img/logo'
+    web_logo_directory: 'asset/web/img/logo'
+    banner_directory: '%kernel.root_dir%/../web/asset/web/img/banner'
+    web_banner_directory: 'asset/web/img/banner'
 
 framework:
     #esi:             ~

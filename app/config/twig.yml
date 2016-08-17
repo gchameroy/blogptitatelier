@@ -1,0 +1,6 @@
+twig:
+    globals:
+        avatar_directory: '%web_avatar_directory%'
+        favicon_directory: '%web_favicon_directory%'
+        logo_directory: '%web_logo_directory%'
+        banner_directory: '%web_banner_directory%'

@@ -20,3 +20,7 @@
 ## IDE ##
 /.idea
 /nbproject
+
+## Uploads ##
+/web/asset/img/article
+!/web/asset/img/article/.gitkeep

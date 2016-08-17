@@ -1,0 +1,3 @@
+twig:
+    globals:
+        avatar_directory: '%web_avatar_directory%'

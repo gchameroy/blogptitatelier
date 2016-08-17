@@ -1,0 +1,97 @@
+{% extends 'base_app.html.twig' %}
+
+{% block title 'Manager - Paramètres' %}
+
+{% block nav %}
+    <div class="row wrapper border-bottom white-bg page-heading">
+        <div class="col-lg-10">
+            <h2>Paramètres</h2>
+            <ol class="breadcrumb">
+                <li>
+                    <a href="{{ path('app_index') }}">Accueil</a>
+                </li>
+                <li class="active">
+                    <strong>Paramètres</strong>
+                </li>
+            </ol>
+        </div>
+        <div class="col-lg-2">
+            <div class="title-action">
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block content %}
+    <div class="wrapper wrapper-content">
+		<div class="row">
+            <div class="col-lg-12">
+				<div class="tabs-container">
+					<div class="tabs-left">
+						<ul class="nav nav-tabs">
+							<li class="active"><a data-toggle="tab" href="#tab-about">A propos</a></li>
+						</ul>
+						<div class="tab-content ">
+							<div id="tab-about" class="tab-pane active">
+								<div class="panel-body">
+									<form name="setting-about-avatar-update" action="{{ path('app_setting_about_avatar') }}" method="post" enctype="multipart/form-data">
+										<h4>Avatar (110x110)</h4>
+										<a for="avatar">
+											<img class="img-circle" src="{{ asset('asset/web/img/avatar/' ~ setting.about.avatar) }}">
+										</a>
+										<input type="file" name="avatar" onchange="this.form.submit()" class="hidden">
+									</form>
+									<hr>
+									<form name="setting-about-update" action="{{ path('app_setting_about') }}" method="post">
+										<div class="form-group">
+											<label>Nom</label>
+											<p for="label">{{ setting.about.label }}</p>
+											<input name="label" type="text" value="{{ setting.about.label }}" class="form-control hidden">
+										</div>
+										<div class="form-group">
+											<label>Description</label>
+											<p for="description">{{ setting.about.description }}</p>
+											<textarea name="description" class="form-control hidden">{{ setting.about.description }}</textarea>
+										</div>
+										<a name="update" class="btn btn-info">Modifier</a>
+										<a name="cancel" class="btn btn-default hidden">Annuler</a>
+										<button name="submit" class="btn btn-info hidden" type="submit">Valider</button>
+									</form>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+        </div>
+    </div>
+	<script>
+		$(function(){
+			$('form[name="setting-about-avatar-update"] a[for="avatar"]').click(function(){
+				$(this).closest('form').find('input[name="avatar"]').click();
+			});
+			
+			$('form[name="setting-about-update"] a[name="update"]').click(function(){
+				$form = $(this).closest('form');
+				console.log($form);
+				$form.find('p[for="label"]').addClass('hidden');
+				$form.find('p[for="description"]').addClass('hidden');
+				$form.find('input[name="label"]').removeClass('hidden');
+				$form.find('textarea[name="description"]').removeClass('hidden');
+				$form.find('a[name="update"]').addClass('hidden');
+				$form.find('a[name="cancel"]').removeClass('hidden');
+				$form.find('button[name="submit"]').removeClass('hidden');
+			});
+			$('form[name="setting-about-update"] a[name="cancel"]').click(function(){
+				$form = $(this).closest('form');
+				$form.find('p[for="label"]').removeClass('hidden');
+				$form.find('p[for="description"]').removeClass('hidden');
+				$form.find('input[name="label"]').addClass('hidden');
+				$form.find('textarea[name="description"]').addClass('hidden');
+				$form.find('a[name="update"]').removeClass('hidden');
+				$form.find('a[name="cancel"]').addClass('hidden');
+				$form.find('button[name="submit"]').addClass('hidden');
+			});
+		});
+	</script>
+{% endblock %}

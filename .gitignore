@@ -24,3 +24,11 @@
 ## Uploads ##
 /web/asset/img/article
 !/web/asset/img/article/.gitkeep
+/web/asset/img/avatar
+!/web/asset/img/avatar/.gitkeep
+/web/asset/img/favicon
+!/web/asset/img/favicon/.gitkeep
+/web/asset/img/logo
+!/web/asset/img/logo/.gitkeep
+/web/asset/img/banner
+!/web/asset/img/banner/.gitkeep

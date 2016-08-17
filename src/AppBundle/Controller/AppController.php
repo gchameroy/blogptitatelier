@@ -87,4 +87,94 @@ class AppController extends Controller
 
        return $this->redirect($this->generateUrl('app_setting_index') . '#about');
     }
+
+	/**
+     * @Route("/manager/settings/header/favicon", name="app_setting_header_favicon")
+     */
+    public function settingHeaderFaviconAction(Request $request)
+    {
+		$favicon = $request->files->get('favicon');
+		$targetDir = $this->getParameter('favicon_directory');
+		$fileName = $this->get('app.photo_uploader')->uploadFavicon($favicon, $targetDir);
+		
+		$em = $this->getDoctrine()->getManager();
+		
+		$setting = $em
+			->getRepository('AppBundle:Setting')
+			->findAll()[0];
+
+		$header = $this->get('app.header.factory')->create()
+            ->setFavicon($fileName)
+            ->setLogo($setting->getHeader()->getLogo())
+            ->setBanner($setting->getHeader()->getBanner());
+        $em->persist($header);
+		
+		$setting->setHeader($header)
+			->setUpdatedAt(new \DateTime());
+		$em->persist($setting);
+		
+        $em->flush();
+
+       return $this->redirect($this->generateUrl('app_setting_index') . '#header');
+    }
+
+	/**
+     * @Route("/manager/settings/header/logo", name="app_setting_header_logo")
+     */
+    public function settingHeaderLogoAction(Request $request)
+    {
+		$logo = $request->files->get('logo');
+		$targetDir = $this->getParameter('logo_directory');
+		$fileName = $this->get('app.photo_uploader')->uploadLogo($logo, $targetDir);
+		
+		$em = $this->getDoctrine()->getManager();
+		
+		$setting = $em
+			->getRepository('AppBundle:Setting')
+			->findAll()[0];
+
+		$header = $this->get('app.header.factory')->create()
+            ->setFavicon($setting->getHeader()->getFavicon())
+            ->setLogo($fileName)
+            ->setBanner($setting->getHeader()->getBanner());
+        $em->persist($header);
+		
+		$setting->setHeader($header)
+			->setUpdatedAt(new \DateTime());
+		$em->persist($setting);
+		
+        $em->flush();
+
+       return $this->redirect($this->generateUrl('app_setting_index') . '#header');
+    }
+
+	/**
+     * @Route("/manager/settings/header/banner", name="app_setting_header_banner")
+     */
+    public function settingHeaderBannerAction(Request $request)
+    {
+		$banner = $request->files->get('banner');
+		$targetDir = $this->getParameter('banner_directory');
+		$fileName = $this->get('app.photo_uploader')->uploadBanner($banner, $targetDir);
+		
+		$em = $this->getDoctrine()->getManager();
+		
+		$setting = $em
+			->getRepository('AppBundle:Setting')
+			->findAll()[0];
+
+		$header = $this->get('app.header.factory')->create()
+            ->setFavicon($setting->getHeader()->getFavicon())
+            ->setLogo($setting->getHeader()->getLogo())
+            ->setBanner($fileName);
+        $em->persist($header);
+		
+		$setting->setHeader($header)
+			->setUpdatedAt(new \DateTime());
+		$em->persist($setting);
+		
+        $em->flush();
+
+       return $this->redirect($this->generateUrl('app_setting_index') . '#header');
+    }
 }

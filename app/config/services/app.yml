@@ -7,3 +7,5 @@ services:
       class: AppBundle\Entity\SettingFactory
     app.photo_uploader:
         class: AppBundle\FileUploader
+    app.header.factory:
+      class: AppBundle\Entity\HeaderFactory

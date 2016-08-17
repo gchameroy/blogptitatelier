@@ -29,15 +29,41 @@
 				<div class="tabs-container">
 					<div class="tabs-left">
 						<ul class="nav nav-tabs">
-							<li class="active"><a data-toggle="tab" href="#tab-about">A propos</a></li>
+							<li class="active"><a data-toggle="tab" href="#tab-header">Logo & Bannière</a></li>
+							<li><a data-toggle="tab" href="#tab-about">A propos</a></li>
 						</ul>
 						<div class="tab-content ">
-							<div id="tab-about" class="tab-pane active">
+							<div id="tab-header" class="tab-pane active">
+								<div class="panel-body">
+									<form name="setting-header-favicon-update" action="{{ path('app_setting_header_favicon') }}" method="post" enctype="multipart/form-data">
+										<h4>Favicon (64x64)</h4>
+										<a for="favicon">
+											<img src="{{ asset(favicon_directory ~ '/' ~ setting.header.favicon) }}">
+										</a>
+										<input type="file" name="favicon" onchange="this.form.submit()" class="hidden">
+									</form>
+									<form name="setting-header-logo-update" action="{{ path('app_setting_header_logo') }}" method="post" enctype="multipart/form-data">
+										<h4>Logo (250x45)</h4>
+										<a for="logo">
+											<img src="{{ asset(logo_directory ~ '/' ~ setting.header.logo) }}">
+										</a>
+										<input type="file" name="logo" onchange="this.form.submit()" class="hidden">
+									</form>
+									<form name="setting-header-banner-update" action="{{ path('app_setting_header_banner') }}" method="post" enctype="multipart/form-data">
+										<h4>Bannière (1900x450)</h4>
+										<a for="banner">
+											<img class="img-responsive" src="{{ asset(banner_directory ~ '/' ~ setting.header.banner) }}">
+										</a>
+										<input type="file" name="banner" onchange="this.form.submit()" class="hidden">
+									</form>
+								</div>
+							</div>
+							<div id="tab-about" class="tab-pane">
 								<div class="panel-body">
 									<form name="setting-about-avatar-update" action="{{ path('app_setting_about_avatar') }}" method="post" enctype="multipart/form-data">
 										<h4>Avatar (110x110)</h4>
 										<a for="avatar">
-											<img class="img-circle" src="{{ asset('asset/web/img/avatar/' ~ setting.about.avatar) }}">
+											<img class="img-circle" src="{{ asset(avatar_directory ~ '/' ~ setting.about.avatar) }}">
 										</a>
 										<input type="file" name="avatar" onchange="this.form.submit()" class="hidden">
 									</form>
@@ -69,6 +95,15 @@
 		$(function(){
 			$('form[name="setting-about-avatar-update"] a[for="avatar"]').click(function(){
 				$(this).closest('form').find('input[name="avatar"]').click();
+			});
+			$('form[name="setting-header-favicon-update"] a[for="favicon"]').click(function(){
+				$(this).closest('form').find('input[name="favicon"]').click();
+			});
+			$('form[name="setting-header-logo-update"] a[for="logo"]').click(function(){
+				$(this).closest('form').find('input[name="logo"]').click();
+			});
+			$('form[name="setting-header-banner-update"] a[for="banner"]').click(function(){
+				$(this).closest('form').find('input[name="banner"]').click();
 			});
 			
 			$('form[name="setting-about-update"] a[name="update"]').click(function(){

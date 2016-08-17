@@ -18,6 +18,29 @@ class FileUploader
 		return $fileName;
 	}
 	
+	public function uploadFavicon(UploadedFile $file, $targetDir)
+	{
+		$fileName = $this->_uploadFile($file, $targetDir);
+
+		Image::make($targetDir . '/' . $fileName)
+			->fit(64, 64)
+			->save($targetDir . '/' . $fileName, 100);
+
+		return $fileName;
+	}
+	
+	public function uploadLogo(UploadedFile $file, $targetDir)
+	{
+		$fileName = $this->_uploadFile($file, $targetDir);
+		return $fileName;
+	}
+	
+	public function uploadBanner(UploadedFile $file, $targetDir)
+	{
+		$fileName = $this->_uploadFile($file, $targetDir);
+		return $fileName;
+	}
+	
     private function _uploadFile(UploadedFile $file, $targetDir)
     {
 		do{

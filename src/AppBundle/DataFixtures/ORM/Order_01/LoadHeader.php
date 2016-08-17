@@ -8,7 +8,7 @@ use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
-class LoadSetting extends AbstractFixture implements OrderedFixtureInterface, ContainerAwareInterface
+class LoadHeader extends AbstractFixture implements OrderedFixtureInterface, ContainerAwareInterface
 {
     /**
      * @var ContainerInterface
@@ -22,17 +22,18 @@ class LoadSetting extends AbstractFixture implements OrderedFixtureInterface, Co
 
     public function getOrder()
     {
-        return 2;
+        return 1;
     }
 
     public function load(ObjectManager $manager)
     {
-		$setting = $this->container->get('app.setting.factory')->create()
-            ->setAbout($this->getReference('about'))
-            ->setHeader($this->getReference('header'));
-        $manager->persist($setting);
+		$header = $this->container->get('app.header.factory')->create()
+            ->setFavicon('favicon.jpg')
+            ->setLogo('logo.png')
+            ->setBanner('banner.jpg');
+        $manager->persist($header);
         $manager->flush();
 
-		$this->addReference('setting', $setting);
+		$this->addReference('header', $header);
     }
 }

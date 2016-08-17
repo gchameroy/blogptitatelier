@@ -25,6 +25,11 @@ class Setting
 	 * @ORM\OneToOne(targetEntity="About", cascade={"persist"})
 	 */
 	private $about;
+	
+	/**
+	 * @ORM\OneToOne(targetEntity="Header", cascade={"persist"})
+	 */
+	private $header;
 
     /**
      * @var \DateTime
@@ -90,5 +95,29 @@ class Setting
     public function getAbout()
     {
         return $this->about;
+    }
+
+    /**
+     * Set header
+     *
+     * @param \AppBundle\Entity\Header $header
+     *
+     * @return Setting
+     */
+    public function setHeader(Header $header = null)
+    {
+        $this->header = $header;
+
+        return $this;
+    }
+
+    /**
+     * Get header
+     *
+     * @return \AppBundle\Entity\Header
+     */
+    public function getHeader()
+    {
+        return $this->header;
     }
 }

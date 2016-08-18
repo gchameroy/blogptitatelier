@@ -177,4 +177,139 @@ class AppController extends Controller
 
        return $this->redirect($this->generateUrl('app_setting_index') . '#header');
     }
+	
+	/**
+     * @Route("/manager/categories", name="app_category_index")
+     */
+    public function categoryAction()
+    {
+		$categories = $this->getDoctrine()->getManager()
+			->getRepository('AppBundle:Category')
+			->findAll();
+		
+        return $this->render('app/category/index.html.twig', array(
+			'categories' => $categories
+		));
+    }
+	
+	/**
+     * @Route("/manager/category/modal/add", name="app_category_modal_add")
+     */
+    public function categoryModalAddAction()
+    {
+        return $this->render('app/category/modal/add.html.twig');
+    }
+
+	/**
+     * @Route("/manager/category/add", name="app_category_add")
+     */
+    public function categoryAddAction(Request $request)
+    {
+		$em = $this->getDoctrine()->getManager();
+		
+		$categories = $em
+			->getRepository('AppBundle:Category')
+			->findAll();
+
+		$category = $this->get('app.category.factory')->create()
+            ->setLabel($request->request->get('label'))
+			->setOrder(count($categories) + 1);
+        $em->persist($category);
+        $em->flush();
+		
+        return $this->redirect($this->generateUrl('app_category_index'));
+    }
+
+	/**
+     * @Route("/manager/category/delete", name="app_category_delete")
+     */
+    public function categoryDeleteAction(Request $request)
+    {
+		$em = $this->getDoctrine()->getManager();
+		
+		$repository = $em->getRepository('AppBundle:Category');
+		$category = $repository->findOneById($request->request->get('id'));
+
+		$em->remove($category);
+		$em->flush();
+
+        $response = new JsonResponse();
+		return $response->setData(array(
+			'valid' => true
+		));
+    }
+	
+	/**
+     * @Route("/manager/category/modal/update", name="app_category_modal_update")
+     */
+    public function categoryModalUpdateAction(Request $request)
+    {
+		$category = $this->getDoctrine()->getManager()
+			->getRepository('AppBundle:Category')
+			->findOneById($request->query->get('id'));
+        
+		return $this->render('app/category/modal/update.html.twig', array(
+			'category' => $category
+		));
+    }
+
+	/**
+     * @Route("/manager/category/update", name="app_category_update")
+     */
+    public function categoryUpdateAction(Request $request)
+    {
+		$em = $this->getDoctrine()->getManager();
+		
+		$repository = $em->getRepository('AppBundle:Category');
+		$category = $repository
+			->findOneById($request->request->get('id'))
+			->setLabel($request->request->get('label'));
+
+		$em->persist($category);
+		$em->flush();
+
+        return $this->redirect($this->generateUrl('app_category_index'));
+    }
+
+	/**
+     * @Route("/manager/category/show", name="app_category_show")
+     */
+    public function categoryShowAction(Request $request)
+    {
+		$em = $this->getDoctrine()->getManager();
+		
+		$repository = $em->getRepository('AppBundle:Category');
+		$category = $repository
+			->findOneById($request->request->get('id'))
+			->setIsHidden(false);
+
+		$em->persist($category);
+		$em->flush();
+
+        $response = new JsonResponse();
+		return $response->setData(array(
+			'valid' => true
+		));
+    }
+
+	/**
+     * @Route("/manager/category/hide", name="app_category_hide")
+     */
+    public function categoryHideAction(Request $request)
+    {
+		$em = $this->getDoctrine()->getManager();
+		
+		$repository = $em->getRepository('AppBundle:Category');
+		$category = $repository
+			->findOneById($request->request->get('id'))
+			->setIsHidden(true);
+
+		$em->persist($category);
+		$em->flush();
+
+        $response = new JsonResponse();
+		return $response->setData(array(
+			'valid' => true
+		));
+    }
 }

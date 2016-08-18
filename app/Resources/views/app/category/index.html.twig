@@ -1,0 +1,176 @@
+{% extends 'base_app.html.twig' %}
+
+{% block title 'Manager - Catégories' %}
+
+{% block nav %}
+    <div class="row wrapper border-bottom white-bg page-heading">
+        <div class="col-xs-10">
+            <h2>Liste des catégories</h2>
+            <ol class="breadcrumb">
+                <li>
+                    <a href="{{ path('app_index') }}">Accueil</a>
+                </li>
+                <li class="active">
+                    <strong>Catégories</strong>
+                </li>
+            </ol>
+        </div>
+        <div class="col-xs-2">
+            <div class="title-action">
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block content %}
+    <div class="wrapper wrapper-content">
+		<div class="row">
+            <div class="col-lg-12">
+				<div class="ibox">
+					<div class="ibox-title">
+						<h5>Liste des catégories</h5>
+						<div class="ibox-tools">
+							<a class="btn btn-primary btn-sm action_category_add">Ajouter une catégorie</a>
+						</div>
+					</div>
+                    <div class="ibox-content">
+						<div class="project-list">
+							{% if categories %}
+								<ul class="sortable-list connectList agile-list ui-sortable" name="categories">
+									{% for category in categories %}
+										<li name="project_view" id="{{ category.id }}" data-id_category="{{ category.id }}" data-isHidden="{{ category.isHidden }}">
+											<div class="row">
+												<div class="col-xs-1">
+													<a data-hidden="0" class="btn btn-primary btn-xs action_category_hide {% if category.isHidden %}hidden{% endif %}">
+														<i class="fa fa-eye hidden-lg hidden-md hidden-sm"></i>
+														<span class="hidden-xs">Visible</span>
+													</a>
+													<a data-hidden="1" class="btn btn-default btn-xs action_category_show {% if not category.isHidden %}hidden{% endif %}">
+														<i class="fa fa-eye hidden-lg hidden-md hidden-sm"></i>
+														<span class="hidden-xs">Caché</span>
+													</a>
+												</div>
+												<div class="col-xs-7 col-sm-7 col-md-5">
+													<a>{{ category.label }}</a>
+												</div>
+												<div class="col-md-2 hidden-sm hidden-xs text-center">[nb] articles</div>
+												<div class="col-md-4 text-right">
+													<a class="btn btn-info btn-xs action_category_update">
+														<i class="fa fa-edit hidden-lg hidden-md hidden-sm"></i>
+														<span class="hidden-xs">Renommer</span>
+													</a>
+													<a class="btn btn-danger btn-xs action_category_delete">
+														<i class="fa fa-remove hidden-lg hidden-md hidden-sm"></i>
+														<span class="hidden-xs">Supprimer</span>
+													</a>
+												</div>
+											</div>
+										</li>
+									{% endfor %}
+								</ul>
+							{% else %}
+								<a class="btn btn-primary btn-sm action_category_add">Ajouter une catégorie</a>
+							{% endif %}
+						</div>
+                    </div>
+                </div>
+			</div>
+        </div>
+    </div>
+	<script>
+		$(function(){
+			$('.action_category_add').click(function(e){
+				e.preventDefault();
+				e.stopPropagation();
+				$.get('{{ path('app_category_modal_add') }}').done(function(response){
+					$(response).modal();
+				});
+			});
+			$('.action_category_hide').click(function(e){
+				e.preventDefault();
+				e.stopPropagation();
+				var $object = $(this);
+				var id_category = $(this).closest('[data-id_category]').attr('data-id_category');
+				
+				$.ajax({
+					type: 'post',
+					dataType: 'json',
+					url: '{{ path('app_category_hide') }}',
+					data:{
+						id: id_category
+					},
+					success: function(response){
+						if(!response.valid){
+							swal('Oups !', 'Une erreur est survenue.', 'error');
+							return;
+						}
+						$object.closest('[data-id_category]').find('[data-hidden="0"]').addClass('hidden');
+						$object.closest('[data-id_category]').find('[data-hidden="1"]').removeClass('hidden');
+					},
+					error: function(){
+						swal('Oups !', 'Une erreur est survenue.', 'error');
+					}
+				});
+			});
+			$('.action_category_show').click(function(e){
+				e.preventDefault();
+				e.stopPropagation();
+				var $object = $(this);
+				var id_category = $(this).closest('[data-id_category]').attr('data-id_category');
+				
+				$.ajax({
+					type: 'post',
+					dataType: 'json',
+					url: '{{ path('app_category_show') }}',
+					data:{
+						id: id_category
+					},
+					success: function(response){
+						if(!response.valid){
+							swal('Oups !', 'Une erreur est survenue.', 'error');
+							return;
+						}
+						$object.closest('[data-id_category]').find('[data-hidden="1"]').addClass('hidden');
+						$object.closest('[data-id_category]').find('[data-hidden="0"]').removeClass('hidden');
+					},
+					error: function(){
+						swal('Oups !', 'Une erreur est survenue.', 'error');
+					}
+				});
+			});
+			$('.action_category_update').click(function(e){
+				e.preventDefault();
+				e.stopPropagation();
+				var id_category = $(this).closest('[data-id_category]').attr('data-id_category');
+				$.get('{{ path('app_category_modal_update') }}', {id: id_category}).done(function(response){
+					$(response).modal();
+				});
+			});
+			$('.action_category_delete').click(function(e){
+				e.preventDefault();
+				e.stopPropagation();
+				var $object = $(this);
+				var id_category = $(this).closest('[data-id_category]').attr('data-id_category');
+
+				$.ajax({
+					type: 'delete',
+					dataType: 'json',
+					url: '{{ path('app_category_delete') }}',
+					data:{
+						id: id_category
+					},
+					success: function(response){
+						if(!response.valid){
+							swal('Oups !', 'Une erreur est survenue.', 'error');
+							return;
+						}
+						$object.closest('[data-id_category]').remove();
+					},
+					error: function(){
+						swal('Oups !', 'Une erreur est survenue.', 'error');
+					}
+				});
+			});
+		});
+	</script>
+{% endblock %}

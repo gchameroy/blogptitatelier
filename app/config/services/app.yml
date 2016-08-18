@@ -9,3 +9,5 @@ services:
         class: AppBundle\FileUploader
     app.header.factory:
       class: AppBundle\Entity\HeaderFactory
+    app.category.factory:
+      class: AppBundle\Entity\CategoryFactory

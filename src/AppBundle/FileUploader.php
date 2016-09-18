@@ -41,6 +41,12 @@ class FileUploader
 		return $fileName;
 	}
 	
+	public function uploadPostImage(UploadedFile $file, $targetDir)
+	{
+		$fileName = $this->_uploadFile($file, $targetDir);
+		return $fileName;
+	}
+	
     private function _uploadFile(UploadedFile $file, $targetDir)
     {
 		do{

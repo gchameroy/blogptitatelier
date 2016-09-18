@@ -4,3 +4,4 @@ twig:
         favicon_directory: '%web_favicon_directory%'
         logo_directory: '%web_logo_directory%'
         banner_directory: '%web_banner_directory%'
+        post_directory: '%web_post_directory%'

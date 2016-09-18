@@ -22,12 +22,14 @@ class Setting
     private $id;
 	
 	/**
-	 * @ORM\OneToOne(targetEntity="About", cascade={"persist"})
+	 * @ORM\OneToOne(targetEntity="About", cascade={"remove"})
+	 * @ORM\JoinColumn(nullable=true, onDelete="set null")
 	 */
 	private $about;
 	
 	/**
-	 * @ORM\OneToOne(targetEntity="Header", cascade={"persist"})
+	 * @ORM\OneToOne(targetEntity="Header", cascade={"remove"})
+	 * @ORM\JoinColumn(nullable=true, onDelete="set null")
 	 */
 	private $header;
 

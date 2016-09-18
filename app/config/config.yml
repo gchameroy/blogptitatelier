@@ -9,6 +9,7 @@ imports:
 parameters:
     locale: fr
     avatar_directory: '%kernel.root_dir%/../web/asset/web/img/avatar'
+    # Image directories
     web_avatar_directory: 'asset/web/img/avatar'
     favicon_directory: '%kernel.root_dir%/../web/asset/web/img/favicon'
     web_favicon_directory: 'asset/web/img/favicon'
@@ -16,6 +17,8 @@ parameters:
     web_logo_directory: 'asset/web/img/logo'
     banner_directory: '%kernel.root_dir%/../web/asset/web/img/banner'
     web_banner_directory: 'asset/web/img/banner'
+    post_directory: '%kernel.root_dir%/../web/asset/web/img/post'
+    web_post_directory: 'asset/web/img/post'
 
 framework:
     #esi:             ~
@@ -75,3 +78,9 @@ swiftmailer:
     username:  "%mailer_user%"
     password:  "%mailer_password%"
     spool:     { type: memory }
+
+# Stof\DoctrineExtensionsBundle configuration
+stof_doctrine_extensions:
+    orm:
+        default:
+            sluggable: true

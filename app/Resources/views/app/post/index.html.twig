@@ -1,0 +1,101 @@
+{% extends 'base_app.html.twig' %}
+
+{% block title 'Manager - Articles' %}
+
+{% block nav %}
+    <div class="row wrapper border-bottom white-bg page-heading">
+        <div class="col-lg-10">
+            <h2>Liste des articles</h2>
+            <ol class="breadcrumb">
+                <li>
+                    <a href="{{ path('app_index') }}">Accueil</a>
+                </li>
+                <li class="active">
+                    <strong>Articles</strong>
+                </li>
+            </ol>
+        </div>
+        <div class="col-lg-2">
+            <div class="title-action">
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block content %}
+    <div class="wrapper wrapper-content">
+		<div class="row">
+            <div class="col-lg-12">
+				<div class="ibox">
+					<div class="ibox-title">
+						<h5>Liste des articles</h5>
+						<div class="ibox-tools">
+							<a href="{{ path('app_post_add') }}" class="btn btn-primary btn-sm">Ajouter un article</a>
+						</div>
+					</div>
+                    <div class="ibox-content">
+						{#<div class="row m-b-sm m-t-sm">
+							<div class="col-md-12">
+								<input type="text" placeholder="Recherche..." class="form-control">
+							</div>
+						</div>#}
+						<div class="project-list">
+							{% if posts %}
+								<table class="table table-hover">
+									<tbody>
+										{% for post in posts %}
+											<tr data-id_post="{{ post.id }}">
+												<td>
+													{% if post.isDraft %}
+														<span class="label label-default">
+															<i class="fa fa-circle hidden-lg hidden-md hidden-sm"></i>
+															<span class="hidden-xs">Brouillon</span>
+														</span>
+													{% else %}
+														<span class="label label-info">
+															<i class="fa fa-circle hidden-lg hidden-md hidden-sm"></i>
+															<span class="hidden-xs">Publié</span>
+														</span>
+													{% endif %}
+												</td>
+												<td class="hidden-sm hidden-xs">{% if post.category %}{{ post.category.label }}{% endif %}</td>
+												<td class="project-title">
+													<a>{{ post.title }}</a>
+													<br>
+													<small>Mis à jour le 14.08.2014</small>
+												</td>
+												<td class="hidden-xs hidden-md hidden-sm">{{ post.description | wordwrap(50) | truncate(100) | nl2br }}</td>
+												<td class="text-right">
+													<a class="btn btn-info btn-xs action_category_update">
+														<i class="fa fa-edit hidden-lg hidden-md hidden-sm"></i>
+														<span class="hidden-xs">Publier</span>
+													</a>
+													<a class="btn btn-info btn-xs action_category_update" href="{{ path('app_post_edit', {'id': post.id}) }}">
+														<i class="fa fa-edit hidden-lg hidden-md hidden-sm"></i>
+														<span class="hidden-xs">Editer</span>
+													</a>
+													<a class="btn btn-danger btn-xs action_category_delete">
+														<i class="fa fa-remove hidden-lg hidden-md hidden-sm"></i>
+														<span class="hidden-xs">Supprimer</span>
+													</a>
+												</td>
+												</div>
+											</tr>
+										{% endfor %}
+									</tbody>
+								</table>
+							{% else %}
+								<a href="{{ path('app_post_add') }}" class="btn btn-primary btn-sm">Ajouter un article</a>
+							{% endif %}
+						</div>
+                    </div>
+                </div>
+			</div>
+        </div>
+    </div>
+	<script>
+		$(function(){
+			
+		});
+	</script>
+{% endblock %}

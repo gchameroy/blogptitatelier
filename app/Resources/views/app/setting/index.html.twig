@@ -108,7 +108,6 @@
 			
 			$('form[name="setting-about-update"] a[name="update"]').click(function(){
 				$form = $(this).closest('form');
-				console.log($form);
 				$form.find('p[for="label"]').addClass('hidden');
 				$form.find('p[for="description"]').addClass('hidden');
 				$form.find('input[name="label"]').removeClass('hidden');

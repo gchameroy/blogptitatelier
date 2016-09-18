@@ -1,13 +1,15 @@
 services:
-    app.user.factory:
-      class: AppBundle\Entity\UserFactory
-    app.about.factory:
-      class: AppBundle\Entity\AboutFactory
-    app.setting.factory:
-      class: AppBundle\Entity\SettingFactory
-    app.photo_uploader:
-        class: AppBundle\FileUploader
-    app.header.factory:
-      class: AppBundle\Entity\HeaderFactory
-    app.category.factory:
-      class: AppBundle\Entity\CategoryFactory
+  app.user.factory:
+    class: AppBundle\Entity\UserFactory
+  app.about.factory:
+    class: AppBundle\Entity\AboutFactory
+  app.setting.factory:
+    class: AppBundle\Entity\SettingFactory
+  app.photo_uploader:
+    class: AppBundle\FileUploader
+  app.header.factory:
+    class: AppBundle\Entity\HeaderFactory
+  app.category.factory:
+    class: AppBundle\Entity\CategoryFactory
+  app.post.factory:
+    class: AppBundle\Entity\PostFactory

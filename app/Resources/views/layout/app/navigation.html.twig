@@ -12,8 +12,14 @@
 			</li>
 			<li class="{% if app.request.attributes.get('_route') in ['app_category_index'] %}active{% endif %}">
 				<a href="{{ path('app_category_index') }}">
-					<i class="fa fa-folder"></i>
+					<i class="fa fa-folder-open"></i>
 					<span class="nav-label">Catégories</span>
+				</a>
+			</li>
+			<li class="{% if app.request.attributes.get('_route') in ['app_post_index'] %}active{% endif %}">
+				<a href="{{ path('app_post_index') }}">
+					<i class="fa fa-file-text"></i>
+					<span class="nav-label">Articles</span>
 				</a>
 			</li>
 			<li class="{% if app.request.attributes.get('_route') in ['app_setting_index'] %}active{% endif %}">

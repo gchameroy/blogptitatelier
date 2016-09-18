@@ -312,4 +312,164 @@ class AppController extends Controller
 			'valid' => true
 		));
     }
+	
+	/**
+     * @Route("/manager/posts", name="app_post_index")
+     */
+    public function postAction()
+    {
+		$posts = $this->getDoctrine()->getManager()
+			->getRepository('AppBundle:Post')
+			->findAll();
+		
+        return $this->render('app/post/index.html.twig', array(
+			'posts' => $posts
+		));
+    }
+
+	/**
+     * @Route("/manager/posts/add", name="app_post_add")
+     */
+    public function postAddAction()
+    {
+		$post = $this->get('app.post.factory')->create();
+		
+		$em = $this->getDoctrine()->getManager();
+		$em->persist($post);
+		$em->flush();
+		
+		return $this->redirect($this->generateUrl('app_post_edit', array('id' => $post->getId())));
+    }
+
+	/**
+     * @Route("/manager/posts/{id}/image", name="app_post_image")
+     */
+    public function postImageAction($id, Request $request)
+    {
+		
+
+        $image = $request->files->get('image');
+		$targetDir = $this->getParameter('post_directory');
+		$fileName = $this->get('app.photo_uploader')->uploadPostImage($image, $targetDir);
+		
+		$em = $this->getDoctrine()->getManager();
+		
+		$post = $this->getDoctrine()->getManager()
+			->getRepository('AppBundle:Post')
+			->findOneById($id)
+			->setImage($fileName);
+
+		$em->persist($post);
+        $em->flush();
+
+		return $this->redirect($this->generateUrl('app_post_edit', array('id' => $post->getId())));
+    }
+	
+	/**
+     * @Route("/manager/posts/{id}/category", name="app_post_category")
+     */
+    public function postCategoryAction($id, Request $request)
+    {
+		$em = $this->getDoctrine()->getManager();
+
+		$category = $em
+			->getRepository('AppBundle:Category')
+			->findOneById($request->request->get('category'));
+		
+		$post = $em
+			->getRepository('AppBundle:Post')
+			->findOneById($id)
+			->setCategory($category);
+
+		$em->persist($post);
+		$em->flush();
+
+        $response = new JsonResponse();
+		return $response->setData(array(
+			'valid' => true
+		));
+    }
+	
+	/**
+     * @Route("/manager/posts/title", name="app_post_title")
+     */
+    public function postTitleAction(Request $request)
+    {
+		$em = $this->getDoctrine()->getManager();
+
+		$post = $em
+			->getRepository('AppBundle:Post')
+			->findOneById($request->request->get('pk'))
+			->setTitle($request->request->get('value'));
+
+		$em->persist($post);
+		$em->flush();
+
+        $response = new JsonResponse();
+		return $response->setData(array(
+			'valid' => true
+		));
+    }
+	
+	/**
+     * @Route("/manager/posts/description", name="app_post_description")
+     */
+    public function postDescriptionAction(Request $request)
+    {
+		$em = $this->getDoctrine()->getManager();
+
+		$post = $em
+			->getRepository('AppBundle:Post')
+			->findOneById($request->request->get('pk'))
+			->setDescription($request->request->get('value'));
+
+		$em->persist($post);
+		$em->flush();
+
+        $response = new JsonResponse();
+		return $response->setData(array(
+			'valid' => true
+		));
+    }
+	
+	/**
+     * @Route("/manager/posts/{id}", name="app_post_edit")
+     */
+    public function postEditAction($id)
+    {
+		$em = $this->getDoctrine()->getManager();
+		
+		$post = $em
+			->getRepository('AppBundle:Post')
+			->findOneById($id);
+		
+		$categories = $this->getDoctrine()->getManager()
+			->getRepository('AppBundle:Category')
+			->findAll();
+		
+        return $this->render('app/post/edit.html.twig', array(
+			'post' => $post,
+			'categories' => $categories
+		));
+    }
+	
+	/**
+     * @Route("/manager/posts/{id}/content", name="app_post_content")
+     */
+    public function postContentAction($id, Request $request)
+    {
+		$em = $this->getDoctrine()->getManager();
+
+		$post = $em
+			->getRepository('AppBundle:Post')
+			->findOneById($id)
+			->setContent($request->request->get('content'));
+		$em->persist($post);
+		$em->flush();
+
+        $response = new JsonResponse();
+		return $response->setData(array(
+			'valid' => true
+		));
+    }
 }

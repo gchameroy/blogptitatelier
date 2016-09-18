@@ -28,9 +28,9 @@ class LoadHeader extends AbstractFixture implements OrderedFixtureInterface, Con
     public function load(ObjectManager $manager)
     {
 		$header = $this->container->get('app.header.factory')->create()
-            ->setFavicon('favicon.jpg')
-            ->setLogo('logo.png')
-            ->setBanner('banner.jpg');
+            ->setFavicon('default.jpg')
+            ->setLogo('default.jpg')
+            ->setBanner('default.jpg');
         $manager->persist($header);
         $manager->flush();
 

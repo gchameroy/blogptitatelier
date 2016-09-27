@@ -13,3 +13,7 @@ services:
     class: AppBundle\Entity\CategoryFactory
   app.post.factory:
     class: AppBundle\Entity\PostFactory
+  app.model.factory:
+    class: AppBundle\Entity\ModelFactory
+  app.modelType.factory:
+    class: AppBundle\Entity\ModelTypeFactory

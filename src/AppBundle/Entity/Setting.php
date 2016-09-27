@@ -39,6 +39,11 @@ class Setting
      * @ORM\Column(name="updated_at", type="datetime")
      */
     private $updatedAt;
+	
+	/**
+	* @ORM\OneToMany(targetEntity="Model", mappedBy="setting")
+	*/
+	private $models;
 
 
     /**
@@ -121,5 +126,46 @@ class Setting
     public function getHeader()
     {
         return $this->header;
+    }
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->models = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    /**
+     * Add model
+     *
+     * @param \AppBundle\Entity\Model $model
+     *
+     * @return Setting
+     */
+    public function addModel(Model $model)
+    {
+        $this->models[] = $model;
+
+        return $this;
+    }
+
+    /**
+     * Remove model
+     *
+     * @param \AppBundle\Entity\Model $model
+     */
+    public function removeModel(Model $model)
+    {
+        $this->models->removeElement($model);
+    }
+
+    /**
+     * Get models
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getModels()
+    {
+        return $this->models;
     }
 }

@@ -472,4 +472,37 @@ class AppController extends Controller
 			'valid' => true
 		));
     }
+	
+	/**
+     * @Route("/manager/settings/model", name="app_setting_model")
+     */
+    public function postSettingModelAction(Request $request)
+    {
+		$columns = explode('-', $request->request->get('columns'));
+
+		$em = $this->getDoctrine()->getManager();
+		
+		$setting = $em
+			->getRepository('AppBundle:Setting')
+			->findAll()[0];
+
+		$modelType = $em
+			->getRepository('AppBundle:ModelType')
+			->findOneById($request->request->get('id_modelType'));
+
+		$model = $em
+			->getRepository('AppBundle:Model')
+			->findOneBy(array(
+				'setting' => $setting,
+				'modelType' => $modelType
+			))
+			->setColumns($columns);
+		$em->persist($model);
+        $em->flush();
+
+        $response = new JsonResponse();
+		return $response->setData(array(
+			'valid' => true
+		));
+    }
 }

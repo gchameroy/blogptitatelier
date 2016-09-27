@@ -31,6 +31,7 @@
 						<ul class="nav nav-tabs">
 							<li class="active"><a data-toggle="tab" href="#tab-header">Logo & Bannière</a></li>
 							<li><a data-toggle="tab" href="#tab-about">A propos</a></li>
+							<li><a data-toggle="tab" href="#tab-model">Maquette</a></li>
 						</ul>
 						<div class="tab-content ">
 							<div id="tab-header" class="tab-pane active">
@@ -85,6 +86,63 @@
 									</form>
 								</div>
 							</div>
+							<div id="tab-model" class="tab-pane">
+								<div class="panel-body">
+									<form name="setting-model">
+										{% for model in setting.models %}
+											<div class="col-lg-12" data-modelType="{{ model.modelType.id}}">
+												<div class="panel panel-default">
+													<div class="panel-heading">
+														{% if model.modelType.id == 1 %}
+															Articles récents
+														{% elseif model.modelType.id == 2 %}
+															Articles polulaires
+														{% elseif model.modelType.id == 3 %}
+															Sélection du moment
+														{% else %}
+															This label has no reference
+														{% endif %}
+													</div>
+													<br>
+													<div class="row">
+														<div class="col-xs-4 col-sm-2 text-center">
+															<img src="{{ asset('asset/web/img/model/12-6-6.png') }}">
+															<br>
+															<input name="modelType-{{ model.modelType.id}}" type="radio" value="12-6-6" {% if model.columns|join('-') == '12-6-6' %}checked{% endif %}>
+														</div>
+														<div class="col-xs-4 col-sm-2 text-center">
+															<img src="{{ asset('asset/web/img/model/6-6-12.png') }}">
+															<br>
+															<input name="modelType-{{ model.modelType.id}}" type="radio" value="6-6-12" {% if model.columns|join('-') == '6-6-12' %}checked{% endif %}>
+														</div>
+														<div class="col-xs-4 col-sm-2 text-center">
+															<img src="{{ asset('asset/web/img/model/12-12.png') }}">
+															<br>
+															<input name="modelType-{{ model.modelType.id}}" type="radio" value="12-12" {% if model.columns|join('-') == '12-12' %}checked{% endif %}>
+														</div>
+														<div class="col-xs-4 col-sm-2 text-center">
+															<img src="{{ asset('asset/web/img/model/6-6-6-6.png') }}">
+															<br>
+															<input name="modelType-{{ model.modelType.id}}" type="radio" value="6-6-6-6" {% if model.columns|join('-') == '6-6-6-6' %}checked{% endif %}>
+														</div>
+														<div class="col-xs-4 col-sm-2 text-center">
+															<img src="{{ asset('asset/web/img/model/12.png') }}">
+															<br>
+															<input name="modelType-{{ model.modelType.id}}" type="radio" value="12" {% if model.columns|join('-') == '12' %}checked{% endif %}>
+														</div>
+														<div class="col-xs-4 col-sm-2 text-center">
+															<img src="{{ asset('asset/web/img/model/6-6.png') }}">
+															<br>
+															<input name="modelType-{{ model.modelType.id}}" type="radio" value="6-6" {% if model.columns|join('-') == '6-6' %}checked{% endif %}>
+														</div>
+													</div>
+													<br>
+												</div>
+											</div>
+										{% endfor %}
+									</form>
+								</div>
+							</div>
 						</div>
 					</div>
 				</div>
@@ -125,6 +183,30 @@
 				$form.find('a[name="update"]').removeClass('hidden');
 				$form.find('a[name="cancel"]').addClass('hidden');
 				$form.find('button[name="submit"]').addClass('hidden');
+			});
+			$('form[name="setting-model"] input').click(function(){
+				$objet = $(this);
+				var id_modelType = $objet.closest('[data-modelType]').attr('data-modelType');
+				console.log(id_modelType);
+				var columns = $objet.val();
+				$.ajax({
+					type: 'post',
+					dataType: 'json',
+					url: '{{ path('app_setting_model') }}',
+					data:{
+						id_modelType: id_modelType,
+						columns: columns
+					},
+					success: function(response){
+						if(!response.valid){
+							swal('Oups !', 'Une erreur est survenue.', 'error');
+							return;
+						}
+					},
+					error: function(){
+						swal('Oups !', 'Une erreur est survenue.', 'error');
+					}
+				});
 			});
 		});
 	</script>

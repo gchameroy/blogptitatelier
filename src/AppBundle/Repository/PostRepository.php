@@ -10,4 +10,16 @@ namespace AppBundle\Repository;
  */
 class PostRepository extends \Doctrine\ORM\EntityRepository
 {
+	public function findRecents()
+	{
+		$now = \date('Y-m-d H:i:s');
+		return $this->createQueryBuilder('p')
+			->where('p.publishedAt IS NOT NULL')
+			->andWhere('p.publishedAt <= :now')
+				->setParameter('now', $now)
+			->orderBy('p.publishedAt', 'DESC')
+			->addOrderBy('p.id', 'DESC')
+			->setMaxResults(4)
+			->getQuery()->getResult();
+	}
 }

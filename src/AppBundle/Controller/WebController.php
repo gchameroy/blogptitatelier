@@ -20,11 +20,16 @@ class WebController extends Controller
 	
 	public function asideAction()
 	{
+		$setting = $this->getDoctrine()->getManager()
+			->getRepository('AppBundle:Setting')
+			->findAll()[0];
+
 		$categories = $this->getDoctrine()->getManager()
 			->getRepository('AppBundle:Category')
 			->findAll();
 		
 		return $this->render('layout/web/aside.html.twig', array(
+			'setting' => $setting,
 			'categories' => $categories
 		));
 	}

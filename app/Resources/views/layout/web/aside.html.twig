@@ -2,11 +2,10 @@
 	<h6 class="widget-title">A propos de moi</h6>
 	<div class="sidebar-content about-me">
 		<div class="my-photo">
-			<a href="#"><img class="img-circle" src="{{ asset('asset/web/img/avatar.jpg') }}" alt="My Image" /></a>
+			<a href="#"><img class="img-circle" src="{{ asset(avatar_directory ~ '/' ~ setting.about.avatar) }}" alt="My Image" /></a>
 		</div>
-		<h6 class="post-title">Jessica Rocha</h6>
-		<p>Lorem ipsum dolor sit amet, consecteturs adipisicing elit, sed do 
-		eiusmod tempor incididunt labore et dolore aliqua. Ut enim ad minim veniam.</p>
+		<h6 class="post-title">{{ setting.about.label }}</h6>
+		<p>{{ setting.about.description }}</p>
 	</div>
 </div>
 

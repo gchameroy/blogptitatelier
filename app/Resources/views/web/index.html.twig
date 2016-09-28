@@ -2,296 +2,36 @@
 
 {% block article %}
 	<div class="popular-posts-area">
-		<h2 class="section-title">popular posts</h2>
+		<h2 class="section-title">Articles récents</h2>
 		<div class="row">
-			<div class="col-md-6 col-sm-6">
-				<div class="single-popular-post">
-					<div class="post-img">
-						<a href="#"><img src="{{ asset('asset/web/img/post/3.jpg') }}" alt="Popular Post"></a>
-						<a href="#" class="post-tag">travel</a>
-						<div class="post-info">
-							<p>
-								<span class="post-date"><a href="#">5 févr. 2013</a></span>
-								<span class="post-comments"><a href="#">131 commentaires</a></span>
-								<span class="post-social-links">
-									<a href="#" data-toggle="tooltip" data-placement="bottom" title="Likes"><i class="fa fa-heart"></i> 557</a>
-								</span>
-							</p>
+			{% for column in modelRecent.columns %}
+				<div class="col-md-{{ column }} col-sm-{{ column }}">
+					<div class="single-popular-post">
+						<div class="post-img">
+							<a href="#"><img src="{{ asset(post_directory ~ '/' ~ posts.recent[loop.index0].image) }}" alt="{{ posts.recent[loop.index0].category.label }}"></a>
+							<a href="#" class="post-tag">{{ posts.recent[loop.index0].category.label }}</a>
+							<div class="post-info">
+								<p>
+									<span class="post-date"><a href="#">{{ posts.recent[loop.index0].publishedAt|date('d/m/Y') }}</a></span>
+									<span class="post-comments"><a href="#">131 commentaires</a></span>
+									<span class="post-social-links">
+										<a href="#" data-toggle="tooltip" data-placement="bottom" title="Likes"><i class="fa fa-heart"></i> 557</a>
+									</span>
+								</p>
+							</div>
 						</div>
-					</div>
-					<div class="post-content">
-						<h6 class="post-title"><a href="#">Recycler ses vieilles coques de portable</a></h6>
-						<p class="post-short-desc">Lorem ipsum dolor sit amet, consegectetur 
-						adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore 
-						magna aliqua. Ut enim ad minim veniam...</p>
-						<a href="#" class="continue-link">Lire la suite</a>
+						<div class="post-content">
+							<h6 class="post-title"><a href="#">{{ posts.recent[loop.index0].title }}</a></h6>
+							{% if column == 6 %}
+								<p class="post-short-desc">{{ posts.recent[loop.index0].description|truncate(200) }}</p>
+							{% else %}
+								<p class="post-short-desc">{{ posts.recent[loop.index0].description|truncate(450) }}</p>
+							{% endif %}
+							<a href="#" class="continue-link">Lire la suite</a>
+						</div>
 					</div>
 				</div>
-			</div>
-			<div class="col-md-6 col-sm-6">
-				<div class="single-popular-post">
-					<div class="post-img">
-						<a href="#"><img src="{{ asset('asset/web/img/post/1.jpg') }}" alt="Popular Post"></a>
-						<a href="#" class="post-tag">photography</a>
-						<div class="post-info">
-							<p>
-								<span class="post-date"><a href="#">10 juil. 2013</a></span>
-								<span class="post-comments"><a href="#">112 commentaires</a></span>
-								<span class="post-social-links">
-									<a href="#" data-toggle="tooltip" data-placement="bottom" title="Likes"><i class="fa fa-heart"></i> 911</a>
-								</span>
-							</p>
-						</div>
-					</div>
-					<div class="post-content">
-						<h6 class="post-title"><a href="#">Faire des pierres turquoise en fimo</a></h6>
-						<p class="post-short-desc">Petite vidéo pour vous montrer comment faire des imitations pierres turquoise en Fimo. Vous pouvez choisir de mettre cette effet sur n'importe quel...</p>
-						<a href="#" class="continue-link">Lire la suite</a>
-					</div>
-				</div>
-			</div>
-			<div class="col-md-6 col-sm-6">
-				<div class="single-popular-post">
-					<div class="post-img">
-						<a href="#"><img src="{{ asset('asset/web/img/post/4.jpg') }}" alt="Popular Post" /></a>
-						<a href="#" class="post-tag">lifestyle</a>
-						<div class="post-info">
-							<p>
-								<span class="post-date"><a href="#">16 juin 2013</a></span>
-								<span class="post-comments"><a href="#">277 commentaires</a></span>
-								<span class="post-social-links">
-									<a href="#" data-toggle="tooltip" data-placement="bottom" title="Likes"><i class="fa fa-heart"></i> 385</a>
-								</span>
-							</p>
-						</div>
-					</div>
-					<div class="post-content">
-						<h6 class="post-title"><a href="#">Customiser les moules fait maison</a></h6>
-						<p class="post-short-desc">Voici une petite vidéo pour vous montrer comment rendre vos moules plus jolie avec de la couleur, par exemple ici en rose mais pour un effet lisse et net.</p>
-						<a href="#" class="continue-link">Lire la suite</a>
-					</div>
-				</div>
-			</div>
-			<div class="col-md-6 col-sm-6">
-				<div class="single-popular-post">
-					<div class="post-img">
-						<a href="#"><img src="{{ asset('asset/web/img/post/2.jpg') }}" alt="Popular Post" /></a>
-						<a href="#" class="post-tag">photography</a>
-						<div class="post-info">
-							<p>
-								<span class="post-date"><a href="#">5 août 2016</a></span>
-								<span class="post-comments"><a href="#">61 commentaires</a></span>
-								<span class="post-social-links">
-									<a href="#" data-toggle="tooltip" data-placement="bottom" title="Likes"><i class="fa fa-heart"></i> 62</a>
-								</span>
-							</p>
-						</div>
-					</div>
-					<div class="post-content">
-						<h6 class="post-title"><a href="#">Craft Room Tour - PtitAtelier</a></h6>
-						<p class="post-short-desc">Entrez avec moi dans mon atelier créatif! Vous trouverez tous les produits que j'utilise en ce moment. Ça fais au moins, 1 an que vous me demandez...</p>
-						<a href="#" class="continue-link">Lire la suite</a>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-
-	<div id="latest-reviews" class="latest-reviews-area">
-		<h2 class="section-title">latest reviews</h2>
-		<div class="row">
-			<div class="col-md-12">
-				<div class="single-review">
-					<div class="post-img">
-						<a href="#"><img src="img/reviews/1.jpg" alt="Review Image" /></a>
-						<a href="#" class="post-tag">photography</a>
-						<div class="post-info">
-							<p>
-								<span class="post-date"><a href="#">July 10, 2015</a></span>
-								<span class="post-comments"><a href="#">3 comments</a></span>
-								<span class="post-social-links">
-									<a href="#" data-toggle="tooltip" data-placement="bottom" title="Likes"><i class="fa fa-heart"></i></a>
-									<a href="#" data-toggle="tooltip" data-placement="bottom" title="Facebook"><i class="fa fa-facebook"></i></a>
-									<a href="#" data-toggle="tooltip" data-placement="bottom" title="Twitter"><i class="fa fa-twitter"></i></a>
-									<a href="#" data-toggle="tooltip" data-placement="bottom" title="Google+"><i class="fa fa-google-plus"></i></a>
-									<a href="#" data-toggle="tooltip" data-placement="bottom" title="Pinterest"><i class="fa fa-pinterest"></i></a>
-								</span>
-							</p>
-						</div>
-					</div>
-					<div class="post-content">
-						<h6 class="post-title"><a href="#">The Waves of the Butterfly</a></h6>
-						<div class="post-rating">
-							<ul>
-								<li><a href="#"><i class="fa fa-star"></i></a></li>
-								<li><a href="#"><i class="fa fa-star"></i></a></li>
-								<li><a href="#"><i class="fa fa-star"></i></a></li>
-								<li><a href="#"><i class="fa fa-star"></i></a></li>
-								<li><a href="#"><i class="fa fa-star-half-o"></i></a></li>
-							</ul>
-						</div>
-						<p class="post-short-desc">Lorem ipsum dolor sit amet, consegectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore  aliqua. Ut enim ad minim veniam, nostrud exercitation ullamco laboris nisi onsegectetur adipisicing elit, sed do eiusmod tempor incididunt labore et dolore magna aliqua. Ut enim ad minim veniam, nostrud exercitation ullamco laboris nisionsegectetur adipisicing elit, sed do eiusmod tempor incididunt</p>
-						<a href="#" class="continue-link">Continue Reading...</a>
-					</div>
-				</div>
-			</div>
-			<div class="col-md-12">
-				<div class="single-review">
-					<div class="post-img">
-						<a href="#"><img src="img/reviews/2.jpg" alt="Review Image" /></a>
-						<a href="#" class="post-tag">photography</a>
-						<div class="post-info">
-							<p>
-								<span class="post-date"><a href="#">July 10, 2015</a></span>
-								<span class="post-comments"><a href="#">3 comments</a></span>
-								<span class="post-social-links">
-									<a href="#" data-toggle="tooltip" data-placement="bottom" title="Likes"><i class="fa fa-heart"></i></a>
-									<a href="#" data-toggle="tooltip" data-placement="bottom" title="Facebook"><i class="fa fa-facebook"></i></a>
-									<a href="#" data-toggle="tooltip" data-placement="bottom" title="Twitter"><i class="fa fa-twitter"></i></a>
-									<a href="#" data-toggle="tooltip" data-placement="bottom" title="Google+"><i class="fa fa-google-plus"></i></a>
-									<a href="#" data-toggle="tooltip" data-placement="bottom" title="Pinterest"><i class="fa fa-pinterest"></i></a>
-								</span>
-							</p>
-						</div>
-					</div>
-					<div class="post-content">
-						<h6 class="post-title"><a href="#">The Waves of the Butterfly</a></h6>
-						<div class="post-rating">
-							<ul>
-								<li><a href="#"><i class="fa fa-star"></i></a></li>
-								<li><a href="#"><i class="fa fa-star"></i></a></li>
-								<li><a href="#"><i class="fa fa-star"></i></a></li>
-								<li><a href="#"><i class="fa fa-star"></i></a></li>
-								<li><a href="#"><i class="fa fa-star-half-o"></i></a></li>
-							</ul>
-						</div>
-						<p class="post-short-desc">Lorem ipsum dolor sit amet, consegectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore  aliqua. Ut enim ad minim veniam, nostrud exercitation ullamco laboris nisi onsegectetur adipisicing elit, sed do eiusmod tempor incididunt labore et dolore magna aliqua. Ut enim ad minim veniam, nostrud exercitation ullamco laboris nisionsegectetur adipisicing elit, sed do eiusmod tempor incididunt</p>
-						<a href="#" class="continue-link">Continue Reading...</a>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-
-	<div id="featured-post" class="featured-posts-area fix">
-		<h2 class="section-title">featured posts</h2>
-		<div class="row">
-			<div class="col-md-6 col-sm-6">
-				<div class="single-featured-post">
-					<div class="post-img">
-						<a href="#"><img src="img/featured-posts/1.jpg" alt="Featured Post" /></a>
-						<a href="#" class="post-tag">photography</a>
-						<div class="post-info">
-							<p>
-								<span class="post-date"><a href="#">July 10, 2015</a></span>
-								<span class="post-comments"><a href="#">3 comments</a></span>
-								<span class="post-social-links">
-									<a href="#" data-toggle="tooltip" data-placement="bottom" title="Likes"><i class="fa fa-heart"></i></a>
-									<a href="#" data-toggle="tooltip" data-placement="bottom" title="Facebook"><i class="fa fa-facebook"></i></a>
-									<a href="#" data-toggle="tooltip" data-placement="bottom" title="Twitter"><i class="fa fa-twitter"></i></a>
-									<a href="#" data-toggle="tooltip" data-placement="bottom" title="Google+"><i class="fa fa-google-plus"></i></a>
-									<a href="#" data-toggle="tooltip" data-placement="bottom" title="Pinterest"><i class="fa fa-pinterest"></i></a>
-								</span>
-							</p>
-						</div>
-					</div>
-					<div class="post-content">
-						<h6 class="post-title"><a href="#">Tale in the Lover</a></h6>
-						<p class="post-short-desc">Lorem ipsum dolor sit amet, consegectetur 
-						adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore 
-						magna aliqua. Ut enim ad minim veniam, nostrud exercitation ullamco 
-						laboris nisi...</p>
-						<a href="#" class="continue-link">Continue Reading...</a>
-					</div>
-				</div>
-			</div>
-			<div class="col-md-6 col-sm-6">
-				<div class="single-featured-post">
-					<div class="post-img">
-						<a href="#"><img src="img/featured-posts/2.jpg" alt="Featured Post" /></a>
-						<a href="#" class="post-tag">photography</a>
-						<div class="post-info">
-							<p>
-								<span class="post-date"><a href="#">July 10, 2015</a></span>
-								<span class="post-comments"><a href="#">3 comments</a></span>
-								<span class="post-social-links">
-									<a href="#" data-toggle="tooltip" data-placement="bottom" title="Likes"><i class="fa fa-heart"></i></a>
-									<a href="#" data-toggle="tooltip" data-placement="bottom" title="Facebook"><i class="fa fa-facebook"></i></a>
-									<a href="#" data-toggle="tooltip" data-placement="bottom" title="Twitter"><i class="fa fa-twitter"></i></a>
-									<a href="#" data-toggle="tooltip" data-placement="bottom" title="Google+"><i class="fa fa-google-plus"></i></a>
-									<a href="#" data-toggle="tooltip" data-placement="bottom" title="Pinterest"><i class="fa fa-pinterest"></i></a>
-								</span>
-							</p>
-						</div>
-					</div>
-					<div class="post-content">
-						<h6 class="post-title"><a href="#">The Cracked Secret</a></h6>
-						<p class="post-short-desc">Lorem ipsum dolor sit amet, consegectetur 
-						adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore 
-						magna aliqua. Ut enim ad minim veniam, nostrud exercitation ullamco 
-						laboris nisi...</p>
-						<a href="#" class="continue-link">Continue Reading...</a>
-					</div>
-				</div>
-			</div>
-			<div class="col-md-6 col-sm-6">
-				<div class="single-featured-post">
-					<div class="post-img">
-						<a href="#"><img src="img/featured-posts/3.jpg" alt="Featured Post" /></a>
-						<a href="#" class="post-tag">photography</a>
-						<div class="post-info">
-							<p>
-								<span class="post-date"><a href="#">July 10, 2015</a></span>
-								<span class="post-comments"><a href="#">3 comments</a></span>
-								<span class="post-social-links">
-									<a href="#" data-toggle="tooltip" data-placement="bottom" title="Likes"><i class="fa fa-heart"></i></a>
-									<a href="#" data-toggle="tooltip" data-placement="bottom" title="Facebook"><i class="fa fa-facebook"></i></a>
-									<a href="#" data-toggle="tooltip" data-placement="bottom" title="Twitter"><i class="fa fa-twitter"></i></a>
-									<a href="#" data-toggle="tooltip" data-placement="bottom" title="Google+"><i class="fa fa-google-plus"></i></a>
-									<a href="#" data-toggle="tooltip" data-placement="bottom" title="Pinterest"><i class="fa fa-pinterest"></i></a>
-								</span>
-							</p>
-						</div>
-					</div>
-					<div class="post-content">
-						<h6 class="post-title"><a href="#">Future in the Consort</a></h6>
-						<p class="post-short-desc">Lorem ipsum dolor sit amet, consegectetur 
-						adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore 
-						magna aliqua. Ut enim ad minim veniam, nostrud exercitation ullamco 
-						laboris nisi...</p>
-						<a href="#" class="continue-link">Continue Reading...</a>
-					</div>
-				</div>
-			</div>
-			<div class="col-md-6 col-sm-6">
-				<div class="single-featured-post">
-					<div class="post-img">
-						<a href="#"><img src="img/featured-posts/4.jpg" alt="Featured Post" /></a>
-						<a href="#" class="post-tag">photography</a>
-						<div class="post-info">
-							<p>
-								<span class="post-date"><a href="#">July 10, 2015</a></span>
-								<span class="post-comments"><a href="#">3 comments</a></span>
-								<span class="post-social-links">
-									<a href="#" data-toggle="tooltip" data-placement="bottom" title="Likes"><i class="fa fa-heart"></i></a>
-									<a href="#" data-toggle="tooltip" data-placement="bottom" title="Facebook"><i class="fa fa-facebook"></i></a>
-									<a href="#" data-toggle="tooltip" data-placement="bottom" title="Twitter"><i class="fa fa-twitter"></i></a>
-									<a href="#" data-toggle="tooltip" data-placement="bottom" title="Google+"><i class="fa fa-google-plus"></i></a>
-									<a href="#" data-toggle="tooltip" data-placement="bottom" title="Pinterest"><i class="fa fa-pinterest"></i></a>
-								</span>
-							</p>
-						</div>
-					</div>
-					<div class="post-content">
-						<h6 class="post-title"><a href="#">The Man of the Heat</a></h6>
-						<p class="post-short-desc">Lorem ipsum dolor sit amet, consegectetur 
-						adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore 
-						magna aliqua. Ut enim ad minim veniam, nostrud exercitation ullamco 
-						laboris nisi...</p>
-						<a href="#" class="continue-link">Continue Reading...</a>
-					</div>
-				</div>
-			</div>
+			{% endfor %}
 		</div>
 	</div>
 {% endblock %}

@@ -85,7 +85,7 @@ class Post
     private $isDraft;
 	
 	/**
-     * @ORM\ManyToOne(targetEntity="Category", cascade={"persist"})
+     * @ORM\ManyToOne(targetEntity="Category", inversedBy="posts", cascade={"persist"})
      * @ORM\JoinColumn(nullable=true)
      */
     private $category;

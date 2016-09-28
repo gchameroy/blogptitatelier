@@ -13,8 +13,29 @@ class WebController extends Controller
      */
     public function indexAction(Request $request)
     {
+		$em = $this->getDoctrine()->getManager();
+		
+		$setting = $em
+			->getRepository('AppBundle:Setting')
+			->findAll()[0];
+		
+		$modelRecent = $em
+			->getRepository('AppBundle:Model')
+			->findOneBy(
+				array(
+					'setting' => $setting,
+					'modelType' => 1
+				)
+			);
+		dump($modelRecent);
+		$posts = new \stdClass;
+		$posts->recent = $em
+			->getRepository('AppBundle:Post')
+			->findRecents();
+
         return $this->render('web/index.html.twig', array(
-			
+			'modelRecent' => $modelRecent,
+			'posts' => $posts
 		));
     }
 	

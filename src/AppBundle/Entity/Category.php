@@ -48,6 +48,11 @@ class Category
      * @ORM\Column(name="updated_at", type="datetime")
      */
     private $updatedAt;
+	
+	/**
+	* @ORM\OneToMany(targetEntity="Post", mappedBy="category")
+	*/
+	private $posts;
 
 
     /**
@@ -179,5 +184,45 @@ class Category
     {
         return $this->updatedAt;
     }
-}
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->posts = new \Doctrine\Common\Collections\ArrayCollection();
+    }
 
+    /**
+     * Add post
+     *
+     * @param \AppBundle\Entity\Post $post
+     *
+     * @return Category
+     */
+    public function addPost(Post $post)
+    {
+        $this->posts[] = $post;
+
+        return $this;
+    }
+
+    /**
+     * Remove post
+     *
+     * @param \AppBundle\Entity\Post $post
+     */
+    public function removePost(Post $post)
+    {
+        $this->posts->removeElement($post);
+    }
+
+    /**
+     * Get posts
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getPosts()
+    {
+        return $this->posts;
+    }
+}

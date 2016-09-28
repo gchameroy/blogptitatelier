@@ -15,20 +15,9 @@
 	<div class="sidebar-content">
 		<div class="categories-list">
 			<ul>
-				<li><a href="#"><span class="category">GEEK</span><span class="number">(11)</span></a></li>
-				<li><a href="#"><span class="category">TUTORIELS</span><span class="number">(171)</span></a></li>
-				<li><a href="#"><span class="category">POUR MES ABOS</span><span class="number">(26)</span></a></li>
-				<li><a href="#"><span class="category">VLOG</span><span class="number">(10)</span></a></li>
-				<li><a href="#"><span class="category">PTITCINEMA</span><span class="number">(12)</span></a></li>
-				<li><a href="#"><span class="category">POKEMON GO</span><span class="number">(4)</span></a></li>
-				<li><a href="#"><span class="category">HARRY POTTER</span><span class="number">(15)</span></a></li>
-				<li><a href="#"><span class="category">COLLAB</span><span class="number">(87)</span></a></li>
-				<li><a href="#"><span class="category">TUTORIEL ENFANT</span><span class="number">(2)</span></a></li>
-				<li><a href="#"><span class="category">DISNEY</span><span class="number">(7)</span></a></li>
-				<li><a href="#"><span class="category">TsumtsumYoutuber</span><span class="number">(3)</span></a></li>
-				<li><a href="#"><span class="category">ALADINE</span><span class="number">(3)</span></a></li>
-				<li><a href="#"><span class="category">NOËL</span><span class="number">(25)</span></a></li>
-				<li><a href="#"><span class="category">HALLOWEEN</span><span class="number">(5)</span></a></li>
+				{% for category in categories %}
+					<li><a href="#"><span class="category">{{ category.label }}</span><span class="number">({{ category.posts|length }})</span></a></li>
+				{% endfor %}
 			</ul>
 		</div>
 	</div>

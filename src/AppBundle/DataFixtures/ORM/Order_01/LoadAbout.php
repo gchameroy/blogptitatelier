@@ -28,8 +28,8 @@ class LoadAbout extends AbstractFixture implements OrderedFixtureInterface, Cont
     public function load(ObjectManager $manager)
     {
 		$about = $this->container->get('app.about.factory')->create()
-            ->setAvatar('avatar.jpg')
-            ->setLabel('Jessica Rocha')
+            ->setAvatar('default.jpg')
+            ->setLabel('Lorem Smith')
             ->setDescription('Lorem ipsum dolor sit amet, consecteturs adipisicing elit, sed do eiusmod tempor incididunt labore et dolore aliqua. Ut enim ad minim veniam.');
         $manager->persist($about);
         $manager->flush();

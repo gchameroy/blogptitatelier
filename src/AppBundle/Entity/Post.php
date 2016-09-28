@@ -76,13 +76,6 @@ class Post
      * @ORM\Column(name="published_at", type="datetime", nullable=true)
      */
     private $publishedAt;
-
-    /**
-     * @var bool
-     *
-     * @ORM\Column(name="is_draft", type="boolean")
-     */
-    private $isDraft;
 	
 	/**
      * @ORM\ManyToOne(targetEntity="Category", inversedBy="posts", cascade={"persist"})
@@ -222,27 +215,13 @@ class Post
     }
 
     /**
-     * Set isDraft
-     *
-     * @param boolean $isDraft
-     *
-     * @return Post
-     */
-    public function setIsDraft($isDraft)
-    {
-        $this->isDraft = $isDraft;
-
-        return $this;
-    }
-
-    /**
      * Get isDraft
      *
      * @return bool
      */
     public function getIsDraft()
     {
-        return $this->isDraft;
+        return $this->publishedAt === null ? true : false;
     }
 	
 	/**
@@ -252,10 +231,10 @@ class Post
      */
     public function getIsPublished()
     {
-		if($this->isDraft === true){
+		if($this->getIsDraft() === true){
 			return false;
 		}
-		if($this->publishedAt < new \DateTime()){
+		if($this->publishedAt > new \DateTime()){
 			return false;
 		}
         return true;

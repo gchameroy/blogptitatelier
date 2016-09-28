@@ -14,7 +14,6 @@ class PostFactory
 
         $post->setInsertedAt(new \DateTime());
         $post->setUpdatedAt(new \DateTime());
-        $post->setIsDraft(true);
 
         return $post;
     }

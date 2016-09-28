@@ -338,7 +338,7 @@ class AppController extends Controller
 		$em->persist($post);
 		$em->flush();
 		
-		return $this->redirect($this->generateUrl('app_post_edit', array('id' => $post->getId())));
+		return $this->redirect($this->generateUrl('app_post_view', array('id' => $post->getId())));
     }
 
 	/**
@@ -362,7 +362,7 @@ class AppController extends Controller
 		$em->persist($post);
         $em->flush();
 
-		return $this->redirect($this->generateUrl('app_post_edit', array('id' => $post->getId())));
+		return $this->redirect($this->generateUrl('app_post_view', array('id' => $post->getId())));
     }
 	
 	/**
@@ -433,9 +433,9 @@ class AppController extends Controller
     }
 	
 	/**
-     * @Route("/manager/posts/{id}", name="app_post_edit")
+     * @Route("/manager/posts/{id}", name="app_post_view")
      */
-    public function postEditAction($id)
+    public function postViewAction($id)
     {
 		$em = $this->getDoctrine()->getManager();
 		
@@ -499,6 +499,62 @@ class AppController extends Controller
 			->setColumns($columns);
 		$em->persist($model);
         $em->flush();
+
+        $response = new JsonResponse();
+		return $response->setData(array(
+			'valid' => true
+		));
+    }
+	
+	/**
+     * @Route("/manager/post/modal/publish", name="app_post_modal_publish")
+     */
+    public function postModalPublishAction(Request $request)
+    {
+        $post = $this->getDoctrine()->getManager()
+			->getRepository('AppBundle:Post')
+			->findOneById($request->query->get('id'));
+		
+		$publishedAt = new \DateTime();
+		$publishedAt->add(new \DateInterval('P1D'));
+        $post->setPublishedAt($publishedAt);
+		
+		return $this->render('app/post/modal/publish.html.twig', array(
+			'post' => $post
+		));
+    }
+	
+	/**
+     * @Route("/manager/post/publish", name="app_post_publish")
+     */
+    public function postPublishAction(Request $request)
+    {
+		$publishedAt = new \DateTime($request->request->get('publishedAt'));
+		$em = $this->getDoctrine()->getManager();
+		$post = $em
+			->getRepository('AppBundle:Post')
+			->findOneById($request->request->get('id'))
+			->setPublishedAt($publishedAt);
+
+		$em->persist($post);
+		$em->flush();
+
+        return $this->redirect($this->generateUrl('app_post_index'));
+    }
+	
+	/**
+     * @Route("/manager/post/publish/stop", name="app_post_publish_stop")
+     */
+    public function postPublishStopAction(Request $request)
+    {
+		$em = $this->getDoctrine()->getManager();
+		$post = $em
+			->getRepository('AppBundle:Post')
+			->findOneById($request->request->get('id'))
+			->setPublishedAt(null);
+
+		$em->persist($post);
+		$em->flush();
 
         $response = new JsonResponse();
 		return $response->setData(array(

@@ -13,6 +13,19 @@ class WebController extends Controller
      */
     public function indexAction(Request $request)
     {
-        return $this->render('web/index.html.twig');
+        return $this->render('web/index.html.twig', array(
+			
+		));
     }
+	
+	public function asideAction()
+	{
+		$categories = $this->getDoctrine()->getManager()
+			->getRepository('AppBundle:Category')
+			->findAll();
+		
+		return $this->render('layout/web/aside.html.twig', array(
+			'categories' => $categories
+		));
+	}
 }

@@ -51,33 +51,57 @@
 															<i class="fa fa-circle hidden-lg hidden-md hidden-sm"></i>
 															<span class="hidden-xs">Brouillon</span>
 														</span>
+													{% elseif post.isPublished %}
+														<span class="label label-primary">
+															<i class="fa fa-circle hidden-lg hidden-md hidden-sm"></i>
+															<span class="hidden-xs">Publié</span>
+														</span>
 													{% else %}
 														<span class="label label-info">
 															<i class="fa fa-circle hidden-lg hidden-md hidden-sm"></i>
-															<span class="hidden-xs">Publié</span>
+															<span class="hidden-xs">Publication</span>
 														</span>
 													{% endif %}
 												</td>
 												<td class="hidden-sm hidden-xs">{% if post.category %}{{ post.category.label }}{% endif %}</td>
 												<td class="project-title">
-													<a>{{ post.title }}</a>
+													<a href="{{ path('app_post_view', {'id': post.id}) }}">{{ post.title }}</a>
 													<br>
-													<small>Mis à jour le 14.08.2014</small>
+													{% if post.isDraft %}
+														<small>Mis à jour le {{ post.updatedAt|date('d/m/Y') }}</small>
+													{% elseif post.isPublished %}
+														<small>Publié le {{ post.publishedAt|date('d/m/Y') }}</small>
+													{% else %}
+														<small>Publication le {{ post.publishedAt|date('d/m/Y') }}</small>
+													{% endif %}
 												</td>
 												<td class="hidden-xs hidden-md hidden-sm">{{ post.description | wordwrap(50) | truncate(100) | nl2br }}</td>
 												<td class="text-right">
-													<a class="btn btn-info btn-xs action_category_update">
-														<i class="fa fa-edit hidden-lg hidden-md hidden-sm"></i>
-														<span class="hidden-xs">Publier</span>
-													</a>
-													<a class="btn btn-info btn-xs action_category_update" href="{{ path('app_post_edit', {'id': post.id}) }}">
-														<i class="fa fa-edit hidden-lg hidden-md hidden-sm"></i>
-														<span class="hidden-xs">Editer</span>
-													</a>
-													<a class="btn btn-danger btn-xs action_category_delete">
-														<i class="fa fa-remove hidden-lg hidden-md hidden-sm"></i>
-														<span class="hidden-xs">Supprimer</span>
-													</a>
+													{% if post.isDraft %}
+														<a class="btn btn-primary btn-xs action_post_publish">
+															<i class="fa fa-edit hidden-lg hidden-md hidden-sm"></i>
+															<span class="hidden-xs">Publier</span>
+														</a>
+														<a class="btn btn-info btn-xs" href="{{ path('app_post_view', {'id': post.id}) }}">
+															<i class="fa fa-edit hidden-lg hidden-md hidden-sm"></i>
+															<span class="hidden-xs">Editer</span>
+														</a>
+														<a class="btn btn-danger btn-xs action_post_delete">
+															<i class="fa fa-remove hidden-lg hidden-md hidden-sm"></i>
+															<span class="hidden-xs">Supprimer</span>
+														</a>
+													{% else %}
+														<a class="btn btn-info btn-xs" href="{{ path('app_post_view', {'id': post.id}) }}">
+															<i class="fa fa-edit hidden-lg hidden-md hidden-sm"></i>
+															<span class="hidden-xs">Détails</span>
+														</a>
+														{% if not post.isPublished %}
+															<a class="btn btn-danger btn-xs action_post_stop_publish">
+																<i class="fa fa-remove hidden-lg hidden-md hidden-sm"></i>
+																<span class="hidden-xs">Annuler la publication</span>
+															</a>
+														{% endif %}
+													{% endif %}
 												</td>
 												</div>
 											</tr>
@@ -95,7 +119,39 @@
     </div>
 	<script>
 		$(function(){
-			
+			$('.action_post_publish').click(function(e){
+				e.preventDefault();
+				e.stopPropagation();
+				var id_post = $(this).closest('[data-id_post]').attr('data-id_post');
+				$.get('{{ path('app_post_modal_publish') }}', {id: id_post}).done(function(response){
+					$(response).modal();
+				});
+			});
+			$('.action_post_stop_publish').click(function(e){
+				e.preventDefault();
+				e.stopPropagation();
+				var $object = $(this);
+				var id_post = $(this).closest('[data-id_post]').attr('data-id_post');
+
+				$.ajax({
+					type: 'post',
+					dataType: 'json',
+					url: '{{ path('app_post_publish_stop') }}',
+					data:{
+						id: id_post
+					},
+					success: function(response){
+						if(!response.valid){
+							swal('Oups !', 'Une erreur est survenue.', 'error');
+							return;
+						}
+						location.reload();
+					},
+					error: function(){
+						swal('Oups !', 'Une erreur est survenue.', 'error');
+					}
+				});
+			});
 		});
 	</script>
 {% endblock %}

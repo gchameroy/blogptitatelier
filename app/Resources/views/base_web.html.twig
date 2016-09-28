@@ -14,8 +14,8 @@
     </head>
 
     <body class="home-1">
-		{% include 'layout/web/header.html.twig' only %}
-		{% include 'layout/web/slider.html.twig' %}
+		{{ render(controller("AppBundle:Web:header")) }}
+		{{ render(controller("AppBundle:Web:slider")) }}
 
 		<div id="main-content" class="main-content-area">
 			<div class="container">
@@ -34,7 +34,7 @@
 			</div>
 		</div>
 
-		{% include 'layout/web/footer.html.twig' only %}
+		{{ render(controller("AppBundle:Web:footer")) }}
 
 		{% include 'layout/blogging/main_js.html.twig' only %}
     </body>

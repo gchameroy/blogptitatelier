@@ -33,4 +33,37 @@ class WebController extends Controller
 			'categories' => $categories
 		));
 	}
+	
+	public function headerAction()
+	{
+		$setting = $this->getDoctrine()->getManager()
+			->getRepository('AppBundle:Setting')
+			->findAll()[0];
+
+		return $this->render('layout/web/header.html.twig', array(
+			'setting' => $setting
+		));
+	}
+	
+	public function sliderAction()
+	{
+		$setting = $this->getDoctrine()->getManager()
+			->getRepository('AppBundle:Setting')
+			->findAll()[0];
+
+		return $this->render('layout/web/slider.html.twig', array(
+			'setting' => $setting
+		));
+	}
+	
+	public function footerAction()
+	{
+		$setting = $this->getDoctrine()->getManager()
+			->getRepository('AppBundle:Setting')
+			->findAll()[0];
+
+		return $this->render('layout/web/footer.html.twig', array(
+			'setting' => $setting
+		));
+	}
 }

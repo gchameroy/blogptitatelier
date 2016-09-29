@@ -53,16 +53,18 @@
 												<div class="col-xs-7 col-sm-7 col-md-5">
 													<a>{{ category.label }}</a>
 												</div>
-												<div class="col-md-2 hidden-sm hidden-xs text-center">[nb] articles</div>
+												<div class="col-md-2 hidden-sm hidden-xs text-center">{{ category.posts|length }} articles</div>
 												<div class="col-md-4 text-right">
 													<a class="btn btn-info btn-xs action_category_update">
 														<i class="fa fa-edit hidden-lg hidden-md hidden-sm"></i>
 														<span class="hidden-xs">Renommer</span>
 													</a>
-													<a class="btn btn-danger btn-xs action_category_delete">
-														<i class="fa fa-remove hidden-lg hidden-md hidden-sm"></i>
-														<span class="hidden-xs">Supprimer</span>
-													</a>
+													{% if category.posts|length == 0 %}
+														<a class="btn btn-danger btn-xs action_category_delete">
+															<i class="fa fa-remove hidden-lg hidden-md hidden-sm"></i>
+															<span class="hidden-xs">Supprimer</span>
+														</a>
+													{% endif %}
 												</div>
 											</div>
 										</li>

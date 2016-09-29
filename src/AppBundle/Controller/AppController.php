@@ -27,8 +27,23 @@ class AppController extends Controller
 			->getRepository('AppBundle:Setting')
 			->findAll()[0];
 		
+		$socials = $this->getDoctrine()->getManager()
+			->getRepository('AppBundle:Social')
+			->findBySetting($setting);
+		
+		$ids = array();
+		foreach($socials As $social){
+			$ids[] = $social->getSocialType()->getId();
+		}
+		
+		$socialTypes = $this->getDoctrine()->getManager()
+			->getRepository('AppBundle:SocialType')
+			->findAllWithoutIds($ids);
+		
         return $this->render('app/setting/index.html.twig', array(
-			'setting' => $setting
+			'setting' => $setting,
+			'socials' => $socials,
+			'socialTypes' => $socialTypes
 		));
     }
 
@@ -554,6 +569,53 @@ class AppController extends Controller
 			->setPublishedAt(null);
 
 		$em->persist($post);
+		$em->flush();
+
+        $response = new JsonResponse();
+		return $response->setData(array(
+			'valid' => true
+		));
+    }
+	
+	/**
+     * @Route("/manager/settings/social/edit", name="app_setting_social_edit")
+     */
+    public function postSettingsSocialEditAction(Request $request)
+    {
+		$url = $request->request->get('url');
+		$em = $this->getDoctrine()->getManager();
+		
+		$setting = $em
+			->getRepository('AppBundle:Setting')
+			->findAll()[0];
+
+		$socialType = $em
+			->getRepository('AppBundle:SocialType')
+			->findOneById($request->request->get('id_socialType'));
+		
+		$social = $em
+			->getRepository('AppBundle:Social')
+			->findOneBy(
+				array(
+					'setting' => $setting,
+					'socialType' => $socialType
+				)
+			);
+		
+		if(!$social){
+			$social = $this->get('app.social.factory')->create()
+				->setSetting($setting)
+				->setSocialType($socialType);
+		}
+
+		if($url == ''){
+			$em->remove($social);
+		}
+		else{
+			$social->setUrl($url);
+			$em->persist($social);
+		}
+		
 		$em->flush();
 
         $response = new JsonResponse();

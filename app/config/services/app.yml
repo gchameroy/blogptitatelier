@@ -17,3 +17,7 @@ services:
     class: AppBundle\Entity\ModelFactory
   app.modelType.factory:
     class: AppBundle\Entity\ModelTypeFactory
+  app.social.factory:
+    class: AppBundle\Entity\SocialFactory
+  app.socialType.factory:
+    class: AppBundle\Entity\SocialTypeFactory

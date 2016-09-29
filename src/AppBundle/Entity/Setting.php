@@ -44,6 +44,11 @@ class Setting
 	* @ORM\OneToMany(targetEntity="Model", mappedBy="setting")
 	*/
 	private $models;
+	
+	/**
+	* @ORM\OneToMany(targetEntity="Social", mappedBy="setting")
+	*/
+	private $socials;
 
 
     /**
@@ -167,5 +172,39 @@ class Setting
     public function getModels()
     {
         return $this->models;
+    }
+
+    /**
+     * Add social
+     *
+     * @param \AppBundle\Entity\Social $social
+     *
+     * @return Setting
+     */
+    public function addSocial(Social $social)
+    {
+        $this->socials[] = $social;
+
+        return $this;
+    }
+
+    /**
+     * Remove social
+     *
+     * @param \AppBundle\Entity\Social $social
+     */
+    public function removeSocial(Social $social)
+    {
+        $this->socials->removeElement($social);
+    }
+
+    /**
+     * Get socials
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getSocials()
+    {
+        return $this->socials;
     }
 }

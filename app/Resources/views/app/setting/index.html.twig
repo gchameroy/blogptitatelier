@@ -32,6 +32,7 @@
 							<li class="active"><a data-toggle="tab" href="#tab-header">Logo & Bannière</a></li>
 							<li><a data-toggle="tab" href="#tab-about">A propos</a></li>
 							<li><a data-toggle="tab" href="#tab-model">Maquette</a></li>
+							<li><a data-toggle="tab" href="#tab-social">Réseaux sociaux</a></li>
 						</ul>
 						<div class="tab-content ">
 							<div id="tab-header" class="tab-pane active">
@@ -143,6 +144,40 @@
 									</form>
 								</div>
 							</div>
+							<div id="tab-social" class="tab-pane">
+								<div class="panel-body">
+									<div class="row col-xs-12 form-horizontal" name="setting-social">
+										{% for social in socials %}
+											<div class="form-group" data-id_SocialType="{{ social.socialType.id }}" >
+												<label class="col-sm-2 control-label">{{ social.socialType.label }}</label>
+												<div class="col-sm-8">
+													<input name="url" data-value="{{ social.url }}" type="text" class="form-control" placeholder="https://" value="{{ social.url }}">
+												</div>
+												<div class="col-sm-2">
+													<p class="text-right">
+														<a name="validate" class="btn btn-primary hidden">Valider</a>
+														<a name="cancel" class="btn btn-default hidden">Annuler</a>
+													</p>
+												</div>
+											</div>
+										{% endfor %}
+										{% for socialType in socialTypes %}
+											<div class="form-group" data-id_SocialType="{{ socialType.id }}" >
+												<label class="col-sm-2 control-label">{{ socialType.label }}</label>
+												<div class="col-sm-8">
+													<input name="url" data-value="" type="text" class="form-control" placeholder="https://" value="">
+												</div>
+												<div class="col-sm-2">
+													<p class="text-right">
+														<a name="validate" class="btn btn-primary hidden">Valider</a>
+														<a name="cancel" class="btn btn-default hidden">Annuler</a>
+													</p>
+												</div>
+											</div>
+										{% endfor %}
+									</form>
+								</div>
+							</div>
 						</div>
 					</div>
 				</div>
@@ -207,6 +242,44 @@
 						swal('Oups !', 'Une erreur est survenue.', 'error');
 					}
 				});
+			});
+			
+			$('div[name="setting-social"] input[name="url"]').on('input', function(){
+				$objet = $(this);
+				$objet.closest('.form-group').find('a[name="validate"]').removeClass('hidden');
+				$objet.closest('.form-group').find('a[name="cancel"]').removeClass('hidden');
+			});
+			$('div[name="setting-social"] a[name="validate"]').click(function(){
+				$group = $(this).closest('.form-group');
+				var id_socialType = $group.attr('data-id_socialType');
+				var url = $group.find('input[name="url"]').val();
+				$.ajax({
+					type: 'post',
+					dataType: 'json',
+					url: '{{ path('app_setting_social_edit') }}',
+					data:{
+						id_socialType: id_socialType,
+						url: url
+					},
+					success: function(response){
+						if(!response.valid){
+							swal('Oups !', 'Une erreur est survenue.', 'error');
+							return;
+						}
+						$group.find('input[name="url"]').attr('data-value', url);
+						$group.find('a[name="validate"]').addClass('hidden');
+						$group.find('a[name="cancel"]').addClass('hidden');
+					},
+					error: function(){
+						swal('Oups !', 'Une erreur est survenue.', 'error');
+					}
+				});
+			});
+			$('div[name="setting-social"] a[name="cancel"]').click(function(){
+				$objet = $(this);
+				$objet.closest('.form-group').find('input[name="url"]').val($objet.closest('.form-group').find('input[name="url"]').attr('data-value'));
+				$objet.closest('.form-group').find('a[name="validate"]').addClass('hidden');
+				$objet.closest('.form-group').find('a[name="cancel"]').addClass('hidden');
 			});
 		});
 	</script>

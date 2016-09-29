@@ -27,7 +27,7 @@ class WebController extends Controller
 					'modelType' => 1
 				)
 			);
-		dump($modelRecent);
+
 		$posts = new \stdClass;
 		$posts->recent = $em
 			->getRepository('AppBundle:Post')
@@ -49,9 +49,14 @@ class WebController extends Controller
 			->getRepository('AppBundle:Category')
 			->findAll();
 		
+		$socials = $this->getDoctrine()->getManager()
+			->getRepository('AppBundle:Social')
+			->findBySetting($setting);
+		
 		return $this->render('layout/web/aside.html.twig', array(
 			'setting' => $setting,
-			'categories' => $categories
+			'categories' => $categories,
+			'socials' => $socials
 		));
 	}
 	
@@ -61,8 +66,13 @@ class WebController extends Controller
 			->getRepository('AppBundle:Setting')
 			->findAll()[0];
 
+		$socials = $this->getDoctrine()->getManager()
+			->getRepository('AppBundle:Social')
+			->findBySetting($setting);
+
 		return $this->render('layout/web/header.html.twig', array(
-			'setting' => $setting
+			'setting' => $setting,
+			'socials' => $socials
 		));
 	}
 	

@@ -28,12 +28,14 @@ class LoadPost extends AbstractFixture implements OrderedFixtureInterface, Conta
     public function load(ObjectManager $manager)
     {
 		$titles = ['Recycler ses vieilles coques de portable', 'Faire des pierres turquoises en fimo', 'Customiser les moules fait maison', 'Craft Room Tour - PtitAtelier'];
+		$publishedAt = new \DateTime;
 		
 		$i = 1;
 		foreach($titles As $title){
 			$post = $this->container->get('app.post.factory')->create()
 				->setTitle($title)
-				->setCategory($this->getReference('category-'.rand(1,3)));
+				->setCategory($this->getReference('category-'.rand(1,3)))
+				->setPublishedAt($publishedAt);
 			$manager->persist($post);
 			$manager->flush();
 

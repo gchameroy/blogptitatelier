@@ -5,11 +5,13 @@
 				<div class="col-md-6 col-sm-6 col-xs-6">
 					<div class="header-top-left">
 						<ul class="social-icons">
-							<li><a href="#"><i class="fa fa-facebook"></i></a></li>
-							<li><a href="#"><i class="fa fa-twitter"></i></a></li>
-							<li><a href="#"><i class="fa fa-google-plus"></i></a></li>
-							<li><a href="#"><i class="fa fa-pinterest"></i></a></li>
-							<li><a href="#"><i class="fa fa-soundcloud"></i></a></li>
+							{% for social in socials %}
+								<li>
+									<a href="{{ social.url }}">
+										<i class="fa fa-{{ social.socialType.icon }}"></i>
+									</a>
+								</li>
+							{% endfor %}
 						</ul>
 					</div>
 				</div>

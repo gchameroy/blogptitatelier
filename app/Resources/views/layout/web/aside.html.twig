@@ -26,60 +26,14 @@
 	<h6 class="widget-title">Suivez moi</h6>
 	<div class="sidebar-content">
 		<div class="social-links-area">
-			<div class="single-icon">
-				<a href="#">
-					<i class="fa fa-facebook"></i>
-					<p>Facebook</p>
-				</a>
-			</div>
-			<div class="single-icon">
-				<a href="#">
-					<i class="fa fa-twitter"></i>
-					<p>Twitter</p>
-				</a>
-			</div>
-			<div class="single-icon">
-				<a href="#">
-					<i class="fa fa-google-plus"></i>
-					<p>Google Plus</p>
-				</a>
-			</div>
-			<div class="single-icon">
-				<a href="#">
-					<i class="fa fa-pinterest"></i>
-					<p>Pinterest</p>
-				</a>
-			</div>
-			<div class="single-icon">
-				<a href="#">
-					<i class="fa fa-rss"></i>
-					<p>RSS</p>
-				</a>
-			</div>
-			<div class="single-icon">
-				<a href="#">
-					<i class="fa fa-dribbble"></i>
-					<p>Dribbble</p>
-				</a>
-			</div>
-			<div class="single-icon">
-				<a href="#">
-					<i class="fa fa-instagram"></i>
-					<p>Instagram</p>
-				</a>
-			</div>
-			<div class="single-icon">
-				<a href="#">
-					<i class="fa fa-heart"></i>
-					<p>Bloginlove</p>
-				</a>
-			</div>
-			<div class="single-icon">
-				<a href="#">
-					<i class="fa fa-envelope-o"></i>
-					<p>Email</p>
-				</a>
-			</div>
+			{% for social in socials %}
+				<div class="single-icon">
+					<a href="{{ social.url }}" target="_blank">
+						<i class="fa fa-{{ social.socialType.icon }}"></i>
+						<p>{{ social.socialType.label }}</p>
+					</a>
+				</div>
+			{% endfor %}
 		</div>
 	</div>
 </div>

@@ -22,4 +22,17 @@ class PostRepository extends \Doctrine\ORM\EntityRepository
 			->setMaxResults(4)
 			->getQuery()->getResult();
 	}
+	
+	public function findByPage($page)
+	{
+		$maxResults = 10;
+		$first = ($page - 1) * $maxResults;
+
+		return $this->createQueryBuilder('p')
+			->orderBy('p.publishedAt', 'DESC')
+			->addOrderBy('p.id', 'DESC')
+			// ->setFirstResult($first)
+			// ->setMaxResults($maxResults)
+			->getQuery()->getResult();
+	}
 }

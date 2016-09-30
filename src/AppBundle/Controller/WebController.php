@@ -117,4 +117,21 @@ class WebController extends Controller
 			'setting' => $setting
 		));
     }
+	
+	/**
+     * @Route("/articles/{page}", name="web_post_index", requirements={"page": "\d+"})
+     */
+    public function postIndexAction($page = 1)
+    {
+		$em = $this->getDoctrine()->getManager();
+
+		$posts = $em
+			->getRepository('AppBundle:Post')
+			->findByPage($page);
+
+        return $this->render('web/post/index.html.twig', array(
+			'posts' => $posts,
+			'page' => $page
+		));
+    }
 }

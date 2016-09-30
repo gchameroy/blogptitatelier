@@ -19,8 +19,10 @@
 					<div class="header-top-right fix">
 						<div class="header-links">
 							<ul>
+								{#
 								<li><a href="#">Connexion</a></li>
 								<li><a href="#">Inscription</a></li>
+								#}
 							</ul>
 						</div>
 					</div>
@@ -33,7 +35,7 @@
 			<div class="row">
 				<div class="col-md-3">
 					<div class="logo">
-						<a href="index-2.html">
+						<a href="{{ path('web_index') }}">
 							<img src="{{ asset(logo_directory ~ '/' ~ setting.header.logo) }}" alt="Logo">
 						</a>
 					</div>
@@ -42,12 +44,14 @@
 					<div class="main-menu">
 						<nav>
 							<ul class="main-nav navbar-right">
-								<li class="active"><a href="#">Accueil</a></li>
+								<li class="active"><a href="{{ path('web_index') }}">Accueil</a></li>
+								{#
 								<li><a href="#">Tutoriels</a></li>
 								<li><a href="#">Revues</a></li>
 								<li><a href="#">Tests</a></li>
 								<li><a href="#">Photos</a></li>
-								<li><a href="#">Boutique</a></li>
+								#}
+								<li><a href="https://http://ptit-atelier.fr/" target="_blank">Boutique</a></li>
 							</ul>
 						</nav>
 					</div>

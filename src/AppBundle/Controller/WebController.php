@@ -4,14 +4,13 @@ namespace AppBundle\Controller;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\HttpFoundation\Request;
 
 class WebController extends Controller
 {
     /**
      * @Route("/", name="web_index")
      */
-    public function indexAction(Request $request)
+    public function indexAction()
     {
 		$em = $this->getDoctrine()->getManager();
 		
@@ -97,4 +96,25 @@ class WebController extends Controller
 			'setting' => $setting
 		));
 	}
+
+    /**
+     * @Route("/articles/{slug}", name="web_post_view")
+     */
+    public function postViewAction($slug)
+    {
+		$em = $this->getDoctrine()->getManager();
+
+		$setting = $em
+			->getRepository('AppBundle:Setting')
+			->findAll()[0];
+
+		$post = $em
+			->getRepository('AppBundle:Post')
+			->findOneBySlug($slug);
+
+        return $this->render('web/post/view.html.twig', array(
+			'post' => $post,
+			'setting' => $setting
+		));
+    }
 }

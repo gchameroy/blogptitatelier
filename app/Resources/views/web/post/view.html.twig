@@ -1,0 +1,88 @@
+{% extends 'base_web.html.twig' %}
+
+{% block slider %}
+	<div class="container">
+		<div class="row">
+			<div class="col-md-12">
+				<img src="{{ asset(post_directory ~ '/' ~ post.image) }}" class="img-responsive">
+			</div>
+		</div>
+	</div>
+{% endblock %}
+
+{% block article %}
+	<div class="single-blog-details">
+		<span class="tag">{{ post.category.label }}</span>
+		<h1 class="post-title">{{ post.title }}</h1>
+		<p class="post-date">Publié le {{ post.publishedAt|date('d/m/Y') }}</p>
+		<div class="post-long-desc">{{ post.content|raw }}</div>
+		{#
+		<div class="single-blog-bottom fix">
+			<div class="post-social-links pull-left">
+				<p>
+					<span class="lbl">Partagez sur&nbsp;&nbsp;-</span>
+					<span>
+						<a href="#"><i class="fa fa-facebook"></i></a>
+						<a href="#"><i class="fa fa-twitter"></i></a>
+						<a href="#"><i class="fa fa-google-plus"></i></a>
+						<a href="#"><i class="fa fa-pinterest"></i></a>
+					</span>
+				</p>
+			</div>
+			<div class="post-tags pull-right">
+				<p>
+					<span class="lbl">Tags&nbsp;&nbsp;-</span>
+					<span>
+						<a href="#">sports,</a>
+						<a href="#">football,</a>
+						<a href="#">soccer</a>
+					</span>
+				</p>
+			</div>
+		</div>
+		#}
+		<div class="about-author fix">
+			<h6 class="title">A propos de l'auteur</h6>
+			<div class="author-img">
+				<img class="img-circle" src="{{ asset(avatar_directory ~ '/' ~ setting.about.avatar) }}" alt="{{ setting.about.label }}" />
+			</div>
+			<div class="comment-info">
+				<p class="author-name">
+					<a>{{ setting.about.label }}</a>
+				</p>
+			</div>
+			<div class="author-info">
+				<p>{{ setting.about.description }}</p>
+			</div>
+		</div>
+		{#
+		<div class="comments-area">
+			<h6 class="title">[nb] commentaires</h6>
+			<ul class="comments-list">
+				<li class="single-comment">
+					<div class="comment-box">
+						<div class="comment-author">
+							<img src="{{ asset('blogging/img/comments/1.jpg') }}" alt="Comment Author" />
+						</div>
+						<div class="comment-info">
+							<p class="author-name"><a href="#">Laurel Lance</a></p>
+							<span class="comment-date">July 11, 2015</span>
+							<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do 
+							eiusmod temp incididunt ut labore et dolore magna aliqua. Ut enim ad 
+							minim veniam nostrud exercitation ullamco laboris nisi ut commodo 
+							consequat.</p>
+						</div>
+					</div>
+				</li>
+			</ul>
+		</div>
+		<div class="comment-form-area">
+			<p>Ajouter un commentaire</p>
+			<form action="#" method="post">
+				<textarea placeholder="Message"></textarea>
+				<button type="submit" class="submit-btn">Envoyer</button>
+			</form>
+		</div>
+		#}
+	</div>
+{% endblock %}

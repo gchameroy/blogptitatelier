@@ -12,23 +12,27 @@ class PostRepository extends \Doctrine\ORM\EntityRepository
 {
 	public function findRecents()
 	{
-		$now = \date('Y-m-d H:i:s');
+		$now = new \DateTime();
 		return $this->createQueryBuilder('p')
 			->where('p.publishedAt IS NOT NULL')
 			->andWhere('p.publishedAt <= :now')
-				->setParameter('now', $now)
+				->setParameter('now', $now->format('Y-m-d H:i:s'))
 			->orderBy('p.publishedAt', 'DESC')
 			->addOrderBy('p.id', 'DESC')
 			->setMaxResults(4)
 			->getQuery()->getResult();
 	}
 	
-	public function findByPage($page)
+	public function findByPage($page = 1, $maxResults = 10)
 	{
 		$maxResults = 10;
 		$first = ($page - 1) * $maxResults;
+		
+		$now = new \DateTime();
 
 		return $this->createQueryBuilder('p')
+			->where('p.publishedAt >= :now')
+				->setParameter('now', $now->format('Y-m-d H:i:s'))
 			->orderBy('p.publishedAt', 'DESC')
 			->addOrderBy('p.id', 'DESC')
 			// ->setFirstResult($first)

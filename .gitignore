@@ -32,3 +32,9 @@
 !/web/asset/web/img/logo/.gitkeep
 /web/asset/web/img/banner
 !/web/asset/web/img/banner/.gitkeep
+/web/asset/web/img/post
+!/web/asset/web/img/post/.gitkeep
+
+## Imports ##
+/import
+!/import/.gitkeep

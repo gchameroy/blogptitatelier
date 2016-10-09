@@ -1,7 +1,8 @@
 <?php
 
-namespace AppBundle;
+namespace AppBundle\Services;
 
+use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Intervention\Image\ImageManagerStatic as Image;
 
@@ -47,7 +48,14 @@ class FileUploader
 		return $fileName;
 	}
 	
-    private function _uploadFile(UploadedFile $file, $targetDir)
+	public function importPostImage($fileName, $targetDir)
+	{
+		$file = new File($fileName);
+		$fileName = $this->_uploadFile($file, $targetDir);
+		return $fileName;
+	}
+	
+    private function _uploadFile($file, $targetDir)
     {
 		do{
 			$fileName = md5(random_bytes(10)) . '.' . $file->guessExtension();

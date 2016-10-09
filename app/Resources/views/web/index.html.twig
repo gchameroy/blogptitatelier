@@ -5,32 +5,34 @@
 		<h2 class="section-title">Articles récents</h2>
 		<div class="row">
 			{% for column in modelRecent.columns %}
-				<div class="col-md-{{ column }} col-sm-{{ column }}">
-					<div class="single-popular-post">
-						<div class="post-img">
-							<a href="{{ path('web_post_view', {'slug': posts.recent[loop.index0].slug}) }}"><img src="{{ asset(post_directory ~ '/' ~ posts.recent[loop.index0].image) }}" alt="{{ posts.recent[loop.index0].category.label }}"></a>
-							<a href="#" class="post-tag">{{ posts.recent[loop.index0].category.label }}</a>
-							<div class="post-info">
-								<p>
-									<span class="post-date"><a href="#">{{ posts.recent[loop.index0].publishedAt|date('d/m/Y') }}</a></span>
-									<span class="post-comments"><a href="#">131 commentaires</a></span>
-									<span class="post-social-links">
-										<a href="#" data-toggle="tooltip" data-placement="bottom" title="Likes"><i class="fa fa-heart"></i> 557</a>
-									</span>
-								</p>
+				{% if posts.recent[loop.index0] is defined %}
+					<div class="col-md-{{ column }} col-sm-{{ column }}">
+						<div class="single-popular-post">
+							<div class="post-img">
+								<a href="{{ path('web_post_view', {'slug': posts.recent[loop.index0].slug}) }}"><img src="{{ asset(post_directory ~ '/' ~ posts.recent[loop.index0].image) }}" alt="{{ posts.recent[loop.index0].category.label }}"></a>
+								<a href="#" class="post-tag">{{ posts.recent[loop.index0].category.label }}</a>
+								<div class="post-info">
+									<p>
+										<span class="post-date"><a href="#">{{ posts.recent[loop.index0].publishedAt|date('d/m/Y') }}</a></span>
+										<span class="post-comments"><a href="#">131 commentaires</a></span>
+										<span class="post-social-links">
+											<a href="#" data-toggle="tooltip" data-placement="bottom" title="Likes"><i class="fa fa-heart"></i> 557</a>
+										</span>
+									</p>
+								</div>
+							</div>
+							<div class="post-content">
+								<h6 class="post-title"><a href="{{ path('web_post_view', {'slug': posts.recent[loop.index0].slug}) }}">{{ posts.recent[loop.index0].title }}</a></h6>
+								{% if column == 6 %}
+									<p class="post-short-desc">{{ posts.recent[loop.index0].description|truncate(200) }}</p>
+								{% else %}
+									<p class="post-short-desc">{{ posts.recent[loop.index0].description|truncate(450) }}</p>
+								{% endif %}
+								<a href="{{ path('web_post_view', {'slug': posts.recent[loop.index0].slug}) }}" class="continue-link">Lire la suite</a>
 							</div>
 						</div>
-						<div class="post-content">
-							<h6 class="post-title"><a href="{{ path('web_post_view', {'slug': posts.recent[loop.index0].slug}) }}">{{ posts.recent[loop.index0].title }}</a></h6>
-							{% if column == 6 %}
-								<p class="post-short-desc">{{ posts.recent[loop.index0].description|truncate(200) }}</p>
-							{% else %}
-								<p class="post-short-desc">{{ posts.recent[loop.index0].description|truncate(450) }}</p>
-							{% endif %}
-							<a href="{{ path('web_post_view', {'slug': posts.recent[loop.index0].slug}) }}" class="continue-link">Lire la suite</a>
-						</div>
 					</div>
-				</div>
+				{% endif %}
 			{% endfor %}
 		</div>
 	</div>

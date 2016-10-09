@@ -1,12 +1,11 @@
 services:
+  # Factory
   app.user.factory:
     class: AppBundle\Entity\UserFactory
   app.about.factory:
     class: AppBundle\Entity\AboutFactory
   app.setting.factory:
     class: AppBundle\Entity\SettingFactory
-  app.photo_uploader:
-    class: AppBundle\FileUploader
   app.header.factory:
     class: AppBundle\Entity\HeaderFactory
   app.category.factory:
@@ -21,3 +20,11 @@ services:
     class: AppBundle\Entity\SocialFactory
   app.socialType.factory:
     class: AppBundle\Entity\SocialTypeFactory
+
+  # App
+  app.photo_uploader:
+    class: AppBundle\Services\FileUploader
+
+  # Import
+  import.csvtoarray:
+    class: AppBundle\Services\ConvertCsvToArray

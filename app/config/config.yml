@@ -8,8 +8,8 @@ imports:
 # http://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
     locale: fr
-    avatar_directory: '%kernel.root_dir%/../web/asset/web/img/avatar'
     # Image directories
+    avatar_directory: '%kernel.root_dir%/../web/asset/web/img/avatar'
     web_avatar_directory: 'asset/web/img/avatar'
     favicon_directory: '%kernel.root_dir%/../web/asset/web/img/favicon'
     web_favicon_directory: 'asset/web/img/favicon'
@@ -19,6 +19,8 @@ parameters:
     web_banner_directory: 'asset/web/img/banner'
     post_directory: '%kernel.root_dir%/../web/asset/web/img/post'
     web_post_directory: 'asset/web/img/post'
+    # Import directory
+    import_directory: '%kernel.root_dir%/../import'
 
 framework:
     #esi:             ~

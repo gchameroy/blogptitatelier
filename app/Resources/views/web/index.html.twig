@@ -22,11 +22,12 @@
 								</div>
 							</div>
 							<div class="post-content">
-								<h6 class="post-title"><a href="{{ path('web_post_view', {'slug': posts.recent[loop.index0].slug}) }}">{{ posts.recent[loop.index0].title }}</a></h6>
 								{% if column == 6 %}
-									<p class="post-short-desc">{{ posts.recent[loop.index0].description|truncate(200) }}</p>
+									<h6 class="post-title"><a href="{{ path('web_post_view', {'slug': posts.recent[loop.index0].slug}) }}">{{ posts.recent[loop.index0].title|truncate(35) }}</a></h6>
+									<p class="post-short-desc">{{ posts.recent[loop.index0].content|striptags|truncate(200) }}</p>
 								{% else %}
-									<p class="post-short-desc">{{ posts.recent[loop.index0].description|truncate(450) }}</p>
+									<h6 class="post-title"><a href="{{ path('web_post_view', {'slug': posts.recent[loop.index0].slug}) }}">{{ posts.recent[loop.index0].title|truncate(80) }}</a></h6>
+									<p class="post-short-desc">{{ posts.recent[loop.index0].content|striptags|truncate(450) }}</p>
 								{% endif %}
 								<a href="{{ path('web_post_view', {'slug': posts.recent[loop.index0].slug}) }}" class="continue-link">Lire la suite</a>
 							</div>

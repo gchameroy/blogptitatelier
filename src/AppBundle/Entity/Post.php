@@ -45,13 +45,6 @@ class Post
 	/**
      * @var string
      *
-     * @ORM\Column(name="description", type="text", nullable=true)
-     */
-    private $description;
-	
-	/**
-     * @var string
-     *
      * @ORM\Column(name="content", type="text", nullable=true)
      */
     private $content;
@@ -286,30 +279,6 @@ class Post
     public function getSlug()
     {
         return $this->slug;
-    }
-	
-    /**
-     * Get description
-     *
-     * @return string
-     */
-    public function getDescription()
-    {
-        return $this->description;
-    }
-	
-    /**
-     * Set description
-     *
-     * @param string $description
-     *
-     * @return Post
-     */
-    public function setDescription($description)
-    {
-        $this->description = $description;
-
-        return $this;
     }
 
     /**

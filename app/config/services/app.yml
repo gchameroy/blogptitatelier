@@ -1,0 +1,30 @@
+services:
+  # Factory
+  app.user.factory:
+    class: AppBundle\Entity\UserFactory
+  app.about.factory:
+    class: AppBundle\Entity\AboutFactory
+  app.setting.factory:
+    class: AppBundle\Entity\SettingFactory
+  app.header.factory:
+    class: AppBundle\Entity\HeaderFactory
+  app.category.factory:
+    class: AppBundle\Entity\CategoryFactory
+  app.post.factory:
+    class: AppBundle\Entity\PostFactory
+  app.model.factory:
+    class: AppBundle\Entity\ModelFactory
+  app.modelType.factory:
+    class: AppBundle\Entity\ModelTypeFactory
+  app.social.factory:
+    class: AppBundle\Entity\SocialFactory
+  app.socialType.factory:
+    class: AppBundle\Entity\SocialTypeFactory
+
+  # App
+  app.photo_uploader:
+    class: AppBundle\Services\FileUploader
+
+  # Import
+  import.csvtoarray:
+    class: AppBundle\Services\ConvertCsvToArray

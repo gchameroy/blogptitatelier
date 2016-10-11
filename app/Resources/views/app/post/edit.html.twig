@@ -1,0 +1,143 @@
+{% extends 'base_app.html.twig' %}
+
+{% block title 'Manager - Ajouter un article' %}
+
+{% block nav %}
+    <div class="row wrapper border-bottom white-bg page-heading">
+        <div class="col-lg-10">
+            <h2>{{ post.title }}</h2>
+            <ol class="breadcrumb">
+                <li>
+                    <a href="{{ path('app_index') }}">Accueil</a>
+                </li>
+                <li>
+					<a href="{{ path('app_post_index') }}">Articles</a>
+				</li>
+				<li class="active">
+                    <strong>{{ post.title }}</strong>
+                </li>
+            </ol>
+        </div>
+        <div class="col-lg-2">
+            <div class="title-action">
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block content %}
+    <div class="wrapper wrapper-content">
+		<div class="row">
+            <div class="col-lg-6 col-lg-offset-3">
+				<div class="ibox">
+                    <div class="ibox-content">
+						<form name="post-image-update" action="{{ path('app_post_image', {'id': post.id}) }}" method="post" enctype="multipart/form-data">
+							<a for="image">
+								<img src="{{ asset(post_directory ~ '/' ~ post.image) }}" class="img-responsive">
+							</a>
+							<input type="file" name="image" onchange="this.form.submit()" class="hidden">
+						</form>
+						<br><br>
+						<p class="text-center">
+							<select name="category">
+								<option value="0" {% if not post.category %}selected{% endif %} disabled>Choisir la catégorie</option>
+								{% for category in categories %}
+									<option value="{{ category.id }}" {% if post.category and post.category.id == category.id %}selected{% endif %}>{{ category.label }}</option>
+								{% endfor %}
+							</select>
+						</p>
+						<h1 class="text-center">
+							<a name="title" data-type="text" data-pk="{{ post.id }}" data-url="{{ path('app_post_title') }}" data-title="Titre de l'article">{{ post.title }}</a>
+						</h1>
+						<p class="text-center"><small><em>Non publié</em></small></p>
+						<br><br>
+						<p>
+							<a name="description" data-type="textarea" data-pk="{{ post.id }}" data-url="{{ path('app_post_description') }}" data-title="Description de l'article">{{ post.description }}</a>
+						</p>
+						<br><br>
+						<p>
+							<a name="edit_content" class="btn btn-info">Editer le contenu supplémentaire</a>
+							<a name="save_content" class="btn btn-info hidden">Sauvegarder</a>
+						</p>
+						<div name="content" class="css-blogging">{{ post.content|raw }}</div>
+                    </div>
+                </div>
+			</div>
+        </div>
+    </div>
+	<script>
+		$(function(){
+			$.fn.editable.defaults.mode = 'inline';
+			$('form[name="post-image-update"] a[for="image"]').click(function(){
+				$(this).closest('form').find('input[name="image"]').click();
+			});
+			$('[name="category"]').change(function(){
+				$objet = $(this);
+				$.ajax({
+					type: 'POST',
+					dataType: 'json',
+					url: '{{ path('app_post_category', {'id': post.id}) }}',
+					data: {
+						category: $objet.val()
+					},
+					success: function(response){
+						if(!response.valid){
+							swal('Oups !', 'Une erreur est survenue.', 'error');
+							return;
+						}
+					},
+					error: function(){
+						swal('Oups !', 'Une erreur est survenue.', 'error');
+					}
+				});
+			});
+			$('[name="title"]').editable();
+			$('[name="description"]').editable();
+
+			
+			
+			$('[name="edit_content"]').click(function(){
+				$('[name="edit_content"]').addClass('hidden');
+				$('[name="save_content"]').removeClass('hidden');
+				$('[name="content"]').summernote({
+					lang: 'fr-FR',
+					placeholder: ['Contenu supplémentaire (facultatif)'],
+					toolbar: [
+						['para', ['style']],
+						['style', ['bold', 'italic', 'underline', 'clear']],
+						['color', ['color']],
+						['para', ['paragraph', 'ul', 'ol']],
+						['insert', ['table']],
+						['insert', ['picture', 'link', 'video']],
+					],
+					focus: true
+				});
+			});
+
+			$('[name="save_content"]').click(function(){
+				$('[name="save_content"]').addClass('hidden');
+				var content = $('[name="content"]').summernote('code');
+				$.ajax({
+					type: 'POST',
+					dataType: 'json',
+					url: '{{ path('app_post_content', {'id': post.id}) }}',
+					data:{
+						content: content
+					},
+					success: function(response){
+						if(!response.valid){
+							swal('Oups !', 'Une erreur est survenue.', 'error');
+							$('[name="save_content"]').removeClass('hidden');
+							return;
+						}
+						$('[name="edit_content"]').removeClass('hidden');
+						$('[name="content"]').summernote('destroy');
+					},
+					error: function(){
+						swal('Oups !', 'Une erreur est survenue.', 'error');
+					}
+				});
+			});
+		});
+	</script>
+{% endblock %}

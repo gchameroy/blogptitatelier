@@ -1,0 +1,88 @@
+<div class="single-sidebar-widget">
+	<h6 class="widget-title">A propos de moi</h6>
+	<div class="sidebar-content about-me">
+		<div class="my-photo">
+			<a href="#"><img class="img-circle" src="{{ asset(avatar_directory ~ '/' ~ setting.about.avatar) }}" alt="My Image" /></a>
+		</div>
+		<h6 class="post-title">{{ setting.about.label }}</h6>
+		<p>{{ setting.about.description }}</p>
+	</div>
+</div>
+
+<div class="single-sidebar-widget">
+	<h6 class="widget-title">catégories</h6>
+	<div class="sidebar-content">
+		<div class="categories-list">
+			<ul>
+				{% for category in categories %}
+					<li><a href="#"><span class="category">{{ category.label }}</span><span class="number">({{ category.posts|length }})</span></a></li>
+				{% endfor %}
+			</ul>
+		</div>
+	</div>
+</div>
+
+<div class="single-sidebar-widget">
+	<h6 class="widget-title">Suivez moi</h6>
+	<div class="sidebar-content">
+		<div class="social-links-area">
+			{% for social in socials %}
+				<div class="single-icon">
+					<a href="{{ social.url }}" target="_blank">
+						<i class="fa fa-{{ social.socialType.icon }}"></i>
+						<p>{{ social.socialType.label }}</p>
+					</a>
+				</div>
+			{% endfor %}
+		</div>
+	</div>
+</div>
+{#
+<div class="single-sidebar-widget">
+	<h6 class="widget-title">Recevoir les actualités</h6>
+	<div class="sidebar-content newsletter">
+		<p>Lorem ipsum dolor sit amet, consecteturs adipisicing elit, 
+		sed do eiusmod tempor incididunt.</p>
+		<div class="newsletter-form">
+			<form action="#" method="post">
+				<input type="text" placeholder="Adresse email">
+				<input type="submit" value="Envoyer">
+			</form>
+		</div>
+	</div>
+</div>
+
+<div class="single-sidebar-widget">
+	<h6 class="widget-title">archive</h6>
+	<div class="sidebar-content">
+		<div class="archive-list">
+			<ul>
+				<li><a href="#"><span class="month">march</span><span class="number">(98)</span></a></li>
+				<li><a href="#"><span class="month">january</span><span class="number">(80)</span></a></li>
+				<li><a href="#"><span class="month">february</span><span class="number">(60)</span></a></li>
+				<li><a href="#"><span class="month">december</span><span class="number">(40)</span></a></li>
+				<li><a href="#"><span class="month">october</span><span class="number">(10)</span></a></li>
+			</ul>
+		</div>
+	</div>
+</div>
+
+<div class="single-sidebar-widget">
+	<h6 class="widget-title">tags cloud</h6>
+	<div class="sidebar-content">
+		<div class="tags-list">
+			<ul>
+				<li><a href="#">politics</a></li>
+				<li><a href="#">business</a></li>
+				<li><a href="#">fashion</a></li>
+				<li><a href="#">music</a></li>
+				<li><a href="#">travel</a></li>
+				<li><a href="#">food</a></li>
+				<li><a href="#">photography</a></li>
+				<li><a href="#">technology</a></li>
+				<li><a href="#">sport</a></li>
+			</ul>
+		</div>
+	</div>
+</div>
+#}

@@ -1,0 +1,81 @@
+<header id="header" class="header-area">
+	<div class="header-top">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-6 col-sm-6 col-xs-6">
+					<div class="header-top-left">
+						<ul class="social-icons">
+							{% for social in socials %}
+								<li>
+									<a href="{{ social.url }}" target="_blank">
+										<i class="fa fa-{{ social.socialType.icon }}"></i>
+									</a>
+								</li>
+							{% endfor %}
+						</ul>
+					</div>
+				</div>
+				<div class="col-md-6 col-sm-6 col-xs-6">
+					<div class="header-top-right fix">
+						<div class="header-links">
+							<ul>
+								{#
+								<li><a href="#">Connexion</a></li>
+								<li><a href="#">Inscription</a></li>
+								#}
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="header-bottom">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-3">
+					<div class="logo">
+						<a href="{{ path('web_index') }}">
+							<img src="{{ asset(logo_directory ~ '/' ~ setting.header.logo) }}" alt="Logo">
+						</a>
+					</div>
+				</div>
+				<div class="col-md-9">
+					<div class="main-menu">
+						<nav>
+							<ul class="main-nav navbar-right">
+								<li><a href="{{ path('web_index') }}">Accueil</a></li>
+								<li><a href="{{ path('web_post_index') }}">Récents</a></li>
+								{#
+								<li><a href="#">Tutoriels</a></li>
+								<li><a href="#">Revues</a></li>
+								<li><a href="#">Tests</a></li>
+								<li><a href="#">Photos</a></li>
+								#}
+								<li class="active"><a href="https://http://ptit-atelier.fr/" target="_blank">Boutique</a></li>
+							</ul>
+						</nav>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="mobile-menu-area">
+			<div class="container">
+				<div class="row">
+					<div class="col-md-12">
+						<nav id="dropdown">
+							<ul>
+								<li class="active"><a href="#">Accueil</a></li>
+								<li><a href="#">Tutoriels</a></li>
+								<li><a href="#">Revues</a></li>
+								<li><a href="#">Tests</a></li>
+								<li><a href="#">Photos</a></li>
+								<li><a href="#">Boutique</a></li>
+							</ul>
+						</nav>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</header>

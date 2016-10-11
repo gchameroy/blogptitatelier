@@ -1,0 +1,157 @@
+{% extends 'base_app.html.twig' %}
+
+{% block title 'Manager - Articles' %}
+
+{% block nav %}
+    <div class="row wrapper border-bottom white-bg page-heading">
+        <div class="col-lg-10">
+            <h2>Liste des articles</h2>
+            <ol class="breadcrumb">
+                <li>
+                    <a href="{{ path('app_index') }}">Accueil</a>
+                </li>
+                <li class="active">
+                    <strong>Articles</strong>
+                </li>
+            </ol>
+        </div>
+        <div class="col-lg-2">
+            <div class="title-action">
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block content %}
+    <div class="wrapper wrapper-content">
+		<div class="row">
+            <div class="col-lg-12">
+				<div class="ibox">
+					<div class="ibox-title">
+						<h5>Liste des articles</h5>
+						<div class="ibox-tools">
+							<a href="{{ path('app_post_add') }}" class="btn btn-primary btn-sm">Ajouter un article</a>
+						</div>
+					</div>
+                    <div class="ibox-content">
+						{#<div class="row m-b-sm m-t-sm">
+							<div class="col-md-12">
+								<input type="text" placeholder="Recherche..." class="form-control">
+							</div>
+						</div>#}
+						<div class="project-list">
+							{% if posts %}
+								<table class="table table-hover">
+									<tbody>
+										{% for post in posts %}
+											<tr data-id_post="{{ post.id }}">
+												<td>
+													{% if post.isDraft %}
+														<span class="label label-default">
+															<i class="fa fa-circle hidden-lg hidden-md hidden-sm"></i>
+															<span class="hidden-xs">Brouillon</span>
+														</span>
+													{% elseif post.isPublished %}
+														<span class="label label-primary">
+															<i class="fa fa-circle hidden-lg hidden-md hidden-sm"></i>
+															<span class="hidden-xs">Publié</span>
+														</span>
+													{% else %}
+														<span class="label label-info">
+															<i class="fa fa-circle hidden-lg hidden-md hidden-sm"></i>
+															<span class="hidden-xs">Publication</span>
+														</span>
+													{% endif %}
+												</td>
+												<td class="hidden-sm hidden-xs">{% if post.category %}{{ post.category.label }}{% endif %}</td>
+												<td class="project-title">
+													<a href="{{ path('app_post_view', {'id': post.id}) }}">{{ post.title }}</a>
+													<br>
+													{% if post.isDraft %}
+														<small>Mis à jour le {{ post.updatedAt|date('d/m/Y') }}</small>
+													{% elseif post.isPublished %}
+														<small>Publié le {{ post.publishedAt|date('d/m/Y') }}</small>
+													{% else %}
+														<small>Publication le {{ post.publishedAt|date('d/m/Y') }}</small>
+													{% endif %}
+												</td>
+												<td class="hidden-xs hidden-md hidden-sm">{{ post.description | wordwrap(50) | truncate(100) | nl2br }}</td>
+												<td class="text-right">
+													{% if post.isDraft %}
+														<a class="btn btn-primary btn-xs action_post_publish">
+															<i class="fa fa-edit hidden-lg hidden-md hidden-sm"></i>
+															<span class="hidden-xs">Publier</span>
+														</a>
+														<a class="btn btn-info btn-xs" href="{{ path('app_post_view', {'id': post.id}) }}">
+															<i class="fa fa-edit hidden-lg hidden-md hidden-sm"></i>
+															<span class="hidden-xs">Editer</span>
+														</a>
+														<a class="btn btn-danger btn-xs action_post_delete">
+															<i class="fa fa-remove hidden-lg hidden-md hidden-sm"></i>
+															<span class="hidden-xs">Supprimer</span>
+														</a>
+													{% else %}
+														<a class="btn btn-info btn-xs" href="{{ path('app_post_view', {'id': post.id}) }}">
+															<i class="fa fa-edit hidden-lg hidden-md hidden-sm"></i>
+															<span class="hidden-xs">Détails</span>
+														</a>
+														{% if not post.isPublished %}
+															<a class="btn btn-danger btn-xs action_post_stop_publish">
+																<i class="fa fa-remove hidden-lg hidden-md hidden-sm"></i>
+																<span class="hidden-xs">Annuler la publication</span>
+															</a>
+														{% endif %}
+													{% endif %}
+												</td>
+												</div>
+											</tr>
+										{% endfor %}
+									</tbody>
+								</table>
+							{% else %}
+								<a href="{{ path('app_post_add') }}" class="btn btn-primary btn-sm">Ajouter un article</a>
+							{% endif %}
+						</div>
+                    </div>
+                </div>
+			</div>
+        </div>
+    </div>
+	<script>
+		$(function(){
+			$('.action_post_publish').click(function(e){
+				e.preventDefault();
+				e.stopPropagation();
+				var id_post = $(this).closest('[data-id_post]').attr('data-id_post');
+				$.get('{{ path('app_post_modal_publish') }}', {id: id_post}).done(function(response){
+					$(response).modal();
+				});
+			});
+			$('.action_post_stop_publish').click(function(e){
+				e.preventDefault();
+				e.stopPropagation();
+				var $object = $(this);
+				var id_post = $(this).closest('[data-id_post]').attr('data-id_post');
+
+				$.ajax({
+					type: 'post',
+					dataType: 'json',
+					url: '{{ path('app_post_publish_stop') }}',
+					data:{
+						id: id_post
+					},
+					success: function(response){
+						if(!response.valid){
+							swal('Oups !', 'Une erreur est survenue.', 'error');
+							return;
+						}
+						location.reload();
+					},
+					error: function(){
+						swal('Oups !', 'Une erreur est survenue.', 'error');
+					}
+				});
+			});
+		});
+	</script>
+{% endblock %}

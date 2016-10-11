@@ -1,0 +1,40 @@
+## Symfony ##
+/app/config/parameters.yml
+/build/
+/phpunit.xml
+/var/*
+!/var/cache
+/var/cache/*
+!var/cache/.gitkeep
+!/var/logs
+/var/logs/*
+!var/logs/.gitkeep
+!/var/sessions
+/var/sessions/*
+!var/sessions/.gitkeep
+!var/SymfonyRequirements.php
+/vendor/
+/web/bundles/
+*~
+
+## IDE ##
+/.idea
+/nbproject
+
+## Uploads ##
+/web/asset/web/img/article
+!/web/asset/web/img/article/.gitkeep
+/web/asset/web//img/avatar
+!/web/asset/web/img/avatar/.gitkeep
+/web/asset/web/img/favicon
+!/web/asset/web/img/favicon/.gitkeep
+/web/asset/web/img/logo
+!/web/asset/web/img/logo/.gitkeep
+/web/asset/web/img/banner
+!/web/asset/web/img/banner/.gitkeep
+/web/asset/web/img/post
+!/web/asset/web/img/post/.gitkeep
+
+## Imports ##
+/import
+!/import/.gitkeep

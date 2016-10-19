@@ -8,9 +8,9 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 class WebController extends Controller
 {
     /**
-     * @Route("/", name="web_index")
+     * @Route("/", name="web_home")
      */
-    public function indexAction()
+    public function homeAction()
     {
 		$em = $this->getDoctrine()->getManager();
 		
@@ -31,12 +31,42 @@ class WebController extends Controller
 		$posts->recent = $em
 			->getRepository('AppBundle:Post')
 			->findRecents();
+		
 
-        return $this->render('web/index.html.twig', array(
+        return $this->render('web/home/index.html.twig', array(
 			'modelRecent' => $modelRecent,
 			'posts' => $posts
 		));
     }
+	
+	public function homeSelectionAction()
+	{
+		$em = $this->getDoctrine()->getManager();
+		
+		$setting = $em
+			->getRepository('AppBundle:Setting')
+			->findAll()[0];
+		
+		$model = $em
+			->getRepository('AppBundle:Model')
+			->findOneBy(
+				array(
+					'setting' => $setting,
+					'modelType' => 3
+				)
+			);
+			
+		dump($model);
+		
+		$selections = $em
+			->getRepository('AppBundle:PostSelection')
+			->findSelections();
+		
+		return $this->render('web/home/selection.html.twig', array(
+			'model' => $model,
+			'selections' => $selections
+		));
+	}
 	
 	public function asideAction()
 	{

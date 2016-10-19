@@ -15,7 +15,7 @@ class AppController extends Controller
      */
     public function indexAction()
     {
-        return $this->render('app/index.html.twig');
+        return $this->render('app/home/index.html.twig');
     }
 	
 	/**
@@ -637,7 +637,7 @@ class AppController extends Controller
 			->findOneBy(
 				array(
 					'setting' => $setting,
-					'modelType' => 1
+					'modelType' => 3
 				)
 			);
 

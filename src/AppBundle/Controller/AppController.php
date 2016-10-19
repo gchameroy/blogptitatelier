@@ -15,7 +15,7 @@ class AppController extends Controller
      */
     public function indexAction()
     {
-        return $this->render('app/index.html.twig');
+        return $this->render('app/home/index.html.twig');
     }
 	
 	/**
@@ -622,5 +622,81 @@ class AppController extends Controller
 		return $response->setData(array(
 			'valid' => true
 		));
+    }
+	
+	public function homeSelectionAction()
+	{
+		$em = $this->getDoctrine()->getManager();
+		
+		$setting = $em
+			->getRepository('AppBundle:Setting')
+			->findAll()[0];
+
+		$model = $em
+			->getRepository('AppBundle:Model')
+			->findOneBy(
+				array(
+					'setting' => $setting,
+					'modelType' => 3
+				)
+			);
+
+		$selections = $em
+			->getRepository('AppBundle:PostSelection')
+			->findSelections();
+
+		return $this->render('app/home/selection.html.twig', array(
+			'selections' => $selections,
+			'model' => $model
+		));
+	}
+	
+	/**
+     * @Route("/manager/home/modal/selection", name="app_home_modal_selection")
+     */
+    public function homeModalSelectionAction(Request $request)
+    {
+		$orderId = $request->query->get('orderId');
+		$em = $this->getDoctrine()->getManager();
+		
+		$posts = $em
+			->getRepository('AppBundle:Post')
+			->findByPage();
+
+		return $this->render('app/home/modal/selection.html.twig', array(
+			'orderId' => $orderId,
+			'posts' => $posts
+		));
+    }
+	
+	/**
+     * @Route("/manager/home/selection/add", name="app_home_selection_add")
+     */
+    public function homeSelectionAddAction(Request $request)
+    {
+		$orderId = $request->request->get('orderId');
+		
+		$em = $this->getDoctrine()->getManager();
+		$postSelection = $em
+			->getRepository('AppBundle:PostSelection')
+			->findOneActiveByOrderId($request->request->get('orderId'));
+		
+		if($postSelection){
+			$postSelection->setIsActive(false);
+			$em->persist($postSelection);
+		}
+		
+		$post = $em
+			->getRepository('AppBundle:Post')
+			->findOneById($request->request->get('postId'));
+
+		$postSelection = $this->get('app.postSelection.factory')->create()
+			->setOrderId($request->request->get('orderId'))
+			->setPost($post);
+		$em->persist($postSelection);
+		
+		$em->flush();
+
+        return $this->redirect($this->generateUrl('app_index'));
     }
 }

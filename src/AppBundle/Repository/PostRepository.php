@@ -31,7 +31,7 @@ class PostRepository extends \Doctrine\ORM\EntityRepository
 		$now = new \DateTime();
 
 		return $this->createQueryBuilder('p')
-			->where('p.publishedAt >= :now')
+			->where('p.publishedAt <= :now')
 				->setParameter('now', $now->format('Y-m-d H:i:s'))
 			->orderBy('p.publishedAt', 'DESC')
 			->addOrderBy('p.id', 'DESC')

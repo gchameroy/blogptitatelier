@@ -1,0 +1,38 @@
+<div class="ibox">
+	<div class="ibox-title">
+		<h4>Sélection d'articles personalisée</h4>
+	</div>
+	<div class="ibox-content">
+		<div class="row">
+			{% for column in model.columns %}
+				<div class="col-md-{{ column }} col-sm-{{ column }}" data-orderId="{{ loop.index }}">
+					<input type="hidden" name="orderId" value="{{ loop.index }}">
+					{% if selections[loop.index] is defined %}
+						<p class="text-center m-t-sm m-b-sm">
+							<a class="home_modal_selection">
+								<img src="{{ asset(post_directory ~ '/' ~ selections[loop.index].post.image) }}" class="img-responsive">
+							</a>
+						</p>
+					{% else %}
+						<p class="text-center m-t-lg m-b-lg">
+							<a class="home_modal_selection">Sélectionner un article</a>
+						</p>
+					{% endif %}
+				</div>
+			{% endfor %}
+		</div>
+	</div>
+</div>
+
+<script>
+	$(function(){
+		$('.home_modal_selection').click(function(e){
+			e.preventDefault();
+			e.stopPropagation();
+			var orderId = $(this).closest('[data-orderId]').attr('data-orderId');
+			$.get('{{ path('app_home_modal_selection') }}', {orderId: orderId}).done(function(response){
+				$(response).modal();
+			});
+		});
+	});
+</script>

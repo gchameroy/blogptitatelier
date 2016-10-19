@@ -1,0 +1,82 @@
+{% extends 'base_app.html.twig' %}
+
+{% block title 'Manager - Paramètres' %}
+
+{% block nav %}
+    <div class="row wrapper border-bottom white-bg page-heading">
+        <div class="col-lg-10">
+            <h2>Paramètres</h2>
+            <ol class="breadcrumb">
+                <li>
+                    <a href="{{ path('app_index') }}">Accueil</a>
+                </li>
+                <li class="active">
+                    <strong>Paramètres</strong>
+                </li>
+            </ol>
+        </div>
+        <div class="col-lg-2">
+            <div class="title-action">
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block content %}
+    <div class="wrapper wrapper-content">
+		<div class="row">
+            <div class="col-lg-12">
+				<div class="tabs-container">
+					<div class="tabs-left">
+						<ul class="nav nav-tabs">
+							<li class="active"><a href="{{ path('app_setting_header_index') }}">Logo & Bannière</a></li>
+							<li><a href="{{ path('app_setting_about_index') }}">A propos</a></li>
+							<li><a href="{{ path('app_setting_model_index') }}">Maquette</a></li>
+							<li><a href="{{ path('app_setting_social_index') }}">Réseaux sociaux</a></li>
+						</ul>
+						<div class="tab-content ">
+							<div id="tab-header" class="tab-pane active">
+								<div class="panel-body">
+									<form name="setting-header-favicon-update" action="{{ path('app_setting_header_favicon') }}" method="post" enctype="multipart/form-data">
+										<h4>Favicon (64x64)</h4>
+										<a for="favicon">
+											<img src="{{ asset(favicon_directory ~ '/' ~ setting.header.favicon) }}">
+										</a>
+										<input type="file" name="favicon" onchange="this.form.submit()" class="hidden">
+									</form>
+									<form name="setting-header-logo-update" action="{{ path('app_setting_header_logo') }}" method="post" enctype="multipart/form-data">
+										<h4>Logo (250x45)</h4>
+										<a for="logo">
+											<img src="{{ asset(logo_directory ~ '/' ~ setting.header.logo) }}">
+										</a>
+										<input type="file" name="logo" onchange="this.form.submit()" class="hidden">
+									</form>
+									<form name="setting-header-banner-update" action="{{ path('app_setting_header_banner') }}" method="post" enctype="multipart/form-data">
+										<h4>Bannière (1900x450)</h4>
+										<a for="banner">
+											<img class="img-responsive" src="{{ asset(banner_directory ~ '/' ~ setting.header.banner) }}">
+										</a>
+										<input type="file" name="banner" onchange="this.form.submit()" class="hidden">
+									</form>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+        </div>
+    </div>
+	<script>
+		$(function(){
+			$('form[name="setting-header-favicon-update"] a[for="favicon"]').click(function(){
+				$(this).closest('form').find('input[name="favicon"]').click();
+			});
+			$('form[name="setting-header-logo-update"] a[for="logo"]').click(function(){
+				$(this).closest('form').find('input[name="logo"]').click();
+			});
+			$('form[name="setting-header-banner-update"] a[for="banner"]').click(function(){
+				$(this).closest('form').find('input[name="banner"]').click();
+			});
+		});
+	</script>
+{% endblock %}

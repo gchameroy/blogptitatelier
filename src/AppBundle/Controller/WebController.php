@@ -92,7 +92,18 @@ class WebController extends Controller
 			'posts' => $posts
 		));
 	}
-	
+
+	public function faviconAction()
+	{
+		$setting = $this->getDoctrine()->getManager()
+			->getRepository('AppBundle:Setting')
+			->findAll()[0];
+
+		return $this->render('layout/web/favicon.html.twig', array(
+			'setting' => $setting
+		));
+	}
+
 	public function asideAction()
 	{
 		$setting = $this->getDoctrine()->getManager()

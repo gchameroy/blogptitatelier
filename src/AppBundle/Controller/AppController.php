@@ -35,11 +35,11 @@ class AppController extends Controller
 		foreach($socials As $social){
 			$ids[] = $social->getSocialType()->getId();
 		}
-		
+
 		$socialTypes = $this->getDoctrine()->getManager()
 			->getRepository('AppBundle:SocialType')
 			->findAllWithoutIds($ids);
-		
+
         return $this->render('app/setting/index.html.twig', array(
 			'setting' => $setting,
 			'socials' => $socials,

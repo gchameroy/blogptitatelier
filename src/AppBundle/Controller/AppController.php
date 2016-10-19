@@ -23,6 +23,56 @@ class AppController extends Controller
      */
     public function settingAction()
     {
+		return $this->redirect($this->generateUrl('app_setting_header_index'));
+    }
+	
+	/**
+     * @Route("/manager/settings/header", name="app_setting_header_index")
+     */
+    public function settingHeaderAction()
+    {
+		$setting = $this->getDoctrine()->getManager()
+			->getRepository('AppBundle:Setting')
+			->findAll()[0];
+
+        return $this->render('app/setting/header.html.twig', array(
+			'setting' => $setting
+		));
+    }
+	
+	/**
+     * @Route("/manager/settings/about", name="app_setting_about_index")
+     */
+    public function settingAboutAction()
+    {
+		$setting = $this->getDoctrine()->getManager()
+			->getRepository('AppBundle:Setting')
+			->findAll()[0];
+
+        return $this->render('app/setting/about.html.twig', array(
+			'setting' => $setting
+		));
+    }
+	
+	/**
+     * @Route("/manager/settings/model", name="app_setting_model_index")
+     */
+    public function settingModelAction()
+    {
+		$setting = $this->getDoctrine()->getManager()
+			->getRepository('AppBundle:Setting')
+			->findAll()[0];
+
+        return $this->render('app/setting/model.html.twig', array(
+			'setting' => $setting
+		));
+    }
+	
+	/**
+     * @Route("/manager/settings/social", name="app_setting_social_index")
+     */
+    public function settingSocialAction()
+    {
 		$setting = $this->getDoctrine()->getManager()
 			->getRepository('AppBundle:Setting')
 			->findAll()[0];
@@ -40,8 +90,7 @@ class AppController extends Controller
 			->getRepository('AppBundle:SocialType')
 			->findAllWithoutIds($ids);
 
-        return $this->render('app/setting/index.html.twig', array(
-			'setting' => $setting,
+        return $this->render('app/setting/social.html.twig', array(
 			'socials' => $socials,
 			'socialTypes' => $socialTypes
 		));
@@ -74,13 +123,13 @@ class AppController extends Controller
 		
         $em->flush();
 
-       return $this->redirect($this->generateUrl('app_setting_index') . '#about');
+       return $this->redirect($this->generateUrl('app_setting_about_index'));
     }
 
 	/**
-     * @Route("/manager/settings/about", name="app_setting_about")
+     * @Route("/manager/settings/about/edit", name="app_setting_about_edit")
      */
-    public function settingAboutAction(Request $request)
+    public function settingAboutEditAction(Request $request)
     {
 		$em = $this->getDoctrine()->getManager();
 		
@@ -100,7 +149,7 @@ class AppController extends Controller
 		
         $em->flush();
 
-       return $this->redirect($this->generateUrl('app_setting_index') . '#about');
+       return $this->redirect($this->generateUrl('app_setting_about_index'));
     }
 
 	/**
@@ -130,7 +179,7 @@ class AppController extends Controller
 		
         $em->flush();
 
-       return $this->redirect($this->generateUrl('app_setting_index') . '#header');
+       return $this->redirect($this->generateUrl('app_setting_header_index'));
     }
 
 	/**
@@ -160,7 +209,7 @@ class AppController extends Controller
 		
         $em->flush();
 
-       return $this->redirect($this->generateUrl('app_setting_index') . '#header');
+       return $this->redirect($this->generateUrl('app_setting_header_index'));
     }
 
 	/**
@@ -190,7 +239,7 @@ class AppController extends Controller
 		
         $em->flush();
 
-       return $this->redirect($this->generateUrl('app_setting_index') . '#header');
+       return $this->redirect($this->generateUrl('app_setting_header_index'));
     }
 	
 	/**
@@ -489,9 +538,9 @@ class AppController extends Controller
     }
 	
 	/**
-     * @Route("/manager/settings/model", name="app_setting_model")
+     * @Route("/manager/settings/model/edit", name="app_setting_model_edit")
      */
-    public function postSettingModelAction(Request $request)
+    public function postSettingModelEditAction(Request $request)
     {
 		$columns = explode('-', $request->request->get('columns'));
 

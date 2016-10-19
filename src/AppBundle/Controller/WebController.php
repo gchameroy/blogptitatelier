@@ -42,11 +42,11 @@ class WebController extends Controller
 	public function homeSelectionAction()
 	{
 		$em = $this->getDoctrine()->getManager();
-		
+
 		$setting = $em
 			->getRepository('AppBundle:Setting')
 			->findAll()[0];
-		
+
 		$model = $em
 			->getRepository('AppBundle:Model')
 			->findOneBy(
@@ -55,9 +55,7 @@ class WebController extends Controller
 					'modelType' => 3
 				)
 			);
-			
-		dump($model);
-		
+
 		$selections = $em
 			->getRepository('AppBundle:PostSelection')
 			->findSelections();
@@ -65,6 +63,33 @@ class WebController extends Controller
 		return $this->render('web/home/selection.html.twig', array(
 			'model' => $model,
 			'selections' => $selections
+		));
+	}
+	
+	public function homeRecentAction()
+	{
+		$em = $this->getDoctrine()->getManager();
+
+		$setting = $em
+			->getRepository('AppBundle:Setting')
+			->findAll()[0];
+
+		$model = $em
+			->getRepository('AppBundle:Model')
+			->findOneBy(
+				array(
+					'setting' => $setting,
+					'modelType' => 1
+				)
+			);
+
+		$posts = $em
+			->getRepository('AppBundle:Post')
+			->findRecents();
+
+		return $this->render('web/home/recent.html.twig', array(
+			'model' => $model,
+			'posts' => $posts
 		));
 	}
 	
@@ -162,6 +187,22 @@ class WebController extends Controller
         return $this->render('web/post/index.html.twig', array(
 			'posts' => $posts,
 			'page' => $page
+		));
+    }
+	
+	/**
+     * @Route("/categories/{slug}", name="web_category_view")
+     */
+    public function categoryViewAction($slug)
+    {
+		$em = $this->getDoctrine()->getManager();
+
+		$category = $em
+			->getRepository('AppBundle:Category')
+			->findOneBySlug($slug);
+
+        return $this->render('web/category/view.html.twig', array(
+			'category' => $category
 		));
     }
 }

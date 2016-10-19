@@ -7,7 +7,7 @@
 					<div class="single-popular-post">
 						<div class="post-img">
 							<a href="{{ path('web_post_view', {'slug': selections[loop.index].post.slug}) }}"><img src="{{ asset(post_directory ~ '/' ~ selections[loop.index].post.image) }}" alt="{{ selections[loop.index].post.category.label }}"></a>
-							<a href="#" class="post-tag">{{ selections[loop.index].post.category.label }}</a>
+							<a href="{{ path('web_category_view', {'slug': selections[loop.index].post.category.slug}) }}" class="post-tag">{{ selections[loop.index].post.category.label }}</a>
 							<div class="post-info">
 								<p>
 									<span class="post-date"><a href="#">{{ selections[loop.index].post.publishedAt|date('d/m/Y') }}</a></span>

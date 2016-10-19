@@ -1,0 +1,33 @@
+{% extends 'base_web.html.twig' %}
+
+{% block article %}
+	<div class="popular-posts-area">
+		<h2 class="section-title">{{ category.label }}</h2>
+		<div class="row">
+			{% for post in category.posts %}
+					<div class="col-md-6 col-sm-6">
+						<div class="single-popular-post">
+							<div class="post-img">
+								<a href="{{ path('web_post_view', {'slug': post.slug}) }}"><img src="{{ asset(post_directory ~ '/' ~ post.image) }}" alt="{{ post.category.label }}"></a>
+								<a href="{{ path('web_category_view', {'slug': post.category.slug}) }}" class="post-tag">{{ post.category.label }}</a>
+								<div class="post-info">
+									<p>
+										<span class="post-date"><a href="#">{{ post.publishedAt|date('d/m/Y') }}</a></span>
+										<span class="post-comments"><a href="#">131 commentaires</a></span>
+										<span class="post-social-links">
+											<a href="#" data-toggle="tooltip" data-placement="bottom" title="Likes"><i class="fa fa-heart"></i> 557</a>
+										</span>
+									</p>
+								</div>
+							</div>
+							<div class="post-content">
+								<h6 class="post-title"><a href="{{ path('web_post_view', {'slug': post.slug}) }}">{{ post.title|truncate(35) }}</a></h6>
+								<p class="post-short-desc">{{ post.content|striptags|truncate(200) }}</p>
+								<a href="{{ path('web_post_view', {'slug': post.slug}) }}" class="continue-link">Lire la suite</a>
+							</div>
+						</div>
+					</div>
+			{% endfor %}
+		</div>
+	</div>
+{% endblock %}

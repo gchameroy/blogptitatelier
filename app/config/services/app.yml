@@ -12,6 +12,8 @@ services:
     class: AppBundle\Entity\CategoryFactory
   app.post.factory:
     class: AppBundle\Entity\PostFactory
+  app.postSelection.factory:
+    class: AppBundle\Entity\PostSelectionFactory
   app.model.factory:
     class: AppBundle\Entity\ModelFactory
   app.modelType.factory:

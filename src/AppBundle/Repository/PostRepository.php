@@ -39,4 +39,23 @@ class PostRepository extends \Doctrine\ORM\EntityRepository
 			// ->setMaxResults($maxResults)
 			->getQuery()->getResult();
 	}
+	
+	public function findByCategory($categoryId, $page = 1, $maxResults = 10)
+	{
+		$maxResults = 10;
+		$first = ($page - 1) * $maxResults;
+		
+		$now = new \DateTime();
+
+		return $this->createQueryBuilder('p')
+			->where('p.publishedAt <= :now')
+				->setParameter('now', $now->format('Y-m-d H:i:s'))
+			->andWhere('p.categoryId = :categoryId')
+				->setParameter('categoryId', $categoryId)
+			->orderBy('p.publishedAt', 'DESC')
+			->addOrderBy('p.id', 'DESC')
+			// ->setFirstResult($first)
+			// ->setMaxResults($maxResults)
+			->getQuery()->getResult();
+	}
 }

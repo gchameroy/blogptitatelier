@@ -3,6 +3,7 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * Category
@@ -27,6 +28,12 @@ class Category
      * @ORM\Column(name="label", type="string", length=255, unique=true)
      */
     private $label;
+	
+	/**
+    * @Gedmo\Slug(fields={"label"})
+    * @ORM\Column(name="slug", type="string", length=255, unique=true)
+    */
+    private $slug;
 
     /**
      * @var int
@@ -224,5 +231,29 @@ class Category
     public function getPosts()
     {
         return $this->posts;
+    }
+
+    /**
+     * Set slug
+     *
+     * @param string $slug
+     *
+     * @return Category
+     */
+    public function setSlug($slug)
+    {
+        $this->slug = $slug;
+
+        return $this;
+    }
+
+    /**
+     * Get slug
+     *
+     * @return string
+     */
+    public function getSlug()
+    {
+        return $this->slug;
     }
 }

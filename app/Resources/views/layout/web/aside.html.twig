@@ -15,7 +15,7 @@
 		<div class="categories-list">
 			<ul>
 				{% for category in categories %}
-					<li><a href="#"><span class="category">{{ category.label }}</span><span class="number">({{ category.posts|length }})</span></a></li>
+					<li><a href="{{ path('web_category_view', {'slug': category.slug}) }}"><span class="category">{{ category.label }}</span><span class="number">({{ category.posts|length }})</span></a></li>
 				{% endfor %}
 			</ul>
 		</div>

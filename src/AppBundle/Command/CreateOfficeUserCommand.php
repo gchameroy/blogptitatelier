@@ -8,14 +8,14 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Helper\ProgressBar;
 
-class CreateUserCommand extends ContainerAwareCommand
+class CreateOfficeUserCommand extends ContainerAwareCommand
 {
     protected function configure()
     {
         $this
-			->setName('app:create-user')
-			->setDescription('Create user.')
-			->setHelp("This command allows you to create user")
+			->setName('office:create-user')
+			->setDescription('Create office user.')
+			->setHelp("This command allows you to create office user")
 			->addArgument('username', InputArgument::REQUIRED, 'The username\'s user.')
 			->addArgument('email', InputArgument::REQUIRED, 'The email\'s user.')
 			->addArgument('password', InputArgument::REQUIRED, 'The password\'s user.')
@@ -35,13 +35,13 @@ class CreateUserCommand extends ContainerAwareCommand
 		$output->writeln('<info>Password : '.$password);
 		$output->writeln('<info>Start : ' . $start->format('d-m-Y H:i:s'));
 
-		$this->createUser($input, $output);
+		$this->createOfficeUser($input, $output);
 
 		$end = new \DateTime();
 		$output->writeln('<info>End : ' . $end->format('d-m-Y H:i:s'));
     }
 	
-	private function createUser(InputInterface $input, OutputInterface $output)
+	private function createOfficeUser(InputInterface $input, OutputInterface $output)
 	{
 		$username = $input->getArgument('username');
 		$email = $input->getArgument('email');
@@ -50,7 +50,7 @@ class CreateUserCommand extends ContainerAwareCommand
 		$em = $this->getContainer()->get('doctrine')->getManager();
 		$em->getConnection()->getConfiguration()->setSQLLogger(null);
 
-		$user = $this->getContainer()->get('app.user.factory')->createUser()
+		$user = $this->getContainer()->get('app.user.factory')->createOfficeUser()
             ->setUsername($username)
             ->setEmail($email)
             ->setPlainPassword($password)

@@ -27,4 +27,4 @@ security:
 
     access_control:
         - { path: ^/office, roles: "ROLE_OFFICE_ADMIN" }
-        - { path: ^/manager, roles: "ROLE_MANAGER_ADMIN" }
+        - { path: ^/manager, roles: "ROLE_APP_ADMIN" }

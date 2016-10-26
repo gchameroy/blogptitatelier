@@ -8,8 +8,8 @@ class UserFactory
     {
         $user = new User();
 
-        $user->setIsManager(false);
-        $user->setIsOfficer(false);
+        $user->setIsApp(false);
+		$user->setIsOffice(false);
         $user->setRegisteredAt(new \DateTime());
 
         return $user;

@@ -68,9 +68,16 @@ class User implements UserInterface
     /**
      * @var bool
      *
-     * @ORM\Column(name="is_admin", type="boolean")
+     * @ORM\Column(name="is_office", type="boolean")
      */
-    private $isAdmin;
+    private $isOffice;
+	
+	/**
+     * @var bool
+     *
+     * @ORM\Column(name="is_app", type="boolean")
+     */
+    private $isApp;
 
 
     /**
@@ -228,40 +235,72 @@ class User implements UserInterface
     }
 
     /**
-     * Set isAdmin
+     * Set isOffice
      *
-     * @param boolean $isAdmin
+     * @param boolean $isOffice
      *
      * @return User
      */
-    public function setIsAdmin($isAdmin)
+    public function setIsOffice($isOffice)
     {
-        $this->isAdmin = $isAdmin;
+        $this->isOffice = $isOffice;
 
         return $this;
     }
 
-    public function isAdmin()
+    public function isOffice()
     {
-        return $this->isAdmin;
+        return $this->isOffice;
     }
-
-    /**
-     * Get isAdmin
+	
+	/**
+     * Get isOffice
      *
      * @return bool
      */
-    public function getIsAdmin()
+    public function getIsOffice()
     {
-        return $this->isAdmin;
+        return $this->isOffice;
+    }
+	
+    /**
+     * Set isApp
+     *
+     * @param boolean $isApp
+     *
+     * @return User
+     */
+    public function setIsApp($isApp)
+    {
+        $this->isApp = $isApp;
+
+        return $this;
+    }
+
+    public function isApp()
+    {
+        return $this->isApp;
+    }
+
+    /**
+     * Get isApp
+     *
+     * @return bool
+     */
+    public function getIsApp()
+    {
+        return $this->isApp;
     }
 
     public function getRoles()
     {
         $roles = ['ROLE_USER'];
-        if($this->isAdmin())
-        {
-            $roles = ['ROLE_ADMIN'];
+		if($this->isApp()){
+            $roles[] = 'ROLE_APP_ADMIN';
+        }
+        if($this->isOffice()){
+			$roles[] = 'ROLE_APP_ADMIN';
+            $roles[] = 'ROLE_OFFICE_ADMIN';
         }
         return $roles;
     }

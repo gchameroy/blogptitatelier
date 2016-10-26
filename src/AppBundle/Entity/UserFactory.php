@@ -4,21 +4,34 @@ namespace AppBundle\Entity;
 
 class UserFactory
 {
-    public function createUser()
+	public function createUser()
     {
         $user = new User();
 
-        $user->setIsAdmin(false);
+        $user->setIsManager(false);
+        $user->setIsOfficer(false);
+        $user->setRegisteredAt(new \DateTime());
+
+        return $user;
+    }
+	
+	public function createAppUser()
+    {
+        $user = new User();
+
+        $user->setIsApp(true);
+		$user->setIsOffice(false);
         $user->setRegisteredAt(new \DateTime());
 
         return $user;
     }
 
-    public function createAdmin()
+    public function createOfficeUser()
     {
         $user = new User();
 
-        $user->setIsAdmin(true);
+        $user->setIsApp(false);
+		$user->setIsOffice(true);
         $user->setRegisteredAt(new \DateTime());
 
         return $user;

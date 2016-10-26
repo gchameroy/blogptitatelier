@@ -296,11 +296,11 @@ class User implements UserInterface
     {
         $roles = ['ROLE_USER'];
 		if($this->isApp()){
-            $roles[] = ['ROLE_APP_ADMIN'];
+            $roles[] = 'ROLE_APP_ADMIN';
         }
         if($this->isOffice()){
-			$roles[] = ['ROLE_APP_ADMIN'];
-            $roles[] = ['ROLE_OFFICE_ADMIN'];
+			$roles[] = 'ROLE_APP_ADMIN';
+            $roles[] = 'ROLE_OFFICE_ADMIN';
         }
         return $roles;
     }

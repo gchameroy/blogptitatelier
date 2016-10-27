@@ -4,6 +4,9 @@ namespace AppBundle\Controller;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 
 class WebController extends Controller
 {
@@ -214,6 +217,37 @@ class WebController extends Controller
 
         return $this->render('web/category/view.html.twig', array(
 			'category' => $category
+		));
+    }
+
+	/**
+     * @Route("/web/comment/add", name="web_comment_add")
+	 * @Security("has_role('ROLE_USER')")
+     */
+    public function commentAddAction(Request $request)
+    {
+		$postId = $request->request->getInt('postId');
+		$message = $request->request->get('message');
+		
+		$em = $this->getDoctrine()->getManager();
+		
+		dump($postId);
+		dump($message);
+		
+		$post = $em
+			->getRepository('AppBundle:Post')
+			->findOneById($postId);
+		
+		$comment = $this->get('app.comment.factory')->create()
+			->setMessage($message)
+			->setPost($post)
+			->setUser($this->getUser());
+		$em->persist($comment);
+		$em->flush();
+
+        $response = new JsonResponse();
+		return $response->setData(array(
+			'valid' => true
 		));
     }
 }

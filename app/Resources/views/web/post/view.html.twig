@@ -1,14 +1,6 @@
 {% extends 'base_web.html.twig' %}
 
-{% block slider %}
-	<div class="container">
-		<div class="row">
-			<div class="col-md-12">
-				<img src="{{ asset(post_directory ~ '/' ~ post.image) }}" class="img-responsive">
-			</div>
-		</div>
-	</div>
-{% endblock %}
+{% block slider '' %}
 
 {% block article %}
 	<div class="single-blog-details">
@@ -55,34 +47,72 @@
 				<p>{{ setting.about.description }}</p>
 			</div>
 		</div>
-		{#
+		
 		<div class="comments-area">
-			<h6 class="title">[nb] commentaires</h6>
+			<h6 class="title">{{ post.comments|length }} commentaires</h6>
 			<ul class="comments-list">
-				<li class="single-comment">
-					<div class="comment-box">
-						<div class="comment-author">
-							<img src="{{ asset('blogging/img/comments/1.jpg') }}" alt="Comment Author" />
+				{% for comment in post.comments %}
+					<li class="single-comment">
+						<div class="comment-box">
+							<div class="comment-author">
+								<img src="{{ gravatar('{{ comment.user.email }}', 60, 'g') }}" alt="{{ comment.user.username }}">
+							</div>
+							<div class="comment-info">
+								<p class="author-name"><a href="#">{{ comment.user.username }}</a></p>
+								<span class="comment-date">{{ comment.createdAt|date('d/m/Y') }}</span>
+								<p>{{ comment.message|nl2br }}</p>
+							</div>
 						</div>
-						<div class="comment-info">
-							<p class="author-name"><a href="#">Laurel Lance</a></p>
-							<span class="comment-date">July 11, 2015</span>
-							<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do 
-							eiusmod temp incididunt ut labore et dolore magna aliqua. Ut enim ad 
-							minim veniam nostrud exercitation ullamco laboris nisi ut commodo 
-							consequat.</p>
-						</div>
-					</div>
-				</li>
+					</li>
+				{% endfor %}
 			</ul>
 		</div>
 		<div class="comment-form-area">
 			<p>Ajouter un commentaire</p>
-			<form action="#" method="post">
-				<textarea placeholder="Message"></textarea>
-				<button type="submit" class="submit-btn">Envoyer</button>
-			</form>
+			{% if is_granted('ROLE_USER') %}
+				<form name="web_comment_add" action="{{ path('web_comment_add') }}" method="post">
+					<input type="hidden" name="postId" value="{{ post.id }}">
+					<textarea name="message" placeholder="Message"></textarea>
+					<button type="submit" class="submit-btn">Envoyer</button>
+					<span name="responseError" class="text-danger hidden"></span>
+					<span name="responseSuccess" class="hidden">Commentaire envoyé avec succès.<br>Un modérateur doit l'accepter avant de le voir apparaitre.</span>
+				</form>
+			{% else %}
+				<a href="{{ path('login') }}">Connectez-vous pour laisser un commentaire</a>
+			{% endif %}
 		</div>
-		#}
 	</div>
+	<script>
+		$('form[name="web_comment_add"]').submit(function(){
+			var $form = $(this);
+			$form.find('button[type="submit"]').prop('disabled', true);
+			
+			$form.find('[name="responseError"]').addClass('hidden');
+			$form.find('[name="responseSuccess"]').addClass('hidden');
+
+			$.ajax({
+				type: 'post',
+				dataType: 'json',
+				url: $form.attr('action'),
+				data: $form.serialize(),
+				success: function(response){
+					if(!response.valid){
+						$form.find('button[type="submit"]').prop('disabled', false);
+						$form.find('[name="responseError"]').html(response.error.msg);
+						$form.find('[name="responseError"]').removeClass('hidden');
+						return false;
+					}
+					$form.find('button[type="submit"]').remove();
+					$form.find('[name="responseSuccess"]').removeClass('hidden');
+					return false;
+				},
+				error: function(){
+					$form.find('button[type="submit"]').prop('disabled', false);
+					$form.find('[name="responseError"]').html('Une erreur est survenue.');
+					$form.find('[name="responseError"]').removeClass('hidden');
+				}
+			});
+			return false;
+		});
+	</script>
 {% endblock %}

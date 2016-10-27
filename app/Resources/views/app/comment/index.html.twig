@@ -1,0 +1,120 @@
+{% extends 'base_app.html.twig' %}
+
+{% block title 'Manager - Commentaires' %}
+
+{% block nav %}
+    <div class="row wrapper border-bottom white-bg page-heading">
+        <div class="col-lg-10">
+            <h2>Liste des commentaires</h2>
+            <ol class="breadcrumb">
+                <li>
+                    <a href="{{ path('app_index') }}">Accueil</a>
+                </li>
+                <li class="active">
+                    <strong>Commentaires</strong>
+                </li>
+            </ol>
+        </div>
+        <div class="col-lg-2">
+            <div class="title-action">
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block content %}
+    <div class="wrapper wrapper-content">
+		<div class="row">
+            <div class="col-lg-12">
+				<div class="ibox">
+					<div class="ibox-title">
+						<h5>Liste des commentaires</h5>
+					</div>
+                    <div class="ibox-content">
+						<div class="project-list">
+							{% if comments %}
+								<table class="table table-hover">
+									<tbody>
+										{% for comment in comments %}
+											<tr data-id_comment="{{ comment.id }}">
+												<td>{{ comment.post.title }}</td>
+												<td>{{ comment.user.username }}</td>
+												<td>{{ comment.message|nl2br }}</td>
+												<td class="text-right">
+													<a class="btn btn-primary btn-xs action_comment_accept">
+														<i class="fa fa-check hidden-lg hidden-md hidden-sm"></i>
+														<span class="hidden-xs">Accepter</span>
+													</a>
+													<a class="btn btn-danger btn-xs action_comment_refuse">
+														<i class="fa fa-close hidden-lg hidden-md hidden-sm"></i>
+														<span class="hidden-xs">Refuser</span>
+													</a>
+												</td>
+											</tr>
+										{% endfor %}
+									</tbody>
+								</table>
+							{% else %}
+								<p>Il n'y a plus de commentaires à valider.<br>Good Job <i class="fa fa-smile-o"></i></p>
+							{% endif %}
+						</div>
+                    </div>
+                </div>
+			</div>
+        </div>
+    </div>
+	<script>
+		$(function(){
+			$('.action_comment_accept').click(function(e){
+				e.preventDefault();
+				e.stopPropagation();
+				
+				var $tr = $(this).closest('[data-id_comment]');
+				var id_comment = $tr.attr('data-id_comment');
+				$.ajax({
+					type: 'post',
+					dataType: 'json',
+					url: '{{ path('app_comment_accept') }}',
+					data:{
+						commentId: id_comment
+					},
+					success: function(response){
+						if(!response.valid){
+							swal('Oups !', 'Une erreur est survenue.', 'error');
+							return;
+						}
+						$tr.remove();
+					},
+					error: function(){
+						swal('Oups !', 'Une erreur est survenue.', 'error');
+					}
+				});
+			});
+			$('.action_comment_refuse').click(function(e){
+				e.preventDefault();
+				e.stopPropagation();
+				
+				var $tr = $(this).closest('[data-id_comment]');
+				var id_comment = $tr.attr('data-id_comment');
+				$.ajax({
+					type: 'post',
+					dataType: 'json',
+					url: '{{ path('app_comment_refuse') }}',
+					data:{
+						commentId: id_comment
+					},
+					success: function(response){
+						if(!response.valid){
+							swal('Oups !', 'Une erreur est survenue.', 'error');
+							return;
+						}
+						$tr.remove();
+					},
+					error: function(){
+						swal('Oups !', 'Une erreur est survenue.', 'error');
+					}
+				});
+			});
+		});
+	</script>
+{% endblock %}

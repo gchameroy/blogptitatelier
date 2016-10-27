@@ -748,4 +748,60 @@ class AppController extends Controller
 
         return $this->redirect($this->generateUrl('app_index'));
     }
+	
+	/**
+     * @Route("/manager/comments", name="app_comment_index")
+     */
+    public function commentAction()
+    {
+		$em = $this->getDoctrine()->getManager();
+		
+		$comments = $em
+			->getRepository('AppBundle:Comment')
+			->findAllNotValidate();
+
+		return $this->render('app/comment/index.html.twig', array(
+			'comments' => $comments
+		));
+    }
+	
+	/**
+     * @Route("/manager/comments/refuse", name="app_comment_refuse")
+     */
+    public function commentRefuseAction(Request $request)
+    {
+		$em = $this->getDoctrine()->getManager();
+		
+		$comment = $em
+			->getRepository('AppBundle:Comment')
+			->findOneById($request->request->getInt('commentId'))
+			->setIsDeleted(true);
+		$em->persist($comment);
+		$em->flush();
+
+		$response = new JsonResponse();
+		return $response->setData(array(
+			'valid' => true
+		));
+    }
+	
+	/**
+     * @Route("/manager/comments/accept", name="app_comment_accept")
+     */
+    public function commentAcceptAction(Request $request)
+    {
+		$em = $this->getDoctrine()->getManager();
+		
+		$comment = $em
+			->getRepository('AppBundle:Comment')
+			->findOneById($request->request->getInt('commentId'))
+			->setIsValidate(true);
+		$em->persist($comment);
+		$em->flush();
+
+		$response = new JsonResponse();
+		return $response->setData(array(
+			'valid' => true
+		));
+    }
 }

@@ -180,10 +180,15 @@ class WebController extends Controller
 		$post = $em
 			->getRepository('AppBundle:Post')
 			->findOneBySlug($slug);
+			
+		$comments = $em
+			->getRepository('AppBundle:Comment')
+			->findAllValidate();
 
         return $this->render('web/post/view.html.twig', array(
 			'post' => $post,
-			'setting' => $setting
+			'setting' => $setting,
+			'comments' => $comments
 		));
     }
 	
@@ -230,10 +235,7 @@ class WebController extends Controller
 		$message = $request->request->get('message');
 		
 		$em = $this->getDoctrine()->getManager();
-		
-		dump($postId);
-		dump($message);
-		
+
 		$post = $em
 			->getRepository('AppBundle:Post')
 			->findOneById($postId);

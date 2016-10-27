@@ -49,9 +49,9 @@
 		</div>
 		
 		<div class="comments-area">
-			<h6 class="title">{{ post.comments|length }} commentaires</h6>
+			<h6 class="title">{{ comments|length }} commentaires</h6>
 			<ul class="comments-list">
-				{% for comment in post.comments %}
+				{% for comment in comments %}
 					<li class="single-comment">
 						<div class="comment-box">
 							<div class="comment-author">

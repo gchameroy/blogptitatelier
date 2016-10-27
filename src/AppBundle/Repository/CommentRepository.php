@@ -10,4 +10,21 @@ namespace AppBundle\Repository;
  */
 class CommentRepository extends \Doctrine\ORM\EntityRepository
 {
+	public function findAllNotValidate()
+	{
+		return $this->createQueryBuilder('c')
+			->where('c.isValidate = false')
+			->andWhere('c.isDeleted = false')
+			->orderBy('c.createdAt', 'ASC')
+			->getQuery()->getResult();
+	}
+	
+	public function findAllValidate()
+	{
+		return $this->createQueryBuilder('c')
+			->where('c.isValidate = true')
+			->andWhere('c.isDeleted = false')
+			->orderBy('c.createdAt', 'ASC')
+			->getQuery()->getResult();
+	}
 }

@@ -1,5 +1,5 @@
 services:
-  # Factory
+  # App Factory
   app.user.factory:
     class: AppBundle\Entity\UserFactory
   app.about.factory:
@@ -22,6 +22,8 @@ services:
     class: AppBundle\Entity\SocialFactory
   app.socialType.factory:
     class: AppBundle\Entity\SocialTypeFactory
+  app.comment.factory:
+    class: AppBundle\Entity\CommentFactory
 
   # App
   app.photo_uploader:

@@ -10,6 +10,12 @@
 					<span class="nav-label">Accueil</span>
 				</a>
 			</li>
+			<li class="{% if app.request.attributes.get('_route') in ['app_comment_index'] %}active{% endif %}">
+				<a href="{{ path('app_comment_index') }}">
+					<i class="fa fa-comments"></i>
+					<span class="nav-label">Commentaires</span>
+				</a>
+			</li>
 			<li class="{% if app.request.attributes.get('_route') in ['app_category_index'] %}active{% endif %}">
 				<a href="{{ path('app_category_index') }}">
 					<i class="fa fa-folder-open"></i>

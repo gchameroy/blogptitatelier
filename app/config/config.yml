@@ -46,6 +46,9 @@ framework:
     http_method_override: true
     assets: ~
 
+# Gravatar
+ornicar_gravatar: ~
+
 # Twig Configuration
 twig:
     debug:            "%kernel.debug%"

@@ -78,6 +78,11 @@ class User implements UserInterface
      * @ORM\Column(name="is_app", type="boolean")
      */
     private $isApp;
+	
+	/**
+	* @ORM\OneToMany(targetEntity="PostLike", mappedBy="user")
+	*/
+	private $likes;
 
 
     /**
@@ -308,5 +313,46 @@ class User implements UserInterface
     public function eraseCredentials()
     {
         $this->plainPassword = null;
+    }
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->likes = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    /**
+     * Add postLike
+     *
+     * @param \AppBundle\Entity\Like $like
+     *
+     * @return User
+     */
+    public function addLike(\AppBundle\Entity\PostLike $like)
+    {
+        $this->likes[] = $like;
+
+        return $this;
+    }
+
+    /**
+     * Remove postLike
+     *
+     * @param \AppBundle\Entity\Like $like
+     */
+    public function removeLike(\AppBundle\Entity\PostLike $like)
+    {
+        $this->likes->removeElement($like);
+    }
+
+    /**
+     * Get likes
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getLikes()
+    {
+        return $this->likes;
     }
 }

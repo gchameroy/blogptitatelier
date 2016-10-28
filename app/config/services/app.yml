@@ -24,6 +24,8 @@ services:
     class: AppBundle\Entity\SocialTypeFactory
   app.comment.factory:
     class: AppBundle\Entity\CommentFactory
+  app.postLike.factory:
+    class: AppBundle\Entity\PostLikeFactory
 
   # App
   app.photo_uploader:

@@ -2,6 +2,8 @@
 
 namespace AppBundle\Repository;
 
+Use AppBundle\Entity\Post;
+
 /**
  * CommentRepository
  *
@@ -23,6 +25,17 @@ class CommentRepository extends \Doctrine\ORM\EntityRepository
 	{
 		return $this->createQueryBuilder('c')
 			->where('c.isValidate = true')
+			->andWhere('c.isDeleted = false')
+			->orderBy('c.createdAt', 'ASC')
+			->getQuery()->getResult();
+	}
+	
+	public function findAllValidateByPost(Post $post)
+	{
+		return $this->createQueryBuilder('c')
+			->where('c.post = :post')
+				->setParameter('post', $post->getId())
+			->andWhere('c.isValidate = true')
 			->andWhere('c.isDeleted = false')
 			->orderBy('c.createdAt', 'ASC')
 			->getQuery()->getResult();

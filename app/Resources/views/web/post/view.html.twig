@@ -8,9 +8,19 @@
 		<h1 class="post-title">{{ post.title }}</h1>
 		<p class="post-date">Publié le {{ post.publishedAt|date('d/m/Y') }}</p>
 		<div class="post-long-desc">{{ post.content|raw }}</div>
-		{#
+		
 		<div class="single-blog-bottom fix">
-			<div class="post-social-links pull-left">
+			<div class="post-social-links pull-right">
+				<p>
+					<span class="lbl">J'aime</span>
+					<span>
+						<a name="toggleLike" href="#" class="{% if iLike %}text-primary{% endif %}">
+							<i class="fa fa-heart"></i>
+							<span name="nbLike">{{ post.likes|length }}</span>
+						</a>
+					</span>
+				</p>
+				{#
 				<p>
 					<span class="lbl">Partagez sur&nbsp;&nbsp;-</span>
 					<span>
@@ -20,7 +30,9 @@
 						<a href="#"><i class="fa fa-pinterest"></i></a>
 					</span>
 				</p>
+				#}
 			</div>
+			{#
 			<div class="post-tags pull-right">
 				<p>
 					<span class="lbl">Tags&nbsp;&nbsp;-</span>
@@ -31,8 +43,9 @@
 					</span>
 				</p>
 			</div>
+			#}
 		</div>
-		#}
+		
 		<div class="about-author fix">
 			<h6 class="title">A propos de l'auteur</h6>
 			<div class="author-img">
@@ -113,6 +126,26 @@
 				}
 			});
 			return false;
+		});
+		
+		$('[name="toggleLike"]').click(function(){
+			$objet = $(this);
+			if(!$objet.hasClass('text-primary')){
+				$objet.addClass('text-primary');
+				$objet.find('[name="nbLike"]').html(parseInt($objet.find('[name="nbLike"]').html()) + 1);
+			}
+			else{
+				$objet.removeClass('text-primary');
+				$objet.find('[name="nbLike"]').html(parseInt($objet.find('[name="nbLike"]').html()) - 1);
+			}
+			$.ajax({
+				type: 'post',
+				dataType: 'json',
+				data: {
+					'postId' : {{ post.id }}
+				},
+				url: '{{ path('web_post_like') }}'
+			});
 		});
 	</script>
 {% endblock %}

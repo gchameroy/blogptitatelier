@@ -13,7 +13,7 @@
 									<span class="post-date"><a href="#">{{ posts[loop.index0].publishedAt|date('d/m/Y') }}</a></span>
 									<span class="post-comments"><a href="#">{{ posts[loop.index0].comments|length }} commentaires</a></span>
 									<span class="post-social-links">
-										<a href="#" data-toggle="tooltip" data-placement="bottom" title="Likes"><i class="fa fa-heart"></i> 557</a>
+										<a href="#" data-toggle="tooltip" data-placement="bottom" title="J'aime"><i class="fa fa-heart"></i> {{ posts[loop.index0].likes|length }}</a>
 									</span>
 								</p>
 							</div>

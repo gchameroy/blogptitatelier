@@ -183,12 +183,22 @@ class WebController extends Controller
 			
 		$comments = $em
 			->getRepository('AppBundle:Comment')
-			->findAllValidate();
+			->findAllValidateByPost($post);
+		
+		$postLike = $em
+			->getRepository('AppBundle:postLike')
+			->findOneBy(array(
+				'post' => $post,
+				'user' => $this->getUser()
+			));
+
+		$iLike = $postLike !== null ? true : false;
 
         return $this->render('web/post/view.html.twig', array(
 			'post' => $post,
 			'setting' => $setting,
-			'comments' => $comments
+			'comments' => $comments,
+			'iLike' => $iLike
 		));
     }
 	
@@ -245,6 +255,44 @@ class WebController extends Controller
 			->setPost($post)
 			->setUser($this->getUser());
 		$em->persist($comment);
+		$em->flush();
+
+        $response = new JsonResponse();
+		return $response->setData(array(
+			'valid' => true
+		));
+    }
+
+	/**
+     * @Route("/web/post/like", name="web_post_like")
+	 * @Security("has_role('ROLE_USER')")
+     */
+    public function postLikeAction(Request $request)
+    {
+		$postId = $request->request->getInt('postId');
+		
+		$em = $this->getDoctrine()->getManager();
+
+		$post = $em
+			->getRepository('AppBundle:Post')
+			->findOneById($postId);
+			
+		$postLike = $em
+			->getRepository('AppBundle:PostLike')
+			->findOneBy(array(
+				'user' => $this->getUser(),
+				'post' => $post
+			));
+		
+		if($postLike !== null){
+			$em->remove($postLike);
+		}
+		else{
+			$postLike = $this->get('app.postLike.factory')->create()
+				->setPost($post)
+				->setUser($this->getUser());
+			$em->persist($postLike);
+		}
 		$em->flush();
 
         $response = new JsonResponse();

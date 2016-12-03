@@ -40,11 +40,12 @@ class LoadSocialType extends AbstractFixture implements OrderedFixtureInterface,
 		$i = 1;
 		foreach($socials As $social){
 			$socialType = $this->container->get('app.socialType.factory')->create()
-				->setId($id)
+				->setId($i)
 			->setLabel($social[0])
 			->setIcon($social[1]);
-			$manager->persist($social);
+			$manager->persist($socialType);
 			$this->addReference('socialType-' . $i, $socialType);
+			$i++;
 		}
 		
 		$manager->flush();

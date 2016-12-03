@@ -300,4 +300,36 @@ class WebController extends Controller
 			'valid' => true
 		));
     }
+	
+	/**
+     * @Route("/articles/{slug}/like", name="web_post_like_from_connect")
+	 * @Security("has_role('ROLE_USER')")
+     */
+    public function postLikeFromConnectAction($slug)
+    {
+		$em = $this->getDoctrine()->getManager();
+
+		$post = $em
+			->getRepository('AppBundle:Post')
+			->findOneBySlug($slug);
+			
+		$postLike = $em
+			->getRepository('AppBundle:PostLike')
+			->findOneBy(array(
+				'user' => $this->getUser(),
+				'post' => $post
+			));
+		
+		if($postLike == null){
+			$postLike = $this->get('app.postLike.factory')->create()
+				->setPost($post)
+				->setUser($this->getUser());
+			$em->persist($postLike);
+			$em->flush();
+		}
+
+        return $this->redirectToRoute('web_post_view', array(
+			'slug' => $post->getSlug()
+		));
+    }
 }

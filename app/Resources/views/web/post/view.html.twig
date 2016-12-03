@@ -14,10 +14,17 @@
 				<p>
 					<span class="lbl">J'aime</span>
 					<span>
-						<a name="toggleLike" href="#" class="{% if iLike %}text-primary{% endif %}">
-							<i class="fa fa-heart"></i>
-							<span name="nbLike">{{ post.likes|length }}</span>
-						</a>
+						{% if is_granted('IS_AUTHENTICATED_FULLY') %}
+							<a name="toggleLike" href="#" class="{% if iLike %}text-primary{% endif %}">
+								<i class="fa fa-heart"></i>
+								<span name="nbLike">{{ post.likes|length }}</span>
+							</a>
+						{% else %}
+							<a href="{{ path('web_post_like_from_connect', {'slug': post.slug}) }}" class="{% if iLike %}text-primary{% endif %}">
+								<i class="fa fa-heart"></i>
+								<span name="nbLike">{{ post.likes|length }}</span>
+							</a>
+						{% endif %}
 					</span>
 				</p>
 				{#

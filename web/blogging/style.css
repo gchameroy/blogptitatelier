@@ -45,6 +45,7 @@
 	14. 404 page
 	15. scrollUp
 	16. mobile-menu-area	
+	17. text-color
 
 -----------------------------------------------------------------------------------*/
 
@@ -1479,3 +1480,7 @@ form.error-ser-form .error-search:hover{
 .mean-container .mean-nav ul li a.mean-expand {
   height: 26px;
 }
+/*========================================*/
+/*  17. text-color
+/*========================================*/
+.text-primary{color:#66cc99 !important;}

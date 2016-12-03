@@ -80,6 +80,11 @@ class Post
 	* @ORM\OneToMany(targetEntity="Comment", mappedBy="post")
 	*/
 	private $comments;
+	
+	/**
+	* @ORM\OneToMany(targetEntity="PostLike", mappedBy="post")
+	*/
+	private $likes;
 
 
     /**
@@ -348,6 +353,46 @@ class Post
      */
     public function getComments()
     {
-        return $this->comments;
+        $comments = array();
+		foreach($this->comments As $comment){
+			if($comment->getIsValidate()){
+				$comments[] = $comment;
+			}
+		}
+        return $comments;
+    }
+
+    /**
+     * Add postLike
+     *
+     * @param \AppBundle\Entity\PostLike $like
+     *
+     * @return Post
+     */
+    public function addLike(PostLike $like)
+    {
+        $this->likes[] = $like;
+
+        return $this;
+    }
+
+    /**
+     * Remove postLike
+     *
+     * @param \AppBundle\Entity\PostLike $like
+     */
+    public function removeLike(PostLike $like)
+    {
+        $this->likes->removeElement($like);
+    }
+
+    /**
+     * Get likes
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getLikes()
+    {
+        return $this->likes;
     }
 }

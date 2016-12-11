@@ -65,7 +65,7 @@
 												</td>
 												<td class="hidden-sm hidden-xs">{% if post.category %}{{ post.category.label }}{% endif %}</td>
 												<td class="project-title">
-													<a href="{{ path('app_post_view', {'id': post.id}) }}">{{ post.title }}</a>
+													<a href="{{ path('app_post_view', {'id': post.id}) }}">{{ post.title | truncate(45) }}</a>
 													<br>
 													{% if post.isDraft %}
 														<small>Mis à jour le {{ post.updatedAt|date('d/m/Y') }}</small>
@@ -75,7 +75,7 @@
 														<small>Publication le {{ post.publishedAt|date('d/m/Y') }}</small>
 													{% endif %}
 												</td>
-												<td class="hidden-xs hidden-md hidden-sm">{{ post.description | wordwrap(50) | truncate(100) | nl2br }}</td>
+												<td class="hidden-xs hidden-md hidden-sm">{{ post.content | striptags | wordwrap(50) | truncate(100) | nl2br }}</td>
 												<td class="text-right">
 													{% if post.isDraft %}
 														<a class="btn btn-primary btn-xs action_post_publish">

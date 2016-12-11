@@ -1,0 +1,6 @@
+{% extends 'base_web.html.twig' %}
+
+{% block article %}
+	{{ render(controller("AppBundle:Web:homeRecent")) }}
+	{{ render(controller("AppBundle:Web:homeSelection")) }}
+{% endblock %}

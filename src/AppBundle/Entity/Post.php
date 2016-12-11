@@ -45,13 +45,6 @@ class Post
 	/**
      * @var string
      *
-     * @ORM\Column(name="description", type="text", nullable=true)
-     */
-    private $description;
-	
-	/**
-     * @var string
-     *
      * @ORM\Column(name="content", type="text", nullable=true)
      */
     private $content;
@@ -82,6 +75,16 @@ class Post
      * @ORM\JoinColumn(nullable=true)
      */
     private $category;
+	
+	/**
+	* @ORM\OneToMany(targetEntity="Comment", mappedBy="post")
+	*/
+	private $comments;
+	
+	/**
+	* @ORM\OneToMany(targetEntity="PostLike", mappedBy="post")
+	*/
+	private $likes;
 
 
     /**
@@ -287,30 +290,6 @@ class Post
     {
         return $this->slug;
     }
-	
-    /**
-     * Get description
-     *
-     * @return string
-     */
-    public function getDescription()
-    {
-        return $this->description;
-    }
-	
-    /**
-     * Set description
-     *
-     * @param string $description
-     *
-     * @return Post
-     */
-    public function setDescription($description)
-    {
-        $this->description = $description;
-
-        return $this;
-    }
 
     /**
      * Get content
@@ -334,5 +313,86 @@ class Post
         $this->content = $content;
 
         return $this;
+    }
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->comments = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    /**
+     * Add comment
+     *
+     * @param \AppBundle\Entity\Comment $comment
+     *
+     * @return Post
+     */
+    public function addComment(Comment $comment)
+    {
+        $this->comments[] = $comment;
+
+        return $this;
+    }
+
+    /**
+     * Remove comment
+     *
+     * @param \AppBundle\Entity\Comment $comment
+     */
+    public function removeComment(Comment $comment)
+    {
+        $this->comments->removeElement($comment);
+    }
+
+    /**
+     * Get comments
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getComments()
+    {
+        $comments = array();
+		foreach($this->comments As $comment){
+			if($comment->getIsValidate()){
+				$comments[] = $comment;
+			}
+		}
+        return $comments;
+    }
+
+    /**
+     * Add postLike
+     *
+     * @param \AppBundle\Entity\PostLike $like
+     *
+     * @return Post
+     */
+    public function addLike(PostLike $like)
+    {
+        $this->likes[] = $like;
+
+        return $this;
+    }
+
+    /**
+     * Remove postLike
+     *
+     * @param \AppBundle\Entity\PostLike $like
+     */
+    public function removeLike(PostLike $like)
+    {
+        $this->likes->removeElement($like);
+    }
+
+    /**
+     * Get likes
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getLikes()
+    {
+        return $this->likes;
     }
 }

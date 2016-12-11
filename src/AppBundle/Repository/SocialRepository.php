@@ -10,4 +10,12 @@ namespace AppBundle\Repository;
  */
 class SocialRepository extends \Doctrine\ORM\EntityRepository
 {
+	public function findBySetting($setting){
+		return $this->createQueryBuilder('s')
+			->where('s.setting = :setting')
+				->setParameter('setting', $setting)
+			->orderBy('s.socialType', 'ASC')
+			->getQuery()
+			->getResult();
+	}
 }

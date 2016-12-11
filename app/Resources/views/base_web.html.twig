@@ -8,9 +8,12 @@
 		<meta name="keywords" content="{% block meta_keywords 'Blog Ptit Atelier' %}">
 		<meta name="author" content="{% block meta_author 'Geoffrey Chameroy' %}">
 
-        <link rel="icon" type="image/png" href="{{ asset('web/favicon.png') }}" />
+		{{ render(controller("AppBundle:Web:favicon")) }}
+
 		{% include 'layout/blogging/main_css.html.twig' only %}
 		{% include 'layout/web/main_css.html.twig' %}
+		
+		<script src="{{ asset('blogging/js/vendor/jquery-1.11.3.min.js') }}"></script>
     </head>
 
     <body class="home-1">

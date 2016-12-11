@@ -8,14 +8,14 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Helper\ProgressBar;
 
-class CreateAdminCommand extends ContainerAwareCommand
+class CreateAppUserCommand extends ContainerAwareCommand
 {
     protected function configure()
     {
         $this
-			->setName('app:create-admin')
-			->setDescription('Create admin user.')
-			->setHelp("This command allows you to create admin user")
+			->setName('app:create-user')
+			->setDescription('Create app user.')
+			->setHelp("This command allows you to create app user")
 			->addArgument('username', InputArgument::REQUIRED, 'The username\'s user.')
 			->addArgument('email', InputArgument::REQUIRED, 'The email\'s user.')
 			->addArgument('password', InputArgument::REQUIRED, 'The password\'s user.')
@@ -35,13 +35,13 @@ class CreateAdminCommand extends ContainerAwareCommand
 		$output->writeln('<info>Password : '.$password);
 		$output->writeln('<info>Start : ' . $start->format('d-m-Y H:i:s'));
 
-		$this->createAdmin($input, $output);
+		$this->createAppUser($input, $output);
 
 		$end = new \DateTime();
 		$output->writeln('<info>End : ' . $end->format('d-m-Y H:i:s'));
     }
 	
-	private function createAdmin(InputInterface $input, OutputInterface $output)
+	private function createAppUser(InputInterface $input, OutputInterface $output)
 	{
 		$username = $input->getArgument('username');
 		$email = $input->getArgument('email');
@@ -50,7 +50,7 @@ class CreateAdminCommand extends ContainerAwareCommand
 		$em = $this->getContainer()->get('doctrine')->getManager();
 		$em->getConnection()->getConfiguration()->setSQLLogger(null);
 
-		$user = $this->getContainer()->get('app.user.factory')->createAdmin()
+		$user = $this->getContainer()->get('app.user.factory')->createAppUser()
             ->setUsername($username)
             ->setEmail($email)
             ->setPlainPassword($password)

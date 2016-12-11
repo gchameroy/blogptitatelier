@@ -19,10 +19,12 @@
 					<div class="header-top-right fix">
 						<div class="header-links">
 							<ul>
-								{#
-								<li><a href="#">Connexion</a></li>
-								<li><a href="#">Inscription</a></li>
-								#}
+								{% if is_granted('IS_AUTHENTICATED_FULLY') %}
+									<li><a href="{{ path('logout') }}">Déconnexion</a></li>
+								{% else %}
+									<li><a href="{{ path('login') }}">Connexion</a></li>
+									<li><a href="{{ path('user_registration') }}">Inscription</a></li>
+								{% endif %}
 							</ul>
 						</div>
 					</div>
@@ -35,7 +37,7 @@
 			<div class="row">
 				<div class="col-md-3">
 					<div class="logo">
-						<a href="{{ path('web_index') }}">
+						<a href="{{ path('web_home') }}">
 							<img src="{{ asset(logo_directory ~ '/' ~ setting.header.logo) }}" alt="Logo">
 						</a>
 					</div>
@@ -44,7 +46,7 @@
 					<div class="main-menu">
 						<nav>
 							<ul class="main-nav navbar-right">
-								<li><a href="{{ path('web_index') }}">Accueil</a></li>
+								<li><a href="{{ path('web_home') }}">Accueil</a></li>
 								<li><a href="{{ path('web_post_index') }}">Récents</a></li>
 								{#
 								<li><a href="#">Tutoriels</a></li>
@@ -52,7 +54,7 @@
 								<li><a href="#">Tests</a></li>
 								<li><a href="#">Photos</a></li>
 								#}
-								<li class="active"><a href="https://http://ptit-atelier.fr/" target="_blank">Boutique</a></li>
+								<li class="active"><a href="http://ptit-atelier.fr/" target="_blank">Boutique</a></li>
 							</ul>
 						</nav>
 					</div>
@@ -65,12 +67,15 @@
 					<div class="col-md-12">
 						<nav id="dropdown">
 							<ul>
-								<li class="active"><a href="#">Accueil</a></li>
+								<li><a href="{{ path('web_home') }}">Accueil</a></li>
+								<li><a href="{{ path('web_post_index') }}">Récents</a></li>
+								{#
 								<li><a href="#">Tutoriels</a></li>
 								<li><a href="#">Revues</a></li>
 								<li><a href="#">Tests</a></li>
 								<li><a href="#">Photos</a></li>
-								<li><a href="#">Boutique</a></li>
+								#}
+								<li class="active"><a href="http://ptit-atelier.fr/" target="_blank">Boutique</a></li>
 							</ul>
 						</nav>
 					</div>

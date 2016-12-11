@@ -1,0 +1,36 @@
+<div class="popular-posts-area">
+	<h2 class="section-title">Articles récents</h2>
+	<div class="row">
+		{% for column in model.columns %}
+			{% if posts[loop.index0] is defined %}
+				<div class="col-md-{{ column }} col-sm-{{ column }}">
+					<div class="single-popular-post">
+						<div class="post-img">
+							<a href="{{ path('web_post_view', {'slug': posts[loop.index0].slug}) }}"><img src="{{ asset(post_directory ~ '/' ~ posts[loop.index0].image) }}" alt="{{ posts[loop.index0].category.label }}"></a>
+							<a href="{{ path('web_category_view', {'slug': posts[loop.index0].category.slug}) }}" class="post-tag">{{ posts[loop.index0].category.label }}</a>
+							<div class="post-info">
+								<p>
+									<span class="post-date"><a href="#">{{ posts[loop.index0].publishedAt|date('d/m/Y') }}</a></span>
+									<span class="post-comments"><a href="#">{{ posts[loop.index0].comments|length }} commentaires</a></span>
+									<span class="post-social-links">
+										<a href="#" data-toggle="tooltip" data-placement="bottom" title="J'aime"><i class="fa fa-heart"></i> {{ posts[loop.index0].likes|length }}</a>
+									</span>
+								</p>
+							</div>
+						</div>
+						<div class="post-content">
+							{% if column == 6 %}
+								<h6 class="post-title"><a href="{{ path('web_post_view', {'slug': posts[loop.index0].slug}) }}">{{ posts[loop.index0].title|truncate(35) }}</a></h6>
+								<p class="post-short-desc">{{ posts[loop.index0].content|striptags|truncate(200) }}</p>
+							{% else %}
+								<h6 class="post-title"><a href="{{ path('web_post_view', {'slug': posts[loop.index0].slug}) }}">{{ posts[loop.index0].title|truncate(80) }}</a></h6>
+								<p class="post-short-desc">{{ posts[loop.index0].content|striptags|truncate(450) }}</p>
+							{% endif %}
+							<a href="{{ path('web_post_view', {'slug': posts[loop.index0].slug}) }}" class="continue-link">Lire la suite</a>
+						</div>
+					</div>
+				</div>
+			{% endif %}
+		{% endfor %}
+	</div>
+</div>

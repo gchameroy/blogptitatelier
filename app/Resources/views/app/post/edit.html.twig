@@ -28,38 +28,62 @@
 {% block content %}
     <div class="wrapper wrapper-content">
 		<div class="row">
-            <div class="col-lg-6 col-lg-offset-3">
+			<div class="col-lg-6">
 				<div class="ibox">
+					<div class="ibox-title">
+						<h5>Paramètres de l'article</h5>
+					</div>
                     <div class="ibox-content">
-						<form name="post-image-update" action="{{ path('app_post_image', {'id': post.id}) }}" method="post" enctype="multipart/form-data">
-							<a for="image">
-								<img src="{{ asset(post_directory ~ '/' ~ post.image) }}" class="img-responsive">
-							</a>
-							<input type="file" name="image" onchange="this.form.submit()" class="hidden">
-						</form>
-						<br><br>
-						<p class="text-center">
-							<select name="category">
-								<option value="0" {% if not post.category %}selected{% endif %} disabled>Choisir la catégorie</option>
-								{% for category in categories %}
-									<option value="{{ category.id }}" {% if post.category and post.category.id == category.id %}selected{% endif %}>{{ category.label }}</option>
-								{% endfor %}
-							</select>
-						</p>
-						<h1 class="text-center">
-							<a name="title" data-type="text" data-pk="{{ post.id }}" data-url="{{ path('app_post_title') }}" data-title="Titre de l'article">{{ post.title }}</a>
-						</h1>
-						<p class="text-center"><small><em>Non publié</em></small></p>
-						<br><br>
+						<div class="row">
+							<div class="col-md-4">
+								<p><strong>Titre</strong></p>
+							</div>
+							<div class="col-md-8">
+								<a name="title" data-type="text" data-pk="{{ post.id }}" data-url="{{ path('app_post_title') }}" data-title="Titre de l'article">{{ post.title }}</a>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-md-4">
+								<p><strong>Catégorie</strong></p>
+							</div>
+							<div class="col-md-8">
+								<select name="category">
+									<option value="0" {% if not post.category %}selected{% endif %} disabled>Choisir la catégorie</option>
+									{% for category in categories %}
+										<option value="{{ category.id }}" {% if post.category and post.category.id == category.id %}selected{% endif %}>{{ category.label }}</option>
+									{% endfor %}
+								</select>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-md-4">
+								<p><strong>Image de couverture</strong>
+									<br>Largeur minimal: 1170px
+									<br>Taille recommandé: 1170x650</p>
+							</div>
+							<div class="col-md-8">
+								<form name="post-image-update" action="{{ path('app_post_image', {'id': post.id}) }}" method="post" enctype="multipart/form-data">
+									<a for="image">
+										<img src="{{ asset(post_directory ~ '/' ~ post.image) }}" class="img-responsive">
+									</a>
+									<input type="file" name="image" onchange="this.form.submit()" class="hidden">
+								</form>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+            <div class="col-lg-6">
+				<div class="ibox">
+					<div class="ibox-title">
+						<h5>Contenu de l'article</h5>
+					</div>
+                    <div class="ibox-content">
+						<div name="content" class="css-blogging">{{ post.content|raw }}</div>
 						<p>
-							<a name="description" data-type="textarea" data-pk="{{ post.id }}" data-url="{{ path('app_post_description') }}" data-title="Description de l'article">{{ post.description }}</a>
-						</p>
-						<br><br>
-						<p>
-							<a name="edit_content" class="btn btn-info">Editer le contenu supplémentaire</a>
+							<a name="edit_content" class="btn btn-info">Editer</a>
 							<a name="save_content" class="btn btn-info hidden">Sauvegarder</a>
 						</p>
-						<div name="content" class="css-blogging">{{ post.content|raw }}</div>
                     </div>
                 </div>
 			</div>
@@ -92,10 +116,7 @@
 				});
 			});
 			$('[name="title"]').editable();
-			$('[name="description"]').editable();
 
-			
-			
 			$('[name="edit_content"]').click(function(){
 				$('[name="edit_content"]').addClass('hidden');
 				$('[name="save_content"]').removeClass('hidden');

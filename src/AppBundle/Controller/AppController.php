@@ -15,13 +15,63 @@ class AppController extends Controller
      */
     public function indexAction()
     {
-        return $this->render('app/index.html.twig');
+        return $this->render('app/home/index.html.twig');
     }
 	
 	/**
      * @Route("/manager/settings", name="app_setting_index")
      */
     public function settingAction()
+    {
+		return $this->redirect($this->generateUrl('app_setting_header_index'));
+    }
+	
+	/**
+     * @Route("/manager/settings/header", name="app_setting_header_index")
+     */
+    public function settingHeaderAction()
+    {
+		$setting = $this->getDoctrine()->getManager()
+			->getRepository('AppBundle:Setting')
+			->findAll()[0];
+
+        return $this->render('app/setting/header.html.twig', array(
+			'setting' => $setting
+		));
+    }
+	
+	/**
+     * @Route("/manager/settings/about", name="app_setting_about_index")
+     */
+    public function settingAboutAction()
+    {
+		$setting = $this->getDoctrine()->getManager()
+			->getRepository('AppBundle:Setting')
+			->findAll()[0];
+
+        return $this->render('app/setting/about.html.twig', array(
+			'setting' => $setting
+		));
+    }
+	
+	/**
+     * @Route("/manager/settings/model", name="app_setting_model_index")
+     */
+    public function settingModelAction()
+    {
+		$setting = $this->getDoctrine()->getManager()
+			->getRepository('AppBundle:Setting')
+			->findAll()[0];
+
+        return $this->render('app/setting/model.html.twig', array(
+			'setting' => $setting
+		));
+    }
+	
+	/**
+     * @Route("/manager/settings/social", name="app_setting_social_index")
+     */
+    public function settingSocialAction()
     {
 		$setting = $this->getDoctrine()->getManager()
 			->getRepository('AppBundle:Setting')
@@ -35,13 +85,12 @@ class AppController extends Controller
 		foreach($socials As $social){
 			$ids[] = $social->getSocialType()->getId();
 		}
-		
+
 		$socialTypes = $this->getDoctrine()->getManager()
 			->getRepository('AppBundle:SocialType')
 			->findAllWithoutIds($ids);
-		
-        return $this->render('app/setting/index.html.twig', array(
-			'setting' => $setting,
+
+        return $this->render('app/setting/social.html.twig', array(
 			'socials' => $socials,
 			'socialTypes' => $socialTypes
 		));
@@ -74,13 +123,13 @@ class AppController extends Controller
 		
         $em->flush();
 
-       return $this->redirect($this->generateUrl('app_setting_index') . '#about');
+       return $this->redirect($this->generateUrl('app_setting_about_index'));
     }
 
 	/**
-     * @Route("/manager/settings/about", name="app_setting_about")
+     * @Route("/manager/settings/about/edit", name="app_setting_about_edit")
      */
-    public function settingAboutAction(Request $request)
+    public function settingAboutEditAction(Request $request)
     {
 		$em = $this->getDoctrine()->getManager();
 		
@@ -100,7 +149,7 @@ class AppController extends Controller
 		
         $em->flush();
 
-       return $this->redirect($this->generateUrl('app_setting_index') . '#about');
+       return $this->redirect($this->generateUrl('app_setting_about_index'));
     }
 
 	/**
@@ -130,7 +179,7 @@ class AppController extends Controller
 		
         $em->flush();
 
-       return $this->redirect($this->generateUrl('app_setting_index') . '#header');
+       return $this->redirect($this->generateUrl('app_setting_header_index'));
     }
 
 	/**
@@ -160,7 +209,7 @@ class AppController extends Controller
 		
         $em->flush();
 
-       return $this->redirect($this->generateUrl('app_setting_index') . '#header');
+       return $this->redirect($this->generateUrl('app_setting_header_index'));
     }
 
 	/**
@@ -190,7 +239,7 @@ class AppController extends Controller
 		
         $em->flush();
 
-       return $this->redirect($this->generateUrl('app_setting_index') . '#header');
+       return $this->redirect($this->generateUrl('app_setting_header_index'));
     }
 	
 	/**
@@ -489,9 +538,9 @@ class AppController extends Controller
     }
 	
 	/**
-     * @Route("/manager/settings/model", name="app_setting_model")
+     * @Route("/manager/settings/model/edit", name="app_setting_model_edit")
      */
-    public function postSettingModelAction(Request $request)
+    public function postSettingModelEditAction(Request $request)
     {
 		$columns = explode('-', $request->request->get('columns'));
 
@@ -619,6 +668,138 @@ class AppController extends Controller
 		$em->flush();
 
         $response = new JsonResponse();
+		return $response->setData(array(
+			'valid' => true
+		));
+    }
+	
+	public function homeSelectionAction()
+	{
+		$em = $this->getDoctrine()->getManager();
+		
+		$setting = $em
+			->getRepository('AppBundle:Setting')
+			->findAll()[0];
+
+		$model = $em
+			->getRepository('AppBundle:Model')
+			->findOneBy(
+				array(
+					'setting' => $setting,
+					'modelType' => 3
+				)
+			);
+
+		$selections = $em
+			->getRepository('AppBundle:PostSelection')
+			->findSelections();
+
+		return $this->render('app/home/selection.html.twig', array(
+			'selections' => $selections,
+			'model' => $model
+		));
+	}
+	
+	/**
+     * @Route("/manager/home/modal/selection", name="app_home_modal_selection")
+     */
+    public function homeModalSelectionAction(Request $request)
+    {
+		$orderId = $request->query->get('orderId');
+		$em = $this->getDoctrine()->getManager();
+		
+		$posts = $em
+			->getRepository('AppBundle:Post')
+			->findByPage();
+
+		return $this->render('app/home/modal/selection.html.twig', array(
+			'orderId' => $orderId,
+			'posts' => $posts
+		));
+    }
+	
+	/**
+     * @Route("/manager/home/selection/add", name="app_home_selection_add")
+     */
+    public function homeSelectionAddAction(Request $request)
+    {
+		$orderId = $request->request->get('orderId');
+		
+		$em = $this->getDoctrine()->getManager();
+		$postSelection = $em
+			->getRepository('AppBundle:PostSelection')
+			->findOneActiveByOrderId($request->request->get('orderId'));
+		
+		if($postSelection){
+			$postSelection->setIsActive(false);
+			$em->persist($postSelection);
+		}
+		
+		$post = $em
+			->getRepository('AppBundle:Post')
+			->findOneById($request->request->get('postId'));
+
+		$postSelection = $this->get('app.postSelection.factory')->create()
+			->setOrderId($request->request->get('orderId'))
+			->setPost($post);
+		$em->persist($postSelection);
+		
+		$em->flush();
+
+        return $this->redirect($this->generateUrl('app_index'));
+    }
+	
+	/**
+     * @Route("/manager/comments", name="app_comment_index")
+     */
+    public function commentAction()
+    {
+		$em = $this->getDoctrine()->getManager();
+		
+		$comments = $em
+			->getRepository('AppBundle:Comment')
+			->findAllNotValidate();
+
+		return $this->render('app/comment/index.html.twig', array(
+			'comments' => $comments
+		));
+    }
+	
+	/**
+     * @Route("/manager/comments/refuse", name="app_comment_refuse")
+     */
+    public function commentRefuseAction(Request $request)
+    {
+		$em = $this->getDoctrine()->getManager();
+		
+		$comment = $em
+			->getRepository('AppBundle:Comment')
+			->findOneById($request->request->getInt('commentId'))
+			->setIsDeleted(true);
+		$em->persist($comment);
+		$em->flush();
+
+		$response = new JsonResponse();
+		return $response->setData(array(
+			'valid' => true
+		));
+    }
+	
+	/**
+     * @Route("/manager/comments/accept", name="app_comment_accept")
+     */
+    public function commentAcceptAction(Request $request)
+    {
+		$em = $this->getDoctrine()->getManager();
+		
+		$comment = $em
+			->getRepository('AppBundle:Comment')
+			->findOneById($request->request->getInt('commentId'))
+			->setIsValidate(true);
+		$em->persist($comment);
+		$em->flush();
+
+		$response = new JsonResponse();
 		return $response->setData(array(
 			'valid' => true
 		));

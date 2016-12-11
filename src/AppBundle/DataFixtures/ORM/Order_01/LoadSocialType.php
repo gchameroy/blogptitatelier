@@ -8,7 +8,7 @@ use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
-class LoadModelType extends AbstractFixture implements OrderedFixtureInterface, ContainerAwareInterface
+class LoadSocialType extends AbstractFixture implements OrderedFixtureInterface, ContainerAwareInterface
 {
     /**
      * @var ContainerInterface
@@ -27,16 +27,27 @@ class LoadModelType extends AbstractFixture implements OrderedFixtureInterface, 
 
     public function load(ObjectManager $manager)
     {
-		$labels = ['Recent', 'Popular', 'Week choice'];
+		$socials = array(
+			['You Tube', 'youtube'],
+			['Facebook', 'facebook'],
+			['Twitter', 'twitter'],
+			['Google Plus', 'google-plus'],
+			['Pinterest', 'pinterest'],
+			['Dribbble', 'dribbble'],
+			['Instagram', 'instagram']
+		);
+		
 		$i = 1;
-		foreach($labels As $label){
-			$modelType = $this->container->get('app.modelType.factory')->create()
+		foreach($socials As $social){
+			$socialType = $this->container->get('app.socialType.factory')->create()
 				->setId($i)
-				->setLabel($label);
-			$manager->persist($modelType);
-			$manager->flush();
-			$this->addReference('modelType-'.$i, $modelType);
+			->setLabel($social[0])
+			->setIcon($social[1]);
+			$manager->persist($socialType);
+			$this->addReference('socialType-' . $i, $socialType);
 			$i++;
 		}
+		
+		$manager->flush();
     }
 }

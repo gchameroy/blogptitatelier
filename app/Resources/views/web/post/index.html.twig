@@ -16,7 +16,7 @@
 							<div class="post-info">
 								<p>
 									<span class="post-date"><a href="#">{{ post.publishedAt|date('d/m/Y') }}</a></span>
-									<span class="post-comments"><a href="#">131 commentaires</a></span>
+									<span class="post-comments"><a href="#">{{ post.comments|length }} commentaires</a></span>
 									<span class="post-social-links">
 										<a href="#" data-toggle="tooltip" data-placement="bottom" title="Likes"><i class="fa fa-heart"></i> 557</a>
 									</span>
@@ -25,7 +25,7 @@
 						</div>
 						<div class="post-content">
 							<h6 class="post-title"><a href="{{ path('web_post_view', {'slug': post.slug}) }}">{{ post.title }}</a></h6>
-							<p class="post-short-desc">{{ post.description|truncate(200) }}</p>
+							<p class="post-short-desc">{{ post.content|striptags|truncate(200) }}</p>
 							<a href="{{ path('web_post_view', {'slug': post.slug}) }}" class="continue-link">Lire la suite</a>
 						</div>
 					</div>

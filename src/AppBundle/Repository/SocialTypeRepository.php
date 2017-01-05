@@ -13,8 +13,10 @@ class SocialTypeRepository extends \Doctrine\ORM\EntityRepository
 	public function findAllWithoutIds($ids)
 	{
 		$qb = $this->createQueryBuilder('st');
-		$qb->where($qb->expr()->notIn('st.id', $ids))
-			->orderBy('st.id', 'ASC');
+		if(count($ids) > 0) {
+			$qb->where($qb->expr()->notIn('st.id', $ids));
+		}
+		$qb->orderBy('st.id', 'ASC');
 
 		return $qb->getQuery()
 			  ->getResult();

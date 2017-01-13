@@ -404,6 +404,27 @@ class AppController extends Controller
 		
 		return $this->redirect($this->generateUrl('app_post_view', array('id' => $post->getId())));
     }
+    
+    /**
+     * @Route("/manager/posts/remove", name="app_post_remove")
+     */
+    public function postRemoveAction(Request $request)
+    {
+        $id = $request->request->get('id');
+        $em = $this->getDoctrine()->getManager();
+
+		$post = $em
+			->getRepository('AppBundle:Post')
+			->findOneById($id);
+
+		$em->remove($post);
+		$em->flush();
+		
+		$response = new JsonResponse();
+		return $response->setData(array(
+			'valid' => true
+		));
+    }
 
 	/**
      * @Route("/manager/posts/{id}/image", name="app_post_image")

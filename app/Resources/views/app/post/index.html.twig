@@ -86,7 +86,7 @@
 															<i class="fa fa-edit hidden-lg hidden-md hidden-sm"></i>
 															<span class="hidden-xs">Editer</span>
 														</a>
-														<a class="btn btn-danger btn-xs action_post_delete">
+														<a class="btn btn-danger btn-xs action_post_remove">
 															<i class="fa fa-remove hidden-lg hidden-md hidden-sm"></i>
 															<span class="hidden-xs">Supprimer</span>
 														</a>
@@ -125,6 +125,27 @@
 				var id_post = $(this).closest('[data-id_post]').attr('data-id_post');
 				$.get('{{ path('app_post_modal_publish') }}', {id: id_post}).done(function(response){
 					$(response).modal();
+				});
+			});
+            $('.action_post_remove').click(function(e){
+				e.preventDefault();
+				e.stopPropagation();
+                $objet = $(this);
+				var id_post = $objet.closest('[data-id_post]').attr('data-id_post');
+                
+                $.ajax({
+					type: 'post',
+					dataType: 'json',
+					url: '{{ path('app_post_remove') }}',
+					data:{
+						id: id_post
+					},
+					success: function(response){
+						$objet.closest('[data-id_post]').remove();
+					},
+					error: function(){
+						swal('Oups !', 'Une erreur est survenue.', 'error');
+					}
 				});
 			});
 			$('.action_post_stop_publish').click(function(e){
